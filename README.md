@@ -1,2 +1,7 @@
 # MyFrameworks
-目前包含:
+手写的精简版框架目前包含:
+springmvc(带aop);
+mybatis;
+ybatis;
+rpc;
+持续手动更新中...
