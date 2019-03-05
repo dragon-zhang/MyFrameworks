@@ -5,7 +5,7 @@ springmvc(带aop);
 
 mybatis;
 
-ybatis;
+ybatis(yml版mybatis);
 
 rpc;
 
