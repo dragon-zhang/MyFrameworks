@@ -9,4 +9,6 @@ ybatis;
 
 rpc;
 
+jedis;
+
 持续手动更新中...
