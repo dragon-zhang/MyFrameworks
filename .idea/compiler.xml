@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="dragon_main" target="1.8" />
+      <module name="dragon_test" target="1.8" />
+      <module name="service.com.example.disperse.service.impl.main" target="1.8" />
+      <module name="service.com.example.disperse.service.impl.test" target="1.8" />
+      <module name="service.test.test.main" target="1.8" />
+      <module name="service.test.test.test" target="1.8" />
+      <module name="service_main" target="1.8" />
+      <module name="service_test" target="1.8" />
+      <module name="test.test.main" target="1.8" />
+      <module name="test.test.test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_STRING" value="-parameters" />
+  </component>
+</project>
