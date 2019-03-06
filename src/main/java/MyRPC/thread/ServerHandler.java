@@ -4,13 +4,14 @@ import MyRPC.message.RPCMessage;
 import com.alibaba.fastjson.JSON;
 import lombok.AllArgsConstructor;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author SuccessZhang
@@ -24,15 +25,15 @@ public class ServerHandler implements Runnable {
 
     @Override
     public void run() {
-        try (BufferedInputStream inputStream = new BufferedInputStream(socket.getInputStream())) {
-            ByteArrayOutputStream buf = new ByteArrayOutputStream();
-            int result = inputStream.read();
-            while (result != -1) {
-                buf.write((byte) result);
-                result = inputStream.read();
+        try {
+            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder();
+            String msg;
+            while ((msg = reader.readLine()) != null) {
+                sb.append(msg);
             }
             socket.shutdownInput();
-            RPCMessage request = JSON.parseObject(buf.toString(), RPCMessage.class);
+            RPCMessage request = JSON.parseObject(sb.toString(), RPCMessage.class);
             Object[] args = request.getParams();
             Class<?>[] types = new Class[args.length];
             for (int i = 0; i < args.length; i++) {

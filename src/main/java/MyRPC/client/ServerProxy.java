@@ -4,13 +4,14 @@ import MyRPC.message.RPCMessage;
 import com.alibaba.fastjson.JSON;
 import com.example.disperse.service.TestService;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author SuccessZhang
@@ -46,14 +47,13 @@ public enum ServerProxy implements InvocationHandler {
             outputStream.flush();
             socket.shutdownOutput();
             //返回请求
-            BufferedInputStream inputStream = new BufferedInputStream(socket.getInputStream());
-            ByteArrayOutputStream buf = new ByteArrayOutputStream();
-            int read = inputStream.read();
-            while (read != -1) {
-                buf.write((byte) read);
-                read = inputStream.read();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(socket.getInputStream(), StandardCharsets.UTF_8));
+            StringBuilder sb = new StringBuilder();
+            String msg;
+            while ((msg = reader.readLine()) != null) {
+                sb.append(msg);
             }
-            result = buf.toString();
+            result = sb.toString();
             socket.shutdownInput();
             socket.close();
         } catch (Exception e) {
