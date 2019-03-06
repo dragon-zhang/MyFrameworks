@@ -58,10 +58,11 @@ public enum AOPProxy implements MethodInterceptor, InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         Object result = null;
         Class<?> clazz = target.getClass();
-        clazz.getDeclaredMethod("before").invoke(target);
         try {
             clazz.getDeclaredMethod("aroundBefore").invoke(target);
+            clazz.getDeclaredMethod("before").invoke(target);
             result = method.invoke(target, args);
+            clazz.getDeclaredMethod("aroundAfter").invoke(target);
             clazz.getDeclaredMethod("afterReturning", Object.class).invoke(target, result);
         } catch (Throwable throwable) {
             clazz.getDeclaredMethod("afterThrowing", Throwable.class).invoke(target, throwable);
@@ -69,7 +70,6 @@ public enum AOPProxy implements MethodInterceptor, InvocationHandler {
         } finally {
             clazz.getDeclaredMethod("after").invoke(target);
         }
-        clazz.getDeclaredMethod("aroundAfter").invoke(target);
         return result;
     }
 
@@ -78,10 +78,11 @@ public enum AOPProxy implements MethodInterceptor, InvocationHandler {
         Object result = null;
         Class<?> cc = method.getDeclaringClass();
         Method[] methods = cc.getDeclaredMethods();
-        before(methods);
         try {
             aroundBefore(methods);
+            before(methods);
             result = proxy.invokeSuper(object, args);
+            aroundAfter(methods);
             afterReturn(methods, result);
         } catch (Throwable throwable) {
             afterThrow(methods, throwable);
@@ -89,7 +90,6 @@ public enum AOPProxy implements MethodInterceptor, InvocationHandler {
         } finally {
             after(methods);
         }
-        aroundAfter(methods);
         return result;
     }
 
