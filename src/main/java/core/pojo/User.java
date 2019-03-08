@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
 import java.util.Date;
 
 /**
@@ -19,7 +17,6 @@ public class User {
     /**
      * 自增主键
      */
-    @Id
     private Long aid;
 
     /**
@@ -45,13 +42,11 @@ public class User {
     /**
      * 百度人脸用户id
      */
-    @Column(name = "face_id")
     private String faceId;
 
     /**
      * 百度人脸用户组
      */
-    @Column(name = "face_group")
     private String faceGroup;
 
     /**
@@ -87,31 +82,26 @@ public class User {
     /**
      * 会员到期时间
      */
-    @Column(name = "membership_expire_time")
     private Date membershipExpireTime;
 
     /**
      * 最近一次登录IP
      */
-    @Column(name = "last_login_ip")
     private String lastLoginIp;
 
     /**
      * 最近一次登录日期
      */
-    @Column(name = "last_login_date")
     private Date lastLoginDate;
 
     /**
      * 创建时间
      */
-    @Column(name = "create_time")
     private Date createTime;
 
     /**
      * 更新时间
      */
-    @Column(name = "update_time")
     private Date updateTime;
 
     /**
