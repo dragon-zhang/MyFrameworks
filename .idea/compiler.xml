@@ -5,6 +5,12 @@
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="com.example.disperse.controller.main" target="1.8" />
+      <module name="com.example.disperse.controller.test" target="1.8" />
+      <module name="com.example.disperse.service.impl.main" target="1.8" />
+      <module name="com.example.disperse.service.impl.test" target="1.8" />
+      <module name="com.example.disperse.service.main" target="1.8" />
+      <module name="com.example.disperse.service.test" target="1.8" />
       <module name="dragon_main" target="1.8" />
       <module name="dragon_test" target="1.8" />
       <module name="service.com.example.disperse.service.impl.main" target="1.8" />
