@@ -28,7 +28,7 @@ import java.util.*;
 /**
  * @author SuccessZhang
  */
-public class MyDispatchServlet extends HttpServlet {
+public class MVCDispatchServlet extends HttpServlet {
 
     private Properties contextConfig = new Properties();
 
@@ -65,53 +65,53 @@ public class MyDispatchServlet extends HttpServlet {
         uri = uri.replace(contextPath, "").replaceAll("/+", "/");
         if (!handlerMapping.containsKey(uri)) {
             resp.getWriter().write("ip:" + ip + ",session:" + sessionId + ",not found! tomcat8.5.37");
-        }
+        } else {
+            MyMethod handler = handlerMapping.get(uri);
+            Method method = handler.getMethod();
+            System.out.println(method);
+            Map<String, String[]> params = req.getParameterMap();
 
-        MyMethod handler = handlerMapping.get(uri);
-        Method method = handler.getMethod();
-        System.out.println(method);
-        Map<String, String[]> params = req.getParameterMap();
-
-        Class<?>[] paramsTypes = method.getParameterTypes();
-        Object[] paramsValues = new Object[paramsTypes.length];
-        paramsValues[0] = req;
-        paramsValues[1] = resp;
-        for (int i = 0; i < handler.getParams().size(); i++) {
-            Map<String, Parameter> map = handler.getParams().get(i);
-            String paramName = map.keySet().toArray(new String[0])[0];
-            Parameter parameter = map.get(paramName);
-            String[] values = params.get(paramName);
-            if (values.length == 1) {
-                String type = parameter.getType().getName();
-                if (type.endsWith("int") | type.endsWith("Integer")) {
-                    paramsValues[i + 2] = Integer.valueOf(values[0]);
-                } else if (type.endsWith("String")) {
-                    paramsValues[i + 2] = values[0];
-                } else if (type.endsWith("char") | type.endsWith("Character")) {
-                    paramsValues[i + 2] = values[0].toCharArray()[0];
-                } else if (type.endsWith("boolean") | type.endsWith("Boolean")) {
-                    paramsValues[i + 2] = Boolean.valueOf(values[0]);
-                } else if (type.endsWith("byte") | type.endsWith("Byte")) {
-                    paramsValues[i + 2] = values[0].getBytes()[0];
-                } else if (type.endsWith("float") | type.endsWith("Float")) {
-                    paramsValues[i + 2] = Float.valueOf(values[0]);
-                } else if (type.endsWith("double") | type.endsWith("Double")) {
-                    paramsValues[i + 2] = Double.valueOf(values[0]);
-                } else if (type.endsWith("short") | type.endsWith("Short")) {
-                    paramsValues[i + 2] = Short.valueOf(values[0]);
+            Class<?>[] paramsTypes = method.getParameterTypes();
+            Object[] paramsValues = new Object[paramsTypes.length];
+            paramsValues[0] = req;
+            paramsValues[1] = resp;
+            for (int i = 0; i < handler.getParams().size(); i++) {
+                Map<String, Parameter> map = handler.getParams().get(i);
+                String paramName = map.keySet().toArray(new String[0])[0];
+                Parameter parameter = map.get(paramName);
+                String[] values = params.get(paramName);
+                if (values.length == 1) {
+                    String type = parameter.getType().getName();
+                    if (type.endsWith("int") | type.endsWith("Integer")) {
+                        paramsValues[i + 2] = Integer.valueOf(values[0]);
+                    } else if (type.endsWith("String")) {
+                        paramsValues[i + 2] = values[0];
+                    } else if (type.endsWith("char") | type.endsWith("Character")) {
+                        paramsValues[i + 2] = values[0].toCharArray()[0];
+                    } else if (type.endsWith("boolean") | type.endsWith("Boolean")) {
+                        paramsValues[i + 2] = Boolean.valueOf(values[0]);
+                    } else if (type.endsWith("byte") | type.endsWith("Byte")) {
+                        paramsValues[i + 2] = values[0].getBytes()[0];
+                    } else if (type.endsWith("float") | type.endsWith("Float")) {
+                        paramsValues[i + 2] = Float.valueOf(values[0]);
+                    } else if (type.endsWith("double") | type.endsWith("Double")) {
+                        paramsValues[i + 2] = Double.valueOf(values[0]);
+                    } else if (type.endsWith("short") | type.endsWith("Short")) {
+                        paramsValues[i + 2] = Short.valueOf(values[0]);
+                    }
+                } else if (values.length > 1) {
+                    paramsValues[i + 2] = values;
                 }
-            } else if (values.length > 1) {
-                paramsValues[i + 2] = values;
             }
-        }
 
-        String beanName = lowerFirstCase(method.getDeclaringClass().getSimpleName());
-        try {
-            method.invoke(ioc.get(beanName), paramsValues);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            String beanName = lowerFirstCase(method.getDeclaringClass().getSimpleName());
+            try {
+                method.invoke(ioc.get(beanName), paramsValues);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -135,6 +135,12 @@ public class MyDispatchServlet extends HttpServlet {
         long end2 = System.currentTimeMillis();
         MyJedis.init(contextConfig.getProperty("redis.host"), Integer.valueOf(contextConfig.getProperty("redis.port")));
         System.out.println("MyJedis init successfully ! cost time:" + (end2 - end1));
+        System.out.println("--------------------------------------------------------------------------------");
+        System.out.println("Tomcat首先加载META-INF中service里配置的实现了ServletContainerInitializer接口的类");
+        System.out.println("但是会优先加载web.xml中配置的servlet");
+        System.out.println("然后才加载ServletContainerInitializer实现类的onStartup()方法中配置的servlet");
+        System.out.println("mvc被先加载,boot后加载");
+        System.out.println("--------------------------------------------------------------------------------");
     }
 
     private void doInitHandlerMapping() {
@@ -316,7 +322,7 @@ public class MyDispatchServlet extends HttpServlet {
     }
 
     private void doLoadConfig(String contextConfigLocation) {
-        String prefix = Objects.requireNonNull(this.getClass().getClassLoader().getResource("")).getPath();
+        String prefix = Objects.requireNonNull(this.getClass().getClassLoader().getResource("")).getPath().replace("classes", "resources");
         try (InputStream inputStream = new FileInputStream(prefix + contextConfigLocation)) {
             contextConfig.load(inputStream);
             contextConfig.setProperty("prefix", prefix);

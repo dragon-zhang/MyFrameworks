@@ -5,12 +5,12 @@
          version="4.0">
     <servlet-mapping>
         <servlet-name>MySpringMvc</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/test/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
         <servlet-name>MySpringMvc</servlet-name>
-        <servlet-class>MySpringMVC.servlet.MyDispatchServlet</servlet-class>
+        <servlet-class>MySpringMVC.servlet.MVCDispatchServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>application.properties</param-value>

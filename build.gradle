@@ -31,5 +31,10 @@ dependencies {
     implementation(group: 'com.alibaba', name: 'fastjson', version: '1.2.47')
     //github库上的api，用于测试分布式项目
     implementation(group: 'com.github.dragon-zhang', name: 'test', version: 'v1.0.0')
+    //tomcat依赖，用于写springboot
+    def tomcatVersion = '8.5.37'
+    implementation("org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}")
+    implementation("org.apache.tomcat.embed:tomcat-embed-el:${tomcatVersion}")
+    implementation("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}")
 
 }
