@@ -18,7 +18,7 @@ import java.util.concurrent.*;
 /**
  * @author SuccessZhang
  */
-public enum MyTomcat implements ThreadFactory, RejectedExecutionHandler {
+public enum MyBIOTomcat implements ThreadFactory, RejectedExecutionHandler {
 
     //枚举单例
     INSTANCE;
@@ -72,7 +72,7 @@ public enum MyTomcat implements ThreadFactory, RejectedExecutionHandler {
      */
     @SuppressWarnings("unchecked")
     private void init() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        String base = MyTomcat.class.getResource("/").getPath().replace("classes", "resources");
+        String base = MyBIOTomcat.class.getResource("/").getPath().replace("classes", "resources");
         SAXReader reader = new SAXReader();
         //通过read方法将文件转化为dom对象
         Document document = null;
@@ -99,7 +99,7 @@ public enum MyTomcat implements ThreadFactory, RejectedExecutionHandler {
      * 运行
      */
     private void startup() throws IOException {
-        System.out.println("MyTomcat has startup!");
+        System.out.println("MyBIOTomcat has startup!");
         ServerSocket serverSocket = new ServerSocket(PORT);
         while (true) {
             Socket socket = serverSocket.accept();

@@ -27,7 +27,6 @@ public class StaticServlet extends HttpServlet {
     }
 
     private char[] getBytes(String filePath) throws IOException {
-
         InputStream in = new FileInputStream(filePath);
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         byte[] buffer = new byte[1024 * 4];
@@ -37,7 +36,6 @@ public class StaticServlet extends HttpServlet {
         }
         char[] data = out.toString().toCharArray();
         in.close();
-
         return data;
     }
 }

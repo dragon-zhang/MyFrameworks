@@ -6,6 +6,8 @@ import MyTomcat.servlet.BaseServlet;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 
 /**
  * @author SuccessZhang
@@ -20,8 +22,14 @@ public class HttpServlet extends BaseServlet {
     public void doPost(MyRequest request, MyResponse response) throws IOException {
         String res = "test";
         System.out.println("MyTomcat returns : " + res);
-        OutputStream outputStream = response.getOutputStream();
-        outputStream.write(res.getBytes());
-        outputStream.close();
+        SocketChannel channel = response.getChannel();
+        if (channel != null) {
+            channel.write(ByteBuffer.wrap(res.getBytes()));
+            channel.close();
+        } else {
+            OutputStream outputStream = response.getOutputStream();
+            outputStream.write(res.getBytes());
+            outputStream.close();
+        }
     }
 }

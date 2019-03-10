@@ -3,6 +3,7 @@ package MyTomcat.http;
 import lombok.Data;
 
 import java.io.OutputStream;
+import java.nio.channels.SocketChannel;
 
 /**
  * @author SuccessZhang
@@ -14,9 +15,16 @@ public class MyResponse {
 
     private StringBuilder header;
 
+    private SocketChannel channel;
+
     public MyResponse(OutputStream outputStream) {
         header = new StringBuilder();
         this.outputStream = outputStream;
+    }
+
+    public MyResponse(SocketChannel channel) {
+        header = new StringBuilder();
+        this.channel = channel;
     }
 
     public byte[] response(String protocol, String message) {
