@@ -26,6 +26,9 @@ public class MyRequest {
     public MyRequest(InputStream inputStream) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         String[] strings = reader.readLine().split(" ");
+        if (strings.length < 3) {
+            throw new RuntimeException("Not conforming to TCP Standard !");
+        }
         this.methodType = strings[0];
         this.url = strings[1];
         this.protocol = strings[2];

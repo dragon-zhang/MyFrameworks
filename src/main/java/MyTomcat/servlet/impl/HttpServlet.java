@@ -20,7 +20,7 @@ public class HttpServlet extends BaseServlet {
 
     @Override
     public void doPost(MyRequest request, MyResponse response) throws IOException {
-        String res = "test";
+        String res = "你好,我是服务器!";
         System.out.println("MyTomcat returns : " + res);
         SocketChannel channel = response.getChannel();
         if (channel != null) {
