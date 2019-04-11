@@ -1,48 +1,49 @@
-package MySpringMVC;
+package MySpringMVC.V2.aop.test;
 
-import MySpringMVC.annotation.*;
+import MySpringMVC.V2.aop.AOPMethods;
 
 /**
  * @author SuccessZhang
  */
-public class Test1 {
+public class Test2 implements Service, AOPMethods {
 
-    public Test1() {
+    public Test2() {
     }
 
     /**
      * 一个模拟的add方法
      */
-    int add() {
-        return 1;
+    @Override
+    public int add() {
+        return 2;
     }
 
-    @Before
+    @Override
     public void before() {
         System.out.println("before");
     }
 
-    @AroundBefore
+    @Override
     public void aroundBefore() {
         System.out.println("aroundBefore");
     }
 
-    @AfterReturning
+    @Override
     public void afterReturning(Object result) {
         System.out.println("afterReturning:" + result);
     }
 
-    @AfterThrowing
+    @Override
     public void afterThrowing(Throwable throwable) {
         System.out.println("afterThrowing:" + throwable);
     }
 
-    @After
+    @Override
     public void after() {
         System.out.println("after");
     }
 
-    @AroundAfter
+    @Override
     public void aroundAfter() {
         System.out.println("aroundAfter");
     }

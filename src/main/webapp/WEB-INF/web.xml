@@ -10,7 +10,7 @@
 
     <servlet>
         <servlet-name>MySpringMvc</servlet-name>
-        <servlet-class>MySpringMVC.servlet.MVCDispatchServlet</servlet-class>
+        <servlet-class>MySpringMVC.V1.servlet.MVCDispatchServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
             <param-value>application.properties</param-value>

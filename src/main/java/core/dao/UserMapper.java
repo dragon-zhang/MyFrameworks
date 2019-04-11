@@ -1,7 +1,7 @@
 package core.dao;
 
 import MyMybatis.annotation.Param;
-import MySpringMVC.annotation.Repository;
+import MySpringMVC.V1.annotation.Repository;
 import core.pojo.User;
 
 /**

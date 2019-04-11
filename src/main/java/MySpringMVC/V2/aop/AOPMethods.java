@@ -1,4 +1,4 @@
-package MySpringMVC.aop;
+package MySpringMVC.V2.aop;
 
 /**
  * @author SuccessZhang

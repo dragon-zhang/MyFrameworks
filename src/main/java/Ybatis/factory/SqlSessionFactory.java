@@ -91,13 +91,11 @@ public class SqlSessionFactory {
         StringBuilder sb = new StringBuilder();
         sb.append(sql.getType()).append(" ");
 
-        List<String> valueSuppose = null;
         List<String> valueSentence = null;
         if ("update".equals(sql.getType())) {
             sb.append(" ").append(sql.getTable());
             sb.append(" set ");
             Values values = sql.getValues();
-            valueSuppose = values.getSuppose();
             valueSentence = values.getSentence();
         }
         Fields fields = sql.getFields();

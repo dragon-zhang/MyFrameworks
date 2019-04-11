@@ -1,4 +1,4 @@
-package MyRPC.impl;
+package MyRPC.server.impl;
 
 import com.example.disperse.service.TestService;
 

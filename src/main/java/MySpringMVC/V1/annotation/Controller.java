@@ -1,4 +1,4 @@
-package MySpringMVC.annotation;
+package MySpringMVC.V1.annotation;
 
 import java.lang.annotation.*;
 

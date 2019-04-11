@@ -1,11 +1,11 @@
-package MySpringMVC.servlet;
+package MySpringMVC.V1.servlet;
 
 import MyJedis.MyJedis;
 import MyMybatis.factory.SqlSessionFactory;
 import MyMybatis.proxy.InterfaceProxy;
 import MyMybatis.session.SqlSession;
-import MySpringMVC.annotation.*;
-import MySpringMVC.pojo.MyMethod;
+import MySpringMVC.V1.annotation.*;
+import MySpringMVC.V1.pojo.MyMethod;
 import com.mysql.jdbc.StringUtils;
 
 import javax.servlet.ServletConfig;

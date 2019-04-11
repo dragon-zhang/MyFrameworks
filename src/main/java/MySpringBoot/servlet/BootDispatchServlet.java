@@ -1,7 +1,7 @@
 package MySpringBoot.servlet;
 
-import MySpringMVC.annotation.*;
-import MySpringMVC.pojo.MyMethod;
+import MySpringMVC.V1.annotation.*;
+import MySpringMVC.V1.pojo.MyMethod;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;

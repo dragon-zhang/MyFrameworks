@@ -1,6 +1,6 @@
-package MySpringMVC.aop;
+package MySpringMVC.V2.aop;
 
-import MySpringMVC.annotation.*;
+import MySpringMVC.V2.aop.annotation.*;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;

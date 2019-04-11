@@ -1,6 +1,6 @@
-package MySpringMVC;
+package MySpringMVC.V2.aop.test;
 
-import MySpringMVC.aop.AOPProxy;
+import MySpringMVC.V2.aop.AOPProxy;
 
 import java.util.HashMap;
 import java.util.Map;

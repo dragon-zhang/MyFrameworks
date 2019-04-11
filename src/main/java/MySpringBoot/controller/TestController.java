@@ -1,8 +1,8 @@
 package MySpringBoot.controller;
 
-import MySpringMVC.annotation.Controller;
-import MySpringMVC.annotation.RequestMapping;
-import MySpringMVC.annotation.RequestParam;
+import MySpringMVC.V1.annotation.Controller;
+import MySpringMVC.V1.annotation.RequestMapping;
+import MySpringMVC.V1.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

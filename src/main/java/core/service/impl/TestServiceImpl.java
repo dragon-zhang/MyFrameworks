@@ -1,7 +1,7 @@
 package core.service.impl;
 
-import MySpringMVC.annotation.Autowired;
-import MySpringMVC.annotation.Service;
+import MySpringMVC.V1.annotation.Autowired;
+import MySpringMVC.V1.annotation.Service;
 import core.dao.UserMapper;
 import core.pojo.User;
 import core.service.TestService;

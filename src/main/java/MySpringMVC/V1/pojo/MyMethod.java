@@ -1,4 +1,4 @@
-package MySpringMVC.pojo;
+package MySpringMVC.V1.pojo;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;

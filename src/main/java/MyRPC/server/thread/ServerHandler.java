@@ -1,4 +1,4 @@
-package MyRPC.thread;
+package MyRPC.server.thread;
 
 import MyRPC.message.RPCMessage;
 import com.alibaba.fastjson.JSON;

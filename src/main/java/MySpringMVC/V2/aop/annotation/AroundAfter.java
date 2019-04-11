@@ -1,4 +1,4 @@
-package MySpringMVC.annotation;
+package MySpringMVC.V2.aop.annotation;
 
 import java.lang.annotation.*;
 
@@ -6,6 +6,6 @@ import java.lang.annotation.*;
 @Documented
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AfterThrowing {
+public @interface AroundAfter {
     String[] value() default "";
 }

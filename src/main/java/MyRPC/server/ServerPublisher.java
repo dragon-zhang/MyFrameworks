@@ -1,7 +1,7 @@
 package MyRPC.server;
 
-import MyRPC.impl.TestServiceImpl;
-import MyRPC.thread.ServerHandler;
+import MyRPC.server.impl.TestServiceImpl;
+import MyRPC.server.thread.ServerHandler;
 import com.example.disperse.service.TestService;
 
 import java.io.IOException;

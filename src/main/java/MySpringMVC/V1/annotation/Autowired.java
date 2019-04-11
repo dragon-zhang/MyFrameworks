@@ -1,11 +1,11 @@
-package MySpringMVC.annotation;
+package MySpringMVC.V1.annotation;
 
 import java.lang.annotation.*;
 
 @SuppressWarnings("unused")
 @Documented
-@Target({ElementType.PARAMETER})
+@Target({ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface RequestParam {
+public @interface Autowired {
     String value() default "";
 }

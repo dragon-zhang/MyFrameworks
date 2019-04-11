@@ -1,9 +1,9 @@
 package core.controller;
 
-import MySpringMVC.annotation.Autowired;
-import MySpringMVC.annotation.Controller;
-import MySpringMVC.annotation.RequestMapping;
-import MySpringMVC.annotation.RequestParam;
+import MySpringMVC.V1.annotation.Autowired;
+import MySpringMVC.V1.annotation.Controller;
+import MySpringMVC.V1.annotation.RequestMapping;
+import MySpringMVC.V1.annotation.RequestParam;
 import core.pojo.User;
 import core.service.TestService;
 
