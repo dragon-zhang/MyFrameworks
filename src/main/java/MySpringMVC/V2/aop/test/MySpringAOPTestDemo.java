@@ -16,8 +16,8 @@ public class MySpringAOPTestDemo {
         map.put("base", base);
         ((Test1) map.get("base")).add();
         System.out.println("------------------------------------");
-        Service aop1 = AOPProxy.getInstance(Test2.class);
-        aop1.add();
+        Test aop1 = AOPProxy.getInstance(Test2.class);
+        aop1.test();
     }
 
 }

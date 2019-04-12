@@ -1,13 +1,13 @@
-package MyDynamicProxy;
+package MyDynamicProxy.source;
 
 import javax.tools.SimpleJavaFileObject;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 
 /**
  * @author SuccessZhang
+ * 存储class源文件
  */
 public class JavaClassFile extends SimpleJavaFileObject {
 
@@ -19,7 +19,7 @@ public class JavaClassFile extends SimpleJavaFileObject {
     }
 
     @Override
-    public OutputStream openOutputStream() throws IOException {
+    public OutputStream openOutputStream() {
         return this.outputStream;
     }
 

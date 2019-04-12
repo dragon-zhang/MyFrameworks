@@ -6,8 +6,10 @@ package MyDynamicProxy.test;
 public class MyDynamicProxyTestDemo {
 
     public static void main(String[] args) {
-        Service service = TestProxy.getInstance(TestClass.class);
+        TestService service = TestProxy.getInstance(TestClass.class);
         service.test();
+        System.out.println();
+        service.test(1, "");
     }
 
 }

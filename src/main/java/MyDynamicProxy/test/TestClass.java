@@ -5,7 +5,7 @@ import MySpringMVC.V2.aop.AOPMethods;
 /**
  * @author SuccessZhang
  */
-public class TestClass implements Service, AOPMethods {
+public class TestClass implements TestService, AOPMethods {
 
     public TestClass() {
     }
@@ -18,6 +18,11 @@ public class TestClass implements Service, AOPMethods {
     @Override
     public Object test() {
         return 2;
+    }
+
+    @Override
+    public Object test(int i, String j) {
+        return null;
     }
 
     @Override

@@ -28,8 +28,7 @@ public enum TestProxy implements MyInvocationHandler {
             if (!AOPMethods.class.isAssignableFrom(type)) {
                 throw new RuntimeException("the " + type + " should implements " + AOPMethods.class);
             }
-            return (T) MyProxy.newProxyInstance(null,
-                    type.getInterfaces(), INSTANCE);
+            return (T) MyProxy.newProxyInstance(type.getInterfaces(), INSTANCE);
         }
         return null;
     }

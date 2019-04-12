@@ -5,7 +5,7 @@ import MySpringMVC.V2.aop.AOPMethods;
 /**
  * @author SuccessZhang
  */
-public class Test2 implements Service, AOPMethods {
+public class Test2 implements Test, AOPMethods {
 
     public Test2() {
     }
@@ -14,7 +14,7 @@ public class Test2 implements Service, AOPMethods {
      * 一个模拟的add方法
      */
     @Override
-    public int add() {
+    public int test() {
         return 2;
     }
 

@@ -1,5 +1,10 @@
 package MyDynamicProxy;
 
+import MyDynamicProxy.loader.MyClassLoader;
+import MyDynamicProxy.manager.JavaClassFileManager;
+import MyDynamicProxy.source.JavaClassFile;
+import MyDynamicProxy.source.StringSrcCode;
+
 import javax.tools.JavaCompiler;
 import javax.tools.JavaFileObject;
 import javax.tools.StandardJavaFileManager;
@@ -14,26 +19,27 @@ import java.util.Collections;
 public class MyProxy {
 
     @SuppressWarnings("unchecked")
-    public static Object newProxyInstance(MyClassLoader loader,
-                                          Class<?>[] interfaces,
+    public static Object newProxyInstance(Class<?>[] interfaces,
                                           MyInvocationHandler h) {
         try {
-            //1.生成代码
-            String src = generateSrc(interfaces);
-            //2.从内存中创建class
-
+            //1.获取编译器
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            //2.获取class文件管理器
             StandardJavaFileManager standardFileManager = compiler.getStandardFileManager(null, null, null);
-            JavaClassFileManager classJavaFileManager = new JavaClassFileManager(standardFileManager);
-            StringSrcCode stringObject = new StringSrcCode(new URI("$Proxy0.java"), JavaFileObject.Kind.SOURCE, src);
-            JavaCompiler.CompilationTask task = compiler.getTask(null, classJavaFileManager, null, null, null, Collections.singletonList(stringObject));
-
+            JavaClassFileManager classFileManager = new JavaClassFileManager(standardFileManager);
+            //3.生成java源代码
+            StringSrcCode stringObject = new StringSrcCode(new URI("$Proxy0.java"), JavaFileObject.Kind.SOURCE, interfaces);
+            //4.编译java文件，非写入
+            JavaCompiler.CompilationTask task = compiler.getTask(null, classFileManager, null, null, null, Collections.singletonList(stringObject));
             if (task.call()) {
-                JavaClassFile javaFileObject = classJavaFileManager.getClassJavaFileObject();
+                //5.从内存中读取class文件
+                JavaClassFile javaFileObject = classFileManager.getClassJavaFileObject();
+                //6.装载class文件
                 ClassLoader classLoader = new MyClassLoader(javaFileObject);
                 Class proxyClass = classLoader.loadClass("$Proxy0");
-                Constructor c = proxyClass.getConstructor(MyInvocationHandler.class);
-                return c.newInstance(h);
+                //7.创建代理对象实例
+                Constructor constructor = proxyClass.getConstructor(MyInvocationHandler.class);
+                return constructor.newInstance(h);
             }
             return null;
         } catch (Exception e) {
@@ -42,35 +48,4 @@ public class MyProxy {
         return null;
     }
 
-    private static String generateSrc(Class<?>[] interfaces) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("package MyDynamicProxy;\n");
-        sb.append("import MyDynamicProxy.test.Service;\n");
-        sb.append("import java.lang.reflect.*;\n");
-        sb.append("public class $Proxy0 implements ");
-        for (Class<?> iInterface : interfaces) {
-            String name = iInterface.getName();
-            if (name.contains("Service")) {
-                sb.append(name);
-                sb.append(",");
-            }
-        }
-        //这里会多出1个","
-        sb.deleteCharAt(sb.length() - 1);
-        sb.append("{\n");
-        sb.append("private MyInvocationHandler h;\n");
-        sb.append("public $Proxy0(MyInvocationHandler h){\nthis.h=h;\n}\n");
-        sb.append("@Override\n");
-        sb.append("public Object test() {\n");
-        sb.append("Object result = null;\n");
-        sb.append("try{\n");
-        sb.append("Method m = Service.class.getMethod(\"test\");\n");
-        sb.append("result = this.h.invoke(this,m,null);\n");
-        sb.append("}catch (Throwable t) {\nt.printStackTrace();\n}\n");
-        sb.append("return result;\n");
-        sb.append("}\n");
-        sb.append("}\n");
-        System.out.println(sb.toString());
-        return sb.toString();
-    }
 }
