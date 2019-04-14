@@ -19,8 +19,38 @@ import java.util.Collections;
 public class MyProxy {
 
     @SuppressWarnings("unchecked")
-    public static Object newProxyInstance(Class<?>[] interfaces,
-                                          MyInvocationHandler h) {
+    public static Object cglibNewProxyInstance(Class<?> type,
+                                               MyInvocationHandler h) {
+        try {
+            //1.获取编译器
+            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            //2.获取class文件管理器
+            StandardJavaFileManager standardFileManager = compiler.getStandardFileManager(null, null, null);
+            JavaClassFileManager classFileManager = new JavaClassFileManager(standardFileManager);
+            //3.生成java源代码
+            StringSrcCode stringObject = new StringSrcCode(new URI("$Proxy0.java"), JavaFileObject.Kind.SOURCE, type);
+            //4.编译java文件，非写入
+            JavaCompiler.CompilationTask task = compiler.getTask(null, classFileManager, null, null, null, Collections.singletonList(stringObject));
+            if (task.call()) {
+                //5.从内存中读取class文件
+                JavaClassFile javaFileObject = classFileManager.getClassJavaFileObject();
+                //6.装载class文件
+                ClassLoader classLoader = new MyClassLoader(javaFileObject);
+                Class proxyClass = classLoader.loadClass("$Proxy0");
+                //7.创建代理对象实例
+                Constructor constructor = proxyClass.getConstructor(MyInvocationHandler.class);
+                return constructor.newInstance(h);
+            }
+            return null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static Object jdkNewProxyInstance(Class<?>[] interfaces,
+                                             MyInvocationHandler h) {
         try {
             //1.获取编译器
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();

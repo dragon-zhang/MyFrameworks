@@ -5,11 +5,11 @@ import MyDynamicProxy.MyProxy;
 import MySpringMVC.V2.aop.AOPMethods;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 /**
  * @author SuccessZhang
  */
-
 public enum TestProxy implements MyInvocationHandler {
 
     //枚举单例
@@ -25,12 +25,11 @@ public enum TestProxy implements MyInvocationHandler {
             e.printStackTrace();
         }
         if (AOPMethods.class.isAssignableFrom(type)) {
-            if (!AOPMethods.class.isAssignableFrom(type)) {
-                throw new RuntimeException("the " + type + " should implements " + AOPMethods.class);
-            }
-            return (T) MyProxy.newProxyInstance(type.getInterfaces(), INSTANCE);
+            return (T) MyProxy.jdkNewProxyInstance(type.getInterfaces(), INSTANCE);
+        } else if (!Modifier.toString(type.getModifiers()).contains("final")) {
+            return (T) MyProxy.cglibNewProxyInstance(type, INSTANCE);
         }
-        return null;
+        throw new RuntimeException("the " + type + " should implements " + AOPMethods.class + ",or the modifiers should not contains 'final' !");
     }
 
     @Override
