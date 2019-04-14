@@ -18,8 +18,11 @@ import java.util.Collections;
  */
 public class MyProxy {
 
+    /**
+     * java版cglib实现
+     */
     @SuppressWarnings("unchecked")
-    public static Object cglibNewProxyInstance(Class<?> type,
+    public static Object jglibNewProxyInstance(Class<?> type,
                                                MyInvocationHandler h) {
         try {
             //1.获取编译器
@@ -27,9 +30,9 @@ public class MyProxy {
             //2.获取class文件管理器
             StandardJavaFileManager standardFileManager = compiler.getStandardFileManager(null, null, null);
             JavaClassFileManager classFileManager = new JavaClassFileManager(standardFileManager);
-            //3.生成java源代码
+            //3.生成java源代码文件
             StringSrcCode stringObject = new StringSrcCode(new URI("$Proxy0.java"), JavaFileObject.Kind.SOURCE, type);
-            //4.编译java文件，非写入
+            //4.编译java文件，从内存中生成（非写入）class文件
             JavaCompiler.CompilationTask task = compiler.getTask(null, classFileManager, null, null, null, Collections.singletonList(stringObject));
             if (task.call()) {
                 //5.从内存中读取class文件
