@@ -17,4 +17,6 @@ springboot;
 
 jdk动态代理;
 
+cglib动态代理;
+
 持续手动更新中...
