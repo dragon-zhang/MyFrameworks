@@ -36,5 +36,6 @@ dependencies {
     implementation("org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}")
     implementation("org.apache.tomcat.embed:tomcat-embed-el:${tomcatVersion}")
     implementation("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}")
-
+    //Guava API使用观察者模式
+    implementation("com.google.guava:guava:27.0.1-jre")
 }
