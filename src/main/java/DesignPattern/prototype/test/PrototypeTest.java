@@ -8,6 +8,7 @@ import java.util.Arrays;
 /**
  * @author SuccessZhang
  * 浅克隆：复制的不是值，而是引用的地址，引用对象仍然指向原来的对象
+ * 深克隆：复制的只是值，引用对象不指向原来的对象
  */
 public class PrototypeTest {
     public static void main(String[] args) {
