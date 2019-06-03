@@ -3,7 +3,9 @@ package DesignPattern.singleton.test;
 import DesignPattern.singleton.EnumSingleton;
 import DesignPattern.singleton.HungrySingleton;
 import DesignPattern.singleton.LazySingleton;
+import DesignPattern.singleton.ThreadLocalSingleton;
 import DesignPattern.singleton.threads.*;
+import com.sun.istack.internal.NotNull;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -27,7 +29,7 @@ public class SingletonTest {
 
     static class MessageThreadFactory implements ThreadFactory {
         @Override
-        public Thread newThread(Runnable r) {
+        public Thread newThread(@NotNull Runnable r) {
             //实际cpu调用的线程
             Thread thread = new Thread(r);
             //设置优先级
@@ -65,7 +67,7 @@ public class SingletonTest {
             instance1 = (EnumSingleton) ois.readObject();
             ois.close();
             System.out.println(instance1.getData());
-            System.out.println(instance2.getData());
+            System.out.println(instance2.getData() + "\n");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,12 +76,12 @@ public class SingletonTest {
     private static void antiSerializationTest(Object instance) {
         try {
             Object instance1;
-            FileOutputStream fos = new FileOutputStream("EnumSingleton.obj");
+            FileOutputStream fos = new FileOutputStream("Singleton.obj");
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(instance);
             oos.flush();
             oos.close();
-            FileInputStream fis = new FileInputStream("EnumSingleton.obj");
+            FileInputStream fis = new FileInputStream("Singleton.obj");
             ObjectInputStream ois = new ObjectInputStream(fis);
             instance1 = ois.readObject();
             ois.close();
@@ -115,6 +117,10 @@ public class SingletonTest {
         executor.submit(new ExecutorThreadSafeInnerStatic());
         executor.submit(new ExecutorThreadSafeInnerStatic());
         executor.submit((Runnable) System.out::println);
+        //ThreadLocal，线程内单例，线程安全，无法防止序列化
+        executor.submit(new ExecutorThreadSafeThreadLocal());
+        executor.submit(new ExecutorThreadSafeThreadLocal());
+        executor.submit((Runnable) System.out::println);
         //注册式单例，线程安全，性能较好，可防止反射、序列化
         executor.submit(new ExecutorThreadSafeEnum());
         executor.submit(new ExecutorThreadSafeEnum());
@@ -126,7 +132,9 @@ public class SingletonTest {
             antiSerializationTest(LazySingleton.getInstanceThreadSafe());
             antiSerializationTest(LazySingleton.getInstanceDoubleCheck());
             antiSerializationTest(LazySingleton.getInstanceInnerStatic());
+            antiSerializationTest(ThreadLocalSingleton.getInstance());
             enumAntiSerializationTest();
         });
+        executor.shutdown();
     }
 }
