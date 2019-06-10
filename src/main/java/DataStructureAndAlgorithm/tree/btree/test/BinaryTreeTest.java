@@ -29,6 +29,12 @@ public class BinaryTreeTest {
         ErgodicUtil.postorderTraversal(top);
         System.out.print("\n层次遍历:");
         ErgodicUtil.levelTraversal(top);
+        System.out.print("\n创建二叉树");
+        BinaryTree test = ErgodicUtil.createBinaryTree();
+        ErgodicUtil.levelTraversal(test);
+        System.out.print("\n创建二叉排序树");
+        BinaryTree test2 = ErgodicUtil.createBinarySortingTree();
+        ErgodicUtil.levelTraversal(test2);
         System.out.print("\n");
     }
 }

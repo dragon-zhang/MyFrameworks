@@ -2,11 +2,70 @@ package DataStructureAndAlgorithm.tree.btree;
 
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Scanner;
 
 /**
  * @author SuccessZhang
  */
 public class ErgodicUtil {
+
+    /**
+     * 前序顺序创建二叉树
+     */
+    public static BinaryTree createBinaryTree() {
+        Scanner scanner = new Scanner(System.in);
+        String data = scanner.nextLine();
+        BinaryTree binaryTree;
+        if ("#".equals(data)) {
+            binaryTree = null;
+        } else {
+            binaryTree = new BinaryTree(data);
+            binaryTree.setLeftChild(createBinaryTree());
+            binaryTree.setRightChild(createBinaryTree());
+        }
+        return binaryTree;
+    }
+
+    /**
+     * 创建二叉排序树
+     */
+    public static BinaryTree createBinarySortingTree() {
+        Scanner scanner = new Scanner(System.in);
+        String data = scanner.nextLine();
+        BinaryTree binaryTree;
+        if ("#".equals(data)) {
+            binaryTree = null;
+        } else {
+            binaryTree = new BinaryTree(Integer.valueOf(data));
+            while (!"#".equals(data)) {
+                data = scanner.nextLine();
+                if (!"#".equals(data)) {
+                    insertChild(binaryTree, Integer.valueOf(data));
+                }
+            }
+        }
+        return binaryTree;
+    }
+
+    /**
+     * 创建二叉排序树，插入子节点
+     */
+    private static void insertChild(BinaryTree binaryTree, int data) {
+        if (data < (int) binaryTree.getData()) {
+            if (binaryTree.getLeftChild() == null) {
+                binaryTree.setLeftChild(new BinaryTree(data));
+            } else {
+                insertChild(binaryTree.getLeftChild(), data);
+            }
+        } else {
+            if (binaryTree.getRightChild() == null) {
+                binaryTree.setRightChild(new BinaryTree(data));
+            } else {
+                insertChild(binaryTree.getRightChild(), data);
+            }
+        }
+    }
+
     /**
      * 前序遍历
      */
