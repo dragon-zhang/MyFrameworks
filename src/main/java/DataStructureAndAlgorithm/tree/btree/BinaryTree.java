@@ -29,6 +29,8 @@ public class BinaryTree {
      */
     private BinaryTree rightChild;
 
+    private static Queue<BinaryTree> parent = new LinkedList<>();
+
     public BinaryTree() {
     }
 
@@ -51,9 +53,14 @@ public class BinaryTree {
         BinaryTree binaryTree;
         if ("#".equals(data)) {
             binaryTree = null;
+            parent.poll();
         } else {
             binaryTree = new BinaryTree(data);
+            binaryTree.setParents(parent.poll());
+            //二叉树有2个节点
+            parent.offer(binaryTree);
             binaryTree.setLeftChild(create());
+            parent.offer(binaryTree);
             binaryTree.setRightChild(create());
         }
         return binaryTree;
@@ -86,13 +93,17 @@ public class BinaryTree {
     public static void insertChild(BinaryTree binaryTree, int data) {
         if (data < (int) binaryTree.getData()) {
             if (binaryTree.getLeftChild() == null) {
-                binaryTree.setLeftChild(new BinaryTree(data));
+                BinaryTree leftChild = new BinaryTree(data);
+                leftChild.setParents(binaryTree);
+                binaryTree.setLeftChild(leftChild);
             } else {
                 insertChild(binaryTree.getLeftChild(), data);
             }
         } else {
             if (binaryTree.getRightChild() == null) {
-                binaryTree.setRightChild(new BinaryTree(data));
+                BinaryTree rightChild = new BinaryTree(data);
+                rightChild.setParents(binaryTree);
+                binaryTree.setRightChild(rightChild);
             } else {
                 insertChild(binaryTree.getRightChild(), data);
             }

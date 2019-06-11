@@ -36,7 +36,7 @@ public class BinaryTreeTest {
         top.levelTraversal();
         System.out.print("\n创建二叉树\n");
         BinaryTree test = BinaryTree.create();
-        test.levelTraversal();
+        test.intermediateTraversal();
         System.out.print("\n创建二叉排序树\n");
         BinaryTree test2 = BinaryTree.createWithSort();
         test2.intermediateTraversal();
