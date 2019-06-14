@@ -40,9 +40,9 @@ public class BinaryTreeTest {
         System.out.print("\n创建二叉排序树\n");
         BinaryTree test2 = BinaryTree.createWithSort();
         test2.intermediateTraversal();
-        System.out.print("\n");
-        System.out.println(top.deleteData(5));
-        top.intermediateTraversal();
+        System.out.print("\n创建平衡二叉排序树\n");
+        BinaryTree test3 = BinaryTree.createWithSortAndBalance();
+        test3.intermediateTraversal();
         System.out.print("\n");
     }
 }

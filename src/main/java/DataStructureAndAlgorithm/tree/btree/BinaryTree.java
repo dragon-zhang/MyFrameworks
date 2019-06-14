@@ -7,6 +7,7 @@ import java.util.Scanner;
 /**
  * @author SuccessZhang
  */
+@SuppressWarnings("unused")
 public class BinaryTree {
 
     /**
@@ -29,7 +30,7 @@ public class BinaryTree {
      */
     private BinaryTree rightChild;
 
-    private static Queue<BinaryTree> parent = new LinkedList<>();
+    private BalanceFactor balanceFactor;
 
     public BinaryTree() {
     }
@@ -53,14 +54,14 @@ public class BinaryTree {
         BinaryTree binaryTree;
         if ("#".equals(data)) {
             binaryTree = null;
-            parent.poll();
+            Util.queue.poll();
         } else {
             binaryTree = new BinaryTree(data);
-            binaryTree.setParents(parent.poll());
+            binaryTree.setParents(Util.queue.poll());
             //二叉树有2个节点
-            parent.offer(binaryTree);
+            Util.queue.offer(binaryTree);
             binaryTree.setLeftChild(create());
-            parent.offer(binaryTree);
+            Util.queue.offer(binaryTree);
             binaryTree.setRightChild(create());
         }
         return binaryTree;
@@ -108,6 +109,215 @@ public class BinaryTree {
                 insertChild(binaryTree.getRightChild(), data);
             }
         }
+    }
+
+    /**
+     * 创建平衡二叉排序树
+     */
+    public static BinaryTree createWithSortAndBalance() {
+        Scanner scanner = new Scanner(System.in);
+        String data = scanner.nextLine();
+        BinaryTree binaryTree;
+        if ("#".equals(data)) {
+            Util.root = null;
+        } else {
+            binaryTree = new BinaryTree(Integer.valueOf(data));
+            binaryTree.setBalanceFactor(BalanceFactor.BALANCE);
+            Util.root = binaryTree;
+            Util.taller = true;
+            while (!"#".equals(data)) {
+                data = scanner.nextLine();
+                if (!"#".equals(data)) {
+                    insertChildWithBalance(Util.root, Integer.valueOf(data));
+                }
+            }
+        }
+        return Util.root;
+    }
+
+    /**
+     * 创建平衡二叉排序树，插入子节点
+     */
+    public static void insertChildWithBalance(BinaryTree binaryTree, Integer data) {
+        if (data < (int) binaryTree.getData()) {
+            if (binaryTree.getLeftChild() == null) {
+                BinaryTree leftChild = new BinaryTree(data);
+                leftChild.setParents(binaryTree);
+                leftChild.setBalanceFactor(BalanceFactor.LEFT_TALLER);
+                binaryTree.setLeftChild(leftChild);
+                binaryTree.setBalanceFactor(BalanceFactor.LEFT_TALLER);
+                Util.taller = true;
+            } else {
+                insertChildWithBalance(binaryTree.getLeftChild(), data);
+                if (Util.taller) {
+                    switch (binaryTree.getBalanceFactor()) {
+                        case BALANCE:
+                            binaryTree.setBalanceFactor(BalanceFactor.LEFT_TALLER);
+                            Util.taller = true;
+                            break;
+                        case LEFT_TALLER:
+                            leftBalance(binaryTree);
+                            Util.taller = false;
+                            break;
+                        case RIGHT_TALLER:
+                            binaryTree.setBalanceFactor(BalanceFactor.BALANCE);
+                            Util.taller = false;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        } else {
+            if (binaryTree.getRightChild() == null) {
+                BinaryTree rightChild = new BinaryTree(data);
+                rightChild.setParents(binaryTree);
+                rightChild.setBalanceFactor(BalanceFactor.RIGHT_TALLER);
+                binaryTree.setRightChild(rightChild);
+                binaryTree.setBalanceFactor(BalanceFactor.RIGHT_TALLER);
+                Util.taller = true;
+            } else {
+                insertChildWithBalance(binaryTree.getRightChild(), data);
+                if (Util.taller) {
+                    switch (binaryTree.getBalanceFactor()) {
+                        case BALANCE:
+                            binaryTree.setBalanceFactor(BalanceFactor.RIGHT_TALLER);
+                            Util.taller = true;
+                            break;
+                        case LEFT_TALLER:
+                            binaryTree.setBalanceFactor(BalanceFactor.BALANCE);
+                            Util.taller = false;
+                            break;
+                        case RIGHT_TALLER:
+                            rightBalance(binaryTree);
+                            Util.taller = false;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * 左平衡
+     */
+    private static void leftBalance(BinaryTree binaryTree) {
+        BinaryTree leftChild, leftChildRightChild;
+        leftChild = binaryTree.getLeftChild();
+        switch (leftChild.getBalanceFactor()) {
+            case LEFT_TALLER:
+                binaryTree.setBalanceFactor(BalanceFactor.BALANCE);
+                leftChild.setBalanceFactor(BalanceFactor.BALANCE);
+                rotateRight(binaryTree, leftChild, false);
+                break;
+            case RIGHT_TALLER:
+                leftChildRightChild = leftChild.getRightChild();
+                //修改BalanceFactor值
+                switch (leftChildRightChild.getBalanceFactor()) {
+                    case BALANCE:
+                        binaryTree.setBalanceFactor(BalanceFactor.BALANCE);
+                        leftChild.setBalanceFactor(BalanceFactor.BALANCE);
+                        break;
+                    case LEFT_TALLER:
+                        binaryTree.setBalanceFactor(BalanceFactor.RIGHT_TALLER);
+                        leftChild.setBalanceFactor(BalanceFactor.BALANCE);
+                        break;
+                    case RIGHT_TALLER:
+                        binaryTree.setBalanceFactor(BalanceFactor.BALANCE);
+                        leftChild.setBalanceFactor(BalanceFactor.LEFT_TALLER);
+                        break;
+                    default:
+                        break;
+                }
+                leftChildRightChild.setBalanceFactor(BalanceFactor.BALANCE);
+                rotateLeft(leftChild, leftChildRightChild, true);
+                rotateRight(binaryTree, binaryTree.getLeftChild(), false);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 右平衡
+     */
+    private static void rightBalance(BinaryTree binaryTree) {
+        BinaryTree rightChild, rightChildLeftChild;
+        rightChild = binaryTree.getRightChild();
+        switch (rightChild.getBalanceFactor()) {
+            case LEFT_TALLER:
+                rightChildLeftChild = rightChild.getLeftChild();
+                //修改BalanceFactor值
+                switch (rightChildLeftChild.getBalanceFactor()) {
+                    case BALANCE:
+                        binaryTree.setBalanceFactor(BalanceFactor.BALANCE);
+                        rightChild.setBalanceFactor(BalanceFactor.BALANCE);
+                        break;
+                    case LEFT_TALLER:
+                        binaryTree.setBalanceFactor(BalanceFactor.BALANCE);
+                        rightChild.setBalanceFactor(BalanceFactor.LEFT_TALLER);
+                        break;
+                    case RIGHT_TALLER:
+                        binaryTree.setBalanceFactor(BalanceFactor.RIGHT_TALLER);
+                        rightChild.setBalanceFactor(BalanceFactor.BALANCE);
+                        break;
+                    default:
+                        break;
+                }
+                rightChildLeftChild.setBalanceFactor(BalanceFactor.BALANCE);
+                rotateRight(rightChild, rightChildLeftChild, true);
+                rotateLeft(binaryTree, binaryTree.getRightChild(), false);
+                break;
+            case RIGHT_TALLER:
+                binaryTree.setBalanceFactor(BalanceFactor.BALANCE);
+                rightChild.setBalanceFactor(BalanceFactor.BALANCE);
+                rotateLeft(binaryTree, rightChild, false);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 左旋转
+     */
+    private static void rotateLeft(BinaryTree binaryTree, BinaryTree rightChild, boolean half) {
+        BinaryTree parent = binaryTree.getParents();
+        binaryTree.setRightChild(rightChild.getLeftChild());
+        rightChild.setLeftChild(binaryTree);
+        rightChild.setParents(parent);
+        if (parent != null) {
+            if (half) {
+                parent.setLeftChild(rightChild);
+            } else {
+                parent.setRightChild(rightChild);
+            }
+        } else {
+            Util.root = rightChild;
+        }
+        binaryTree.setParents(rightChild);
+    }
+
+    /**
+     * 右旋转
+     */
+    private static void rotateRight(BinaryTree binaryTree, BinaryTree leftChild, boolean half) {
+        BinaryTree parent = binaryTree.getParents();
+        binaryTree.setLeftChild(leftChild.getRightChild());
+        leftChild.setRightChild(binaryTree);
+        leftChild.setParents(parent);
+        if (parent != null) {
+            if (half) {
+                parent.setRightChild(leftChild);
+            } else {
+                parent.setLeftChild(leftChild);
+            }
+        } else {
+            Util.root = leftChild;
+        }
+        binaryTree.setParents(leftChild);
     }
 
     /**
@@ -269,6 +479,23 @@ public class BinaryTree {
             }
         }
         return true;
+    }
+
+    public enum BalanceFactor {
+        //平衡
+        BALANCE,
+        //左子树高了
+        LEFT_TALLER,
+        //右子树高了
+        RIGHT_TALLER
+    }
+
+    public BalanceFactor getBalanceFactor() {
+        return balanceFactor;
+    }
+
+    public void setBalanceFactor(BalanceFactor balanceFactor) {
+        this.balanceFactor = balanceFactor;
     }
 
     public void setData(Object data) {
