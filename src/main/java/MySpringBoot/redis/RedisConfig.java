@@ -10,8 +10,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
- * @author shangbb
- * @date 2019/03/01 16:45
+ * @author SuccessZhang
  */
 @Configuration
 @EnableCaching
