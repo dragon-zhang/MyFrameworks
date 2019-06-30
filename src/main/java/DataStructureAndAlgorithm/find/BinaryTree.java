@@ -1,4 +1,4 @@
-package DataStructureAndAlgorithm.tree.btree;
+package DataStructureAndAlgorithm.find;
 
 import java.util.LinkedList;
 import java.util.Queue;

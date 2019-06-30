@@ -1,6 +1,6 @@
-package DataStructureAndAlgorithm.tree.btree.test;
+package DataStructureAndAlgorithm.find.test;
 
-import DataStructureAndAlgorithm.tree.btree.BinaryTree;
+import DataStructureAndAlgorithm.find.BinaryTree;
 
 /**
  * @author SuccessZhang
