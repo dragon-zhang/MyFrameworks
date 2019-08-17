@@ -24,6 +24,8 @@ import java.io.InputStreamReader;
  * 取队首值（不出队）queue.peek();
  * 入队queue.offer(Object);
  * 出队queue.poll();
+ * <p>
+ * 流取最大值stream().max((x, y) -> x > y ? 1 : -1).get()
  */
 @SuppressWarnings("unused")
 public class Main {
