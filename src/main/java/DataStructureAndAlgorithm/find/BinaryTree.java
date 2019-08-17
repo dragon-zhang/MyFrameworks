@@ -1,8 +1,6 @@
 package DataStructureAndAlgorithm.find;
 
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * @author SuccessZhang
@@ -86,6 +84,64 @@ public class BinaryTree {
             }
         }
         return binaryTree;
+    }
+
+    /**
+     * 根据前序遍历与中序遍历构造出一个二叉树
+     *
+     * @param pre    前序遍历结果
+     * @param middle 中序遍历结果
+     */
+    public static BinaryTree reConstructBinaryTree(int[] pre, int[] middle) {
+        //1.由前序遍历确认根节点
+        int node = pre[0];
+        BinaryTree tree = new BinaryTree(node);
+
+        //2.由中序遍历确认左右子树节点
+        ArrayList<Integer> leftTreeForIn = new ArrayList<>();
+        ArrayList<Integer> rightTreeForIn = new ArrayList<>();
+        int nodePosition = -1;
+        for (int i = 0; i < middle.length; i++) {
+            if (middle[i] == node) {
+                //确认根节点在中序遍历中的位置
+                nodePosition = i;
+            }
+            //根据根节点将左右子树的节点分别放入两个list中
+            if (nodePosition < 0) {
+                leftTreeForIn.add(middle[i]);
+            } else if (nodePosition < i) {
+                rightTreeForIn.add(middle[i]);
+            }
+        }
+
+        //3.为树添加左右子树
+        if (leftTreeForIn.size() > 0) {
+            BinaryTree left;
+            if (leftTreeForIn.size() == 1) {
+                //判断左子树是否有叶子节点，左子树只有1个节点则表示无叶子节点
+                left = new BinaryTree(leftTreeForIn.get(0));
+            } else { //有叶子节点则进行递归操作
+                int[] leftTreeForPre = new int[leftTreeForIn.size()];
+                System.arraycopy(pre, 1, leftTreeForPre, 0, leftTreeForIn.size());
+                left = reConstructBinaryTree(leftTreeForPre, Arrays.stream(leftTreeForIn.toArray(new Integer[]{})).mapToInt(Integer::valueOf).toArray());
+            }
+            tree.setLeftChild(left);
+        }
+
+        if (rightTreeForIn.size() > 0) {
+            BinaryTree right;
+            if (rightTreeForIn.size() == 1) {
+                right = new BinaryTree(rightTreeForIn.get(0));
+            } else {
+                int[] rightTreeForPre = new int[rightTreeForIn.size()];
+                for (int i = 0; i < rightTreeForIn.size(); i++) {
+                    rightTreeForPre[i] = pre[i + 1 + leftTreeForIn.size()];
+                }
+                right = reConstructBinaryTree(rightTreeForPre, Arrays.stream(rightTreeForIn.toArray(new Integer[]{})).mapToInt(Integer::valueOf).toArray());
+            }
+            tree.setRightChild(right);
+        }
+        return tree;
     }
 
     /**
@@ -331,7 +387,7 @@ public class BinaryTree {
      * 前序遍历核心算法
      */
     private void preorderTraversal(BinaryTree binaryTree) {
-        System.out.print(binaryTree.getData());
+        System.out.print(binaryTree.getData() + " ");
         if (binaryTree.getLeftChild() != null) {
             preorderTraversal(binaryTree.getLeftChild());
         }
@@ -354,7 +410,7 @@ public class BinaryTree {
         if (binaryTree.getLeftChild() != null) {
             intermediateTraversal(binaryTree.getLeftChild());
         }
-        System.out.print(binaryTree.getData());
+        System.out.print(binaryTree.getData() + " ");
         if (binaryTree.getRightChild() != null) {
             intermediateTraversal(binaryTree.getRightChild());
         }
@@ -377,7 +433,7 @@ public class BinaryTree {
         if (binaryTree.getRightChild() != null) {
             postorderTraversal(binaryTree.getRightChild());
         }
-        System.out.print(binaryTree.getData());
+        System.out.print(binaryTree.getData() + " ");
     }
 
     /**
