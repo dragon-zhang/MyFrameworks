@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
 
 /**
  * @author SuccessZhang
@@ -47,9 +48,59 @@ public class Main {
         return true;
     }
 
+    private static class Index {
+        String symbol;
+        int index;
+        int level;
+
+        public Index(String symbol, int index, int level) {
+            this.symbol = symbol;
+            this.index = index;
+            this.level = level;
+        }
+    }
+
+    private static void addIndex(String in, int level, LinkedList<Index> queue) {
+        queue.clear();
+        char[] chars = in.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == '[') {
+                queue.offer(new Index(String.valueOf(chars[i]), i, level));
+            } else if (chars[i] == '|') {
+                queue.offer(new Index(String.valueOf(chars[i]), i, level++));
+            } else if (chars[i] == ']') {
+                queue.offer(new Index(String.valueOf(chars[i]), i, --level));
+            }
+        }
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        String[] strings = bf.readLine().split(" ");
-
+        //如"A[2|B[2|C[2|D]]][2|E[2|F[2|G]]]H"
+        String in = bf.readLine();
+        int level = 0;
+        LinkedList<Index> queue = new LinkedList<>();
+        addIndex(in, level, queue);
+        while (!queue.isEmpty()) {
+            Index left = queue.poll();
+            Index middle = queue.poll();
+            Index right = null;
+            for (int i = 0; i < queue.size(); i++) {
+                Index index = queue.get(i);
+                if ("]".equals(index.symbol) && index.level == left.level) {
+                    right = index;
+                    queue.remove(index);
+                    break;
+                }
+            }
+            int number = Integer.parseInt(in.substring(left.index + 1, middle.index));
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < number; i++) {
+                sb.append(in, middle.index + 1, right.index);
+            }
+            in = in.replace(in.substring(left.index, right.index + 1), sb.toString());
+            addIndex(in, level, queue);
+        }
+        System.out.println(in);
     }
 }
