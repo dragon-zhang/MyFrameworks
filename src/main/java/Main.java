@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 
 /**
  * @author SuccessZhang
@@ -49,7 +50,45 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        //"5 5 3 8 1 5 3 4"
+        int n = Integer.parseInt(bf.readLine());
         String[] strings = bf.readLine().split(" ");
-
+        int[] high = new int[n];
+        for (int i = 0; i < n; i++) {
+            high[i] = Integer.parseInt(strings[i]);
+        }
+        int[] canSeeCounts = new int[high.length];
+        for (int i = 0; i < high.length; i++) {
+            int maxHigh;
+            //从左找
+            int left = i - 1;
+            if (i - 1 >= 0) {
+                maxHigh = high[left];
+                for (int j = left; j >= 0; j--) {
+                    if (maxHigh < high[j]) {
+                        maxHigh = high[j];
+                        canSeeCounts[i]++;
+                    }
+                }
+                //至少能看见左边的第一栋
+                canSeeCounts[i]++;
+            }
+            //从右找
+            int right = i + 1;
+            if (i + 1 < high.length) {
+                maxHigh = high[right];
+                for (int j = right; j < high.length; j++) {
+                    if (maxHigh < high[j]) {
+                        maxHigh = high[j];
+                        canSeeCounts[i]++;
+                    }
+                }
+                //至少能看见右边的第一栋
+                canSeeCounts[i]++;
+            }
+            //至少能看见自己所在的大楼
+            canSeeCounts[i]++;
+        }
+        System.out.println(Arrays.toString(canSeeCounts));
     }
 }
