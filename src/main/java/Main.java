@@ -47,33 +47,9 @@ public class Main {
         return true;
     }
 
-    private static int getMaxLength(String original, String target, String[] array, int n, int k) {
-        int left = 0, right = 0, change = 0, maxLength = 1;
-        for (int i = 0; i < n; i++) {
-            if (array[i].equals(original)) {
-                if (change < k) {
-                    change++;
-                } else {
-                    while (left <= right && array[left].equals(target)) {
-                        left++;
-                    }
-                    left++;
-                }
-            }
-            right++;
-            maxLength = Math.max(maxLength, right - left);
-        }
-        return maxLength;
-    }
-
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        //10 2
-        //1 0 0 1 0 1 0 1 0 1
         String[] strings = bf.readLine().split(" ");
-        int n = Integer.parseInt(strings[0]);
-        int k = Integer.parseInt(strings[1]);
-        String[] array = bf.readLine().split(" ");
-        System.out.println(getMaxLength("0", "1", array, n, k));
+
     }
 }
