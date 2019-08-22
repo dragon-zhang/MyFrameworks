@@ -47,9 +47,15 @@ public class Main {
         return true;
     }
 
+    /**
+     * 字符串去重，如aaabbbccdde->abcde
+     */
+    public static String removeRepeat(String str) {
+        return str.replaceAll("(.)(?=.*\\1)", "");
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         String[] strings = bf.readLine().split(" ");
-
     }
 }
