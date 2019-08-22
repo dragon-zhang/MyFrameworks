@@ -48,10 +48,19 @@ public class Main {
     }
 
     /**
-     * 字符串去重，如aaabbbccdde->abcde
+     * 字符串去重，保留第1个，如aaabbbccdde->abcde、aba->ab
      */
     public static String removeRepeat(String str) {
-        return str.replaceAll("(.)(?=.*\\1)", "");
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < str.length(); i++) {
+            char charWord = str.charAt(i);
+            int firstPosition = str.indexOf(charWord);
+            int lastPosition = str.lastIndexOf(charWord);
+            if (firstPosition == lastPosition || firstPosition == i) {
+                sb.append(charWord);
+            }
+        }
+        return sb.toString();
     }
 
     public static void main(String[] args) throws IOException {
