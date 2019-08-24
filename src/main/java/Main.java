@@ -50,7 +50,7 @@ public class Main {
     /**
      * 字符串去重，保留第1个，如aaabbbccdde->abcde、aba->ab
      */
-    public static String removeRepeat(String str) {
+    public static String removeRepeatRetainFirst(String str) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < str.length(); i++) {
             char charWord = str.charAt(i);
@@ -61,6 +61,13 @@ public class Main {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * 字符串去重，保留最后1个，如aba->ba
+     */
+    public static String removeRepeatRetainLast(String str) {
+        return str.replaceAll("(.)(?=.*\\1)", "");
     }
 
     public static void main(String[] args) throws IOException {
