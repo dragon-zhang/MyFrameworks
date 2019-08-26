@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigDecimal;
 
 /**
  * @author SuccessZhang
@@ -9,7 +10,9 @@ import java.io.InputStreamReader;
  * 向上取整:Math.ceil(3.1)=4
  * 向下取整:Math.floor(3.1)=3
  * 取绝对值：Math.abs(-3.5)=3.5
+ * 求n方根：Math.pow(target, 1d/n)，如Math.pow(27, 1d/3)=3.0
  * 取余数：A%B = 余数
+ * <p>
  * Arrays.sort(new int[]{10,3,1,5,9});//快速排序实现，可直接使用
  * Collections.shuffle(list);//打乱顺序
  * Collections.sort(list);//排序
@@ -68,6 +71,29 @@ public class Main {
      */
     public static String removeRepeatRetainLast(String str) {
         return str.replaceAll("(.)(?=.*\\1)", "");
+    }
+
+    /**
+     * 四舍五入
+     *
+     * @param target 原始数据
+     * @param digit  需要四舍五入的位数
+     * @return 四舍五入后的数(可能有小数)
+     */
+    public static double round(double target, int digit) {
+        return new BigDecimal(target).setScale(digit, BigDecimal.ROUND_HALF_UP).doubleValue();
+    }
+
+    /**
+     * 求∠B的角度
+     *
+     * @param a a边的长度
+     * @param b b边的长度
+     * @param c c边的长度
+     * @return ∠B的角度
+     */
+    private static double getAngleDegree(double a, double b, double c) {
+        return Math.toDegrees(Math.acos((a * a + c * c - b * b) / (2.0 * a * c)));
     }
 
     public static void main(String[] args) throws IOException {
