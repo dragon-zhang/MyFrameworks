@@ -11,6 +11,8 @@ import java.math.BigDecimal;
  * 向下取整:Math.floor(3.1)=3
  * 取绝对值：Math.abs(-3.5)=3.5
  * 求n方根：Math.pow(target, 1d/n)，如Math.pow(27, 1d/3)=3.0
+ * 求sin30°：round(Math.sin(Math.toRadians(30)),15)=0.5
+ * 注：上一行中round(double original, int digit)为本类底下的自定义函数
  * 取余数：A%B = 余数
  * <p>
  * Arrays.sort(new int[]{10,3,1,5,9});//快速排序实现，可直接使用
