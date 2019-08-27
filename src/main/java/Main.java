@@ -105,21 +105,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        String string = bf.readLine();
-        int count = 0;
-        for (int end = 0; end < string.length(); end++) {
-            String s = string.substring(0, end + 1);
-            int start = 0;
-            while (start < end) {
-                String temp = s.substring(start);
-                int center = temp.length() / 2;
-                if (temp.endsWith(reverse(temp.substring(0, center)))) {
-                    count++;
-                }
-                start++;
-            }
-            count++;
-        }
-        System.out.println(count);
+        String[] strings = bf.readLine().split(" ");
     }
 }
