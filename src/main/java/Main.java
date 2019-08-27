@@ -53,12 +53,12 @@ public class Main {
     /**
      * 字符串去重，保留第1个，如aaabbbccdde->abcde、aba->ab
      */
-    public static String removeRepeatRetainFirst(String str) {
+    public static String removeRepeatRetainFirst(String original) {
         StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < str.length(); i++) {
-            char charWord = str.charAt(i);
-            int firstPosition = str.indexOf(charWord);
-            int lastPosition = str.lastIndexOf(charWord);
+        for (int i = 0; i < original.length(); i++) {
+            char charWord = original.charAt(i);
+            int firstPosition = original.indexOf(charWord);
+            int lastPosition = original.lastIndexOf(charWord);
             if (firstPosition == lastPosition || firstPosition == i) {
                 sb.append(charWord);
             }
@@ -69,19 +69,26 @@ public class Main {
     /**
      * 字符串去重，保留最后1个，如aba->ba
      */
-    public static String removeRepeatRetainLast(String str) {
-        return str.replaceAll("(.)(?=.*\\1)", "");
+    public static String removeRepeatRetainLast(String original) {
+        return original.replaceAll("(.)(?=.*\\1)", "");
+    }
+
+    /**
+     * 字符串反转，如db->bd
+     */
+    public static String reverse(String original) {
+        return new StringBuilder(original).reverse().toString();
     }
 
     /**
      * 四舍五入
      *
-     * @param target 原始数据
-     * @param digit  需要四舍五入的位数
+     * @param original 原始数据
+     * @param digit    需要四舍五入的位数
      * @return 四舍五入后的数(可能有小数)
      */
-    public static double round(double target, int digit) {
-        return new BigDecimal(target).setScale(digit, BigDecimal.ROUND_HALF_UP).doubleValue();
+    public static double round(double original, int digit) {
+        return new BigDecimal(original).setScale(digit, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
     /**
@@ -98,6 +105,21 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        String[] strings = bf.readLine().split(" ");
+        String string = bf.readLine();
+        int count = 0;
+        for (int end = 0; end < string.length(); end++) {
+            String s = string.substring(0, end + 1);
+            int start = 0;
+            while (start < end) {
+                String temp = s.substring(start);
+                int center = temp.length() / 2;
+                if (temp.endsWith(reverse(temp.substring(0, center)))) {
+                    count++;
+                }
+                start++;
+            }
+            count++;
+        }
+        System.out.println(count);
     }
 }
