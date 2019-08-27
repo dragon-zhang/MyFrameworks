@@ -103,6 +103,18 @@ public class Main {
         return Math.toDegrees(Math.acos((a * a + c * c - b * b) / (2.0 * a * c)));
     }
 
+    /**
+     * 计算两点之间的距离
+     *
+     * @param x1 点1的横坐标
+     * @param y1 点1的纵坐标
+     * @param x2 点2的横坐标
+     * @param y2 点2的纵坐标
+     */
+    private static double getDistance(double x1, double y1, double x2, double y2) {
+        return Math.pow(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2), 1d / 2);
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         String[] strings = bf.readLine().split(" ");
