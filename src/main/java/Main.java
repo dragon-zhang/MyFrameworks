@@ -2,7 +2,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.util.HashMap;
 
 /**
  * @author SuccessZhang
@@ -120,30 +119,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        String[] line = bf.readLine().split(" ");
-        int a = Integer.valueOf(line[0]);
-        int b = Integer.valueOf(line[1]);
-        if (a % b == 0) {
-            //整除
-            System.out.println(a / b);
-            return;
-        }
-        StringBuilder sb = new StringBuilder(a / b + ".");
-        a = a % b;
-        HashMap<Integer, Integer> map = new HashMap<>();
-        while (a != 0) {
-            if (map.containsKey(a)) {
-                //当余数再次出现时表明已经找到了循环段，
-                // 循环段的开始位置就是首次出现该余数的地方
-                sb.insert(map.get(a), "(");
-                sb.append(")");
-                break;
-            }
-            //记录余数
-            map.put(a, sb.length());
-            sb.append(10 * a / b);
-            a = (10 * a) % b;
-        }
-        System.out.println(sb.toString());
+        String[] strings = bf.readLine().split(" ");
     }
 }
