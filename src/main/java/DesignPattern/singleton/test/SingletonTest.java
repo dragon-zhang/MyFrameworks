@@ -102,17 +102,17 @@ public class SingletonTest {
         executor.submit(new ExecutorThreadUnsafe());
         executor.submit(new ExecutorThreadUnsafe());
         executor.submit((Runnable) System.out::println);
-        //懒汉式单例，线程安全，性能最差，无法防止序列化
+        //synchronized懒汉式单例，线程安全，性能最差，无法防止序列化
         LazySingleton.clear();
         executor.submit(new ExecutorThreadSafe());
         executor.submit(new ExecutorThreadSafe());
         executor.submit((Runnable) System.out::println);
-        //懒汉式单例，线程安全，性能稍好，无法防止序列化
+        //double check懒汉式单例，线程安全，性能稍好，无法防止序列化
         LazySingleton.clear();
         executor.submit(new ExecutorThreadSafeDoubleCheck());
         executor.submit(new ExecutorThreadSafeDoubleCheck());
         executor.submit((Runnable) System.out::println);
-        //懒汉式单例，线程安全，性能最好，无法防止序列化
+        //静态内部类懒汉式单例，线程安全，性能最好，无法防止序列化
         LazySingleton.clear();
         executor.submit(new ExecutorThreadSafeInnerStatic());
         executor.submit(new ExecutorThreadSafeInnerStatic());

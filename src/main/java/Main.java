@@ -1,6 +1,3 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 
 /**
@@ -117,8 +114,30 @@ public class Main {
         return Math.pow(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2), 1d / 2);
     }
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        String[] strings = bf.readLine().split(" ");
+    public static void main(String[] args) {
+        int[][] data = {
+                {1, 2, 3, 4, 5},
+                {2, 3, 5, 6, 7},
+                {6, 8, 9, 10, 11},
+                {7, 9, 10, 12, 13}
+        };
+        int k = 13;
+        search(data, k);
+    }
+
+    private static void search(int[][] data, int k) {
+        int m = data.length;
+        int n = data[0].length;
+        for (int i = m - 1, j = 0; i >= 0 && j < n; ) {
+            if (data[i][j] == k) {
+                System.out.println(true);
+                return;
+            } else if (data[i][j] < k) {
+                j++;
+            } else {
+                i--;
+            }
+        }
+        System.out.println(false);
     }
 }
