@@ -140,18 +140,6 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(bf.readLine());
-        for (int i = 0; i < n; i++) {
-            String[] strings = bf.readLine().split(" ");
-            int l = Integer.parseInt(strings[0]);
-            int r = Integer.parseInt(strings[1]);
-            int w = Integer.parseInt(strings[2]);
-            int minBuffer = r - getGreatestCommonDivisor(r, w) + w;
-            if (minBuffer <= l) {
-                System.out.println("NO");
-            } else {
-                System.out.println("YES");
-            }
-        }
+        String[] strings = bf.readLine().split(" ");
     }
 }
