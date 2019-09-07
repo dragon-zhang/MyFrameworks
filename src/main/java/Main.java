@@ -117,8 +117,41 @@ public class Main {
         return Math.pow(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2), 1d / 2);
     }
 
+    /**
+     * 计算最大公约数
+     */
+    private static int getGreatestCommonDivisor(int a, int b) {
+        int num = 1;
+        for (int i = 1; i <= a && i <= b; i++) {
+            if (a % i == 0 && b % i == 0) {
+                num = i;
+            }
+        }
+        return num;
+    }
+
+    /**
+     * 计算最小公倍数
+     */
+    private static int getMinimumCommonMultiple(int m, int n) {
+        //将m,n转化成最大公约数为1，那之后他们的乘积就是代表最小公倍数
+        return n * m / getGreatestCommonDivisor(m, n);
+    }
+
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        String[] strings = bf.readLine().split(" ");
+        int n = Integer.parseInt(bf.readLine());
+        for (int i = 0; i < n; i++) {
+            String[] strings = bf.readLine().split(" ");
+            int l = Integer.parseInt(strings[0]);
+            int r = Integer.parseInt(strings[1]);
+            int w = Integer.parseInt(strings[2]);
+            int minBuffer = r - getGreatestCommonDivisor(r, w) + w;
+            if (minBuffer <= l) {
+                System.out.println("NO");
+            } else {
+                System.out.println("YES");
+            }
+        }
     }
 }
