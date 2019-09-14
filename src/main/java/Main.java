@@ -15,6 +15,14 @@ import java.math.BigDecimal;
  * 注：上一行中round(double original, int digit)为本类底下的自定义函数
  * 取余数：A%B = 余数
  * <p>
+ * TreeMap在put时会按照key从小到大排序，
+ * 因而在for(Map.Entry<K, V> entry: treeMap.entrySet()){}遍历时
+ * 会按照key从小到大遍历;
+ * TreeMap.floorEntry(key)可以找到小于或等于key的最大键值对，
+ * 如果不存在返回null
+ * Map.Entry<K, V> entry可通过entry.getKey()直接获取key;
+ * 通过entry.getValue()可直接获取value;
+ * <p>
  * Arrays.sort(new int[]{10,3,1,5,9});//快速排序实现，可直接使用
  * Collections.shuffle(list);//打乱顺序
  * Collections.sort(list);//排序
