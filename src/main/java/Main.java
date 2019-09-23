@@ -146,9 +146,6 @@ public class Main {
         return n * m / getGreatestCommonDivisor(m, n);
     }
 
-    /**
-     * todo 已知一个有序数组，将它们分成两组，求两组和的最小差
-     */
     public static void main(String[] args) throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         String[] strings = bf.readLine().split(" ");
