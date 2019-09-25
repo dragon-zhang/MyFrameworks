@@ -25,7 +25,7 @@ public class AlternateDemo {
         @Override
         public void run() {
             for (char c : chars) {
-                System.out.print(c);
+                System.out.println(c);
                 lock.lock();
                 try {
                     cCondition.signal();
@@ -61,7 +61,7 @@ public class AlternateDemo {
         @Override
         public void run() {
             for (int i = 0; i < numbers.length; i += 2) {
-                System.out.println(numbers[i] + "" + numbers[i + 1]);
+                System.out.print(numbers[i] + "" + numbers[i + 1]);
                 try {
                     lock.lock();
                     nCondition.signal();
@@ -93,9 +93,9 @@ public class AlternateDemo {
         for (int i = 0; i < 26; i++) {
             c[i] = (char) (i + 65);
         }
-        PrintChar printChar = new PrintChar(c, lock, cCondition, nCondition);
-        printChar.start();
         PrintNum printNum = new PrintNum(num, lock, cCondition, nCondition);
+        PrintChar printChar = new PrintChar(c, lock, cCondition, nCondition);
         printNum.start();
+        printChar.start();
     }
 }
