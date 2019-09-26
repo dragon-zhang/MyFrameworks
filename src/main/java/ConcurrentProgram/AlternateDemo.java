@@ -9,72 +9,43 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class AlternateDemo {
 
-    public static class PrintChar extends Thread {
+    private static int count = 0;
 
-        private char[] chars;
-        private Condition cCondition, nCondition;
+    private static class Printer extends Thread {
+
         private Lock lock;
 
-        public PrintChar(char[] chars, Lock lock, Condition cCondition, Condition nCondition) {
-            this.chars = chars;
-            this.nCondition = nCondition;
-            this.cCondition = cCondition;
+        private int id;
+
+        private Condition[] conditions;
+
+        private String content;
+
+        public Printer(Lock lock, int id, Condition[] conditions, String content) {
             this.lock = lock;
+            this.id = id;
+            this.conditions = conditions;
+            this.content = content;
         }
 
         @Override
         public void run() {
-            for (char c : chars) {
-                System.out.println(c);
-                lock.lock();
-                try {
-                    cCondition.signal();
-                    nCondition.await();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    lock.unlock();
-                }
-            }
             try {
                 lock.lock();
-                nCondition.signal();
-            } finally {
-                lock.unlock();
-            }
-        }
-    }
-
-    public static class PrintNum extends Thread {
-
-        private int[] numbers;
-        private Condition cCondition, nCondition;
-        private Lock lock;
-
-        public PrintNum(int[] numbers, Lock lock, Condition cCondition, Condition nCondition) {
-            this.numbers = numbers;
-            this.nCondition = nCondition;
-            this.cCondition = cCondition;
-            this.lock = lock;
-        }
-
-        @Override
-        public void run() {
-            for (int i = 0; i < numbers.length; i += 2) {
-                System.out.print(numbers[i] + "" + numbers[i + 1]);
-                try {
-                    lock.lock();
-                    nCondition.signal();
-                    cCondition.await();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } finally {
-                    lock.unlock();
+                for (int i = 0; i < 10; i++) {
+                    //注意这里是不等于0，也就是说在count % 3为0之前，当前线程一直阻塞状态
+                    while (count % conditions.length != id) {
+                        conditions[id].await(); // A释放lock锁
+                    }
+                    System.out.print(" " + Thread.currentThread().getName() + " " + content);
+                    if (count % conditions.length == conditions.length - 1) {
+                        System.out.println();
+                    }
+                    count++;
+                    conditions[(id + 1) % conditions.length].signal(); // A执行完唤醒B线程
                 }
-            }
-            try {
-                lock.lock();
-                nCondition.signal();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             } finally {
                 lock.unlock();
             }
@@ -83,19 +54,12 @@ public class AlternateDemo {
 
     public static void main(String[] args) {
         Lock lock = new ReentrantLock();
-        Condition cCondition = lock.newCondition();
-        Condition nCondition = lock.newCondition();
-        char[] c = new char[26];
-        int[] num = new int[52];
-        for (int i = 0; i < 52; i++) {
-            num[i] = i + 1;
+        Condition[] conditions = new Condition[3];
+        for (int i = 0; i < conditions.length; i++) {
+            conditions[i] = lock.newCondition();
         }
-        for (int i = 0; i < 26; i++) {
-            c[i] = (char) (i + 65);
+        for (int i = 0; i < conditions.length; i++) {
+            new Printer(lock, i, conditions, String.valueOf((char) ('A' + i))).start();
         }
-        PrintNum printNum = new PrintNum(num, lock, cCondition, nCondition);
-        PrintChar printChar = new PrintChar(c, lock, cCondition, nCondition);
-        printNum.start();
-        printChar.start();
     }
 }
