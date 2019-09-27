@@ -24,6 +24,7 @@ import java.math.BigDecimal;
  * 通过entry.getValue()可直接获取value;
  * <p>
  * Arrays.sort(new int[]{10,3,1,5,9});//快速排序实现，可直接使用
+ * Arrays.stream(new int[]{1,2,3}).sum();//数组求和，可直接使用
  * Collections.shuffle(list);//打乱顺序
  * Collections.sort(list);//排序
  * <p>
