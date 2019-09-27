@@ -1,5 +1,7 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.util.Arrays;
 
 /**
  * @author SuccessZhang
@@ -144,28 +146,8 @@ public class Main {
         return n * m / getGreatestCommonDivisor(m, n);
     }
 
-    public static void main(String[] args) {
-        int[] array = new int[]{1, 1, 5, 6, 7};
-        int sum = Arrays.stream(array).sum();
-        //result[i][j]定义：用前i个物体装容量为j的背包能够装下的最大值
-        int[][] result = new int[array.length + 1][sum / 2 + 1];
-        //初始化矩阵边界为0
-        for (int i = 0; i < result[0].length; i++) {
-            result[0][i] = 0;
-        }
-        for (int i = 0; i < result.length; i++) {
-            result[i][0] = 0;
-        }
-        for (int i = 1; i <= array.length; i++) {
-            for (int j = 1; j <= sum / 2; j++) {
-                int notPut = result[i - 1][j];
-                int put = 0;
-                if (j >= array[i - 1]) {
-                    put = result[i - 1][j - array[i - 1]] + array[i - 1];
-                }
-                result[i][j] = Math.max(put, notPut);
-            }
-        }
-        System.out.println(result[array.length][sum / 2]);
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        String[] strings = bf.readLine().split(" ");
     }
 }
