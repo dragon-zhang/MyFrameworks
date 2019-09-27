@@ -377,6 +377,26 @@ public class BinaryTree {
     }
 
     /**
+     * 获取最深深度
+     */
+    public int getMaxDepth() {
+        return getMaxDepth(this);
+    }
+
+    /**
+     * 获取最深深度核心算法
+     */
+    private int getMaxDepth(BinaryTree binaryTree) {
+        int leftDepth, rightDepth;
+        if (binaryTree == null) {
+            return 0;
+        }
+        leftDepth = 1 + getMaxDepth(binaryTree.getLeftChild());
+        rightDepth = 1 + getMaxDepth(binaryTree.getRightChild());
+        return leftDepth > rightDepth ? leftDepth : rightDepth;
+    }
+
+    /**
      * 前序遍历
      */
     public void preorderTraversal() {

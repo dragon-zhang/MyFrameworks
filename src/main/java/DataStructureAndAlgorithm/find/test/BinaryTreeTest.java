@@ -26,6 +26,7 @@ public class BinaryTreeTest {
         firstRight.setRightChild(secondRightTwo);
         secondLeftTwo.setParents(firstRight);
         secondRightTwo.setParents(firstRight);
+        System.out.println("最深深度为:" + top.getMaxDepth());
         System.out.print("前序遍历:");
         top.preorderTraversal();
         System.out.print("\n中序遍历:");
