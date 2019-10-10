@@ -1,7 +1,6 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author SuccessZhang
@@ -147,8 +146,34 @@ public class Main {
         return n * m / getGreatestCommonDivisor(m, n);
     }
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        String[] strings = bf.readLine().split(" ");
+    public static void main(String[] args) {
+        decompose(14);
+    }
+
+    private static void decompose(int n) {
+        List<Integer> list = new ArrayList<>();
+        int i = 2;
+        while (2 <= n) {
+            if (n % i == 0) {
+                list.add(i);
+                n /= i;
+                i = 2;
+            } else {
+                i++;
+            }
+        }
+        int s = 1;
+        for (i = 0; i < list.size(); i++) {
+            Integer num = list.get(i);
+            System.out.print(num);
+            if (i != list.size() - 1) {
+                System.out.print("*");
+            } else {
+                System.out.print("=");
+            }
+            s *= num;
+        }
+        System.out.println(s);
+
     }
 }
