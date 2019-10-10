@@ -1,5 +1,7 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
-import java.util.Scanner;
 
 /**
  * @author SuccessZhang
@@ -145,21 +147,8 @@ public class Main {
         return n * m / getGreatestCommonDivisor(m, n);
     }
 
-    public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        int n = scanner.nextInt();
-        System.out.println(function(n));
-    }
-
-    private static long function(int n) {
-        if (n == 3) {
-            return 2;
-        } else if (n == 2) {
-            return 1;
-        } else if (n == 1) {
-            return 0;
-        } else {
-            return (n - 1) * (function(n - 1) + function(n - 2));
-        }
+    public static void main(String[] args) throws IOException {
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        String[] strings = bf.readLine().split(" ");
     }
 }
