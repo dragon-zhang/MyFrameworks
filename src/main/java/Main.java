@@ -1,7 +1,6 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author SuccessZhang
@@ -147,8 +146,37 @@ public class Main {
         return n * m / getGreatestCommonDivisor(m, n);
     }
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        String[] strings = bf.readLine().split(" ");
+    private static class Data {
+
+        int count;
+        int startIndex;
+
+        public Data(int count, int startIndex) {
+            this.count = count;
+            this.startIndex = startIndex;
+        }
+    }
+
+    public static void main(String[] args) {
+        int[] array = {1, 2, 2, 3, 3, 3, 4, 5, 5, 6};
+        Map<Integer, Data> map = new HashMap<>(array.length);
+        Data max = new Data(0, 0);
+        for (int i = 0; i < array.length; i++) {
+            if (!map.containsKey(array[i])) {
+                map.put(array[i], new Data(1, i));
+            } else {
+                Data data = map.get(array[i]);
+                data.count = data.count + 1;
+                map.put(array[i], data);
+                if (data.count > max.count) {
+                    max.count = data.count;
+                    max.startIndex = data.startIndex;
+                }
+            }
+        }
+        for (int i = max.startIndex; i < max.startIndex + max.count; i++) {
+            System.out.print(array[i] + " ");
+        }
+        System.out.println();
     }
 }
