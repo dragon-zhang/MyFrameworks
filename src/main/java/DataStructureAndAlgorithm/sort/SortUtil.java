@@ -107,30 +107,30 @@ public class SortUtil {
             return;
         }
         int width = 1;
+        int[] temp = new int[array.length];
         while (width < array.length) {
-            mergePass(array, width);
+            mergePass(array, width, temp);
             width *= 2;
         }
     }
 
-    private static void mergePass(int[] array, int width) {
+    private static void mergePass(int[] array, int width, int[] temp) {
         int start = 0;
         while (start + 2 * width - 1 < array.length) {
             int mid = start + width - 1;
             int end = start + 2 * width - 1;
-            merge(array, start, mid, end);
+            merge(array, start, mid, end, temp);
             start = start + 2 * width;
         }
         //剩余无法构成完整的两组也要进行处理
         if (start + width - 1 < array.length) {
-            merge(array, start, start + width - 1, array.length - 1);
+            merge(array, start, start + width - 1, array.length - 1, temp);
         }
     }
 
-    private static void merge(int[] array, int start, int mid, int end) {
+    private static void merge(int[] array, int start, int mid, int end, int[] temp) {
         int i = start;
         int j = mid + 1;
-        int[] temp = new int[end + 1 - start];
         int index = 0;
         while (i <= mid && j <= end) {
             if (array[i] <= array[j]) {
