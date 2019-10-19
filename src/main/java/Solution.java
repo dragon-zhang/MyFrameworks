@@ -1,64 +1,33 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.Arrays;
 
 /**
  * @author SuccessZhang
- * <p>
- * 输入一个字符串,按字典序打印出该字符串中字符的所有排列。
- * 例如输入字符串abc,则打印出由字符a,b,c所能排列出来的所有
- * 字符串abc,acb,bac,bca,cab和cba。
  */
 public class Solution {
 
     /**
-     * 字典排序用treeSet
+     * @param n 总人数
+     * @param m 约瑟夫环编号为m的人退出，剩下的继续组成约瑟夫环
+     * @param k 最后幸存的人数
      */
-    static Set<String> result = new TreeSet<>();
-
-    public static ArrayList<String> Permutation(String str) {
-        char[] characters = str.toCharArray();
-        if (characters.length == 0) {
-            return new ArrayList<>();
+    public int[] LastRemaining_Solution(int n, int m, int k) {
+        if (n <= 0 || m <= 0) {
+            return new int[]{-1};
         }
-        char temp = characters[0];
-        for (int i = 0; i < characters.length; i++) {
-            StringBuilder sb = new StringBuilder();
-            characters[0] = characters[i];
-            characters[i] = temp;
-            sb.append(characters[0]);
-            StringBuilder stringBuilder = new StringBuilder(str);
-            stringBuilder.deleteCharAt(i);
-            String string = stringBuilder.toString();
-            if ("".equals(string)) {
-                return new ArrayList<>(Collections.singletonList(str));
+        int[] result = new int[k];
+        for (int i = 0; i < k; i++) {
+            result[i] = i;
+        }
+        for (int i = 2; i <= n; i++) {
+            for (int j = 0; j < k; j++) {
+                result[j] = (result[j] + m) % i;
             }
-            Permutation(string, sb);
         }
-        return new ArrayList<>(result);
-    }
-
-    public static void Permutation(String str, StringBuilder sb) {
-        char[] chars = str.toCharArray();
-        if (chars.length > 0) {
-            char temp = chars[0];
-            String strTemp = sb.toString();
-            for (int i = 0; i < chars.length; i++) {
-                sb = new StringBuilder(strTemp);
-                chars[0] = chars[i];
-                chars[i] = temp;
-                sb.append(chars[0]);
-                StringBuilder stringBuilder = new StringBuilder(str);
-                stringBuilder.deleteCharAt(i);
-                Permutation(stringBuilder.toString(), sb);
-            }
-        } else {
-            result.add(sb.toString());
-        }
+        return result;
     }
 
     public static void main(String[] args) {
-        System.out.println(Permutation("aab"));
+        Solution solution = new Solution();
+        System.out.println(Arrays.toString(solution.LastRemaining_Solution(5, 3, 0)));
     }
 }
