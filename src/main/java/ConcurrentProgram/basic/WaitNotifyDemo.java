@@ -1,11 +1,12 @@
-package ConcurrentProgram;
+package ConcurrentProgram.basic;
 
 /**
  * @author SuccessZhang
  * 不获取监视器锁就wait()、notify()，
  * 会抛出IllegalMonitorStateException异常
+ * 详见{@link WaitDemo}
  */
-public class WaitDemo {
+public class WaitNotifyDemo {
 
     private static volatile boolean flag = true;
 
@@ -15,7 +16,9 @@ public class WaitDemo {
             try {
                 while (true) {
                     Thread.sleep(1000);
-                    lock.notify();
+                    synchronized (lock) {
+                        lock.notify();
+                    }
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
