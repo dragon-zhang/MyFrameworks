@@ -1,4 +1,4 @@
-package ConcurrentProgram;
+package ConcurrentProgram.advanced;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,12 +8,16 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * @author SuccessZhang
+ * 独占锁：锁只能被单个线程持有；
+ * 共享锁：锁可以被多个线程共同持有。
+ * <p>
+ * 独占锁/共享锁的典型实现就是{@link java.util.concurrent.locks.ReadWriteLock}
  * 读写锁，同时有A、B线程访问
  * A读B读不互斥
  * A读B写互斥，阻塞A
  * A写B写互斥，阻塞后访问的线程
  */
-public class ReadWriteLockDemo {
+public class ExclusiveLockAndSharedLockDemo {
 
     private Map<String, Object> map = new HashMap<>();
     private ReadWriteLock lock = new ReentrantReadWriteLock();
@@ -39,7 +43,7 @@ public class ReadWriteLockDemo {
     }
 
     public static void main(String[] args) {
-        ReadWriteLockDemo demo = new ReadWriteLockDemo();
+        ExclusiveLockAndSharedLockDemo demo = new ExclusiveLockAndSharedLockDemo();
         new Thread(() -> demo.putData("1", 1)).start();
         new Thread(() -> System.out.println(demo.getData("1"))).start();
     }

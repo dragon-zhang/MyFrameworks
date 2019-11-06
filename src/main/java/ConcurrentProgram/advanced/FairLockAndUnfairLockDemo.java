@@ -7,7 +7,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * 公平锁：获取锁的顺序由请求锁时间的早晚决定；
  * 非公平锁：先来不一定先得。
  */
-public class FairLockAndUnfairLock {
+public class FairLockAndUnfairLockDemo {
 
     public static void main(String[] args) {
         fairLockDemo();

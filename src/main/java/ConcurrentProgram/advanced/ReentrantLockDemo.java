@@ -1,4 +1,4 @@
-package ConcurrentProgram;
+package ConcurrentProgram.advanced;
 
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -8,6 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * synchronized和Lock都属于可重入锁
  */
 public class ReentrantLockDemo {
+
     private synchronized void test1() {
         System.out.println("test1");
         test2();
