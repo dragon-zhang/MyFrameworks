@@ -4,17 +4,11 @@ import java.util.concurrent.atomic.LongAccumulator;
 
 /**
  * @author SuccessZhang
- * LongAdder实际上是LongAccumulator的一个特例，相当于{@<code>
- * <p>
+ * LongAdder实际上是LongAccumulator的一个特例，相当于@<code>
  * LongAdder count = new LongAdder();
- * <p>
- * LongAccumulator accumulator = new LongAccumulator(new LongBinaryOperator() {
- * @Override public long applyAsLong(long left, long right) {
- * return left + right;
- * }
- * }, 0);
- *
- * </code>}
+ * 与下面的代码等价
+ * LongAccumulator count = new LongAccumulator((left, right) -> left + right, 0);
+ * </code>
  * LongAccumulator相较于LongAdder提供了更为强大的功能，
  * 可以让用户自定义计算规则和初始值。
  */
