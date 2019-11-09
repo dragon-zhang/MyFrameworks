@@ -1,4 +1,4 @@
-package ConcurrentProgram.advanced;
+package ConcurrentProgram.master;
 
 /**
  * @author SuccessZhang

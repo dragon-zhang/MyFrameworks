@@ -1,4 +1,4 @@
-package ConcurrentProgram.advanced;
+package ConcurrentProgram.master;
 
 import sun.misc.Unsafe;
 
