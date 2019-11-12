@@ -63,7 +63,10 @@ public class NonReentrantLockDemo {
                 return false;
             }
 
-            final AbstractQueuedSynchronizer.ConditionObject newCondition() {
+            /**
+             * 提供条件变量方法
+             */
+            final Condition newCondition() {
                 return new ConditionObject();
             }
 
