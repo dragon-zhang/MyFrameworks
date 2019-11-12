@@ -1,23 +1,33 @@
-package ConcurrentProgram.basic;
+package ConcurrentProgram.advanced;
+
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author SuccessZhang
- * 不获取监视器锁就wait()、notify()，
- * 会抛出IllegalMonitorStateException异常
- * 详见{@link ConcurrentProgram.basic.WaitDemo}
+ * 这里用Condition的await()、signal()替代wait()、notify()，
+ * 原先用synchronized同时只能与一个共享变量实现同步，
+ * 而AQS的一个锁可以同时对应多个条件变量；
+ * 不获取监视器锁就await()、signal()，
+ * 会抛出{@link java.lang.IllegalMonitorStateException}异常
+ * 详见{@link ConcurrentProgram.advanced.AdvancedWaitDemo}
  */
-public class WaitNotifyDemo {
+public class AdvancedWaitNotifyDemo {
 
     private static volatile boolean flag = true;
 
     public static void main(String[] args) {
-        Object lock = new Object();
+        ReentrantLock lock = new ReentrantLock();
+        Condition condition = lock.newCondition();
         Thread thread1 = new Thread(() -> {
             try {
                 while (true) {
                     Thread.sleep(1000);
-                    synchronized (lock) {
-                        lock.notify();
+                    try {
+                        lock.lock();
+                        condition.signal();
+                    } finally {
+                        lock.unlock();
                     }
                 }
             } catch (InterruptedException e) {
@@ -29,15 +39,18 @@ public class WaitNotifyDemo {
             try {
                 while (true) {
                     Thread.sleep(1000);
-                    synchronized (lock) {
+                    try {
+                        lock.lock();
                         if (flag) {
                             System.out.println("wait");
                             flag = false;
-                            lock.wait();
+                            condition.await();
                         } else {
                             System.out.println("notify");
                             flag = true;
                         }
+                    } finally {
+                        lock.unlock();
                     }
                 }
             } catch (InterruptedException e) {
