@@ -6,7 +6,7 @@ package ConcurrentProgram.basic;
  * 线程实际并没有中断；
  * 线程在被阻塞挂起的状态下，如果其他线程调用
  * 了该线程的interrupt()方法，该线程会恢复到激活状态
- * 并在调用这些方法的地方抛出InterruptedException
+ * 并在调用这些方法的地方抛出InterruptedException。
  */
 public class InterruptDemo {
 

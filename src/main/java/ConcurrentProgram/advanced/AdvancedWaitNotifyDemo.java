@@ -9,8 +9,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * 原先用synchronized同时只能与一个共享变量实现同步，
  * 而AQS的一个锁可以同时对应多个条件变量；
  * 不获取监视器锁就await()、signal()，
- * 会抛出{@link java.lang.IllegalMonitorStateException}异常
- * 详见{@link ConcurrentProgram.advanced.AdvancedWaitDemo}
+ * 会抛出{@link java.lang.IllegalMonitorStateException}异常，
+ * 详见{@link ConcurrentProgram.advanced.AdvancedWaitDemo}。
  */
 public class AdvancedWaitNotifyDemo {
 

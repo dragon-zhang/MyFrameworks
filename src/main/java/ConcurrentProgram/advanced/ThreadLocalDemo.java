@@ -9,7 +9,7 @@ package ConcurrentProgram.advanced;
  * <p>
  * 如果当前线程一直不消亡，那么这些本地变量会一直存在，
  * 可能会造成内存溢出，因此在使用完毕后要记得调用ThreadLocal
- * 的remove()方法删除本地变量
+ * 的remove()方法删除本地变量。
  */
 public class ThreadLocalDemo {
 

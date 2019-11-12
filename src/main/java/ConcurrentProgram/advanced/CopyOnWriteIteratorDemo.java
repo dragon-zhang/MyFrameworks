@@ -7,7 +7,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author SuccessZhang
  * 实际上是COWIterator，没有CopyOnWriteIterator。
  * COWIterator是一种采用写时复制策略的iterator，具有弱一致性的特点
- * (返回迭代器后，其他线程对list的增删改对迭代器不可见)
+ * (返回迭代器后，其他线程对list的增删改对迭代器不可见)。
  */
 public class CopyOnWriteIteratorDemo {
 

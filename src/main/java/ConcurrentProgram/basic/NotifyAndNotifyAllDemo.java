@@ -2,6 +2,8 @@ package ConcurrentProgram.basic;
 
 /**
  * @author SuccessZhang
+ * notify()只会随机唤醒一个被挂起的线程；
+ * notifyAll()会唤醒所有被挂起的线程。
  */
 public class NotifyAndNotifyAllDemo {
 
@@ -64,6 +66,6 @@ public class NotifyAndNotifyAllDemo {
         thread2.join();
         thread3.join();
 
-        System.out.println("over");
+        System.out.println("main thread is over");
     }
 }

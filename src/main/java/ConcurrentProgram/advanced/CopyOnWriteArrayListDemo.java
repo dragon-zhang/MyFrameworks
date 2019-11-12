@@ -6,7 +6,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author SuccessZhang
  * CopyOnWriteArrayList是一个并发安全的ArrayList，其实现原理是：
  * 在一个复制的快照数组上进行修改操作，并且使用了写时复制策略。
- * 相对应的，JUC也提供了CopyOnWriteArraySet
+ * 相对应的，JUC也提供了CopyOnWriteArraySet。
  */
 public class CopyOnWriteArrayListDemo {
 

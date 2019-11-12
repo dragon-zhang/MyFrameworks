@@ -5,7 +5,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author SuccessZhang
- * synchronized和Lock都属于可重入锁
+ * synchronized和Lock都属于可重入锁。
  */
 public class ReentrantLockDemo {
 

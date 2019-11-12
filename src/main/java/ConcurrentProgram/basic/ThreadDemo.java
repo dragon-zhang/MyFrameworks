@@ -6,6 +6,7 @@ import java.util.concurrent.FutureTask;
 
 /**
  * @author SuccessZhang
+ * 实现线程的三种方法。
  */
 public class ThreadDemo {
 

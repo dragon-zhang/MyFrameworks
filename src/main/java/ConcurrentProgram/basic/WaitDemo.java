@@ -3,7 +3,7 @@ package ConcurrentProgram.basic;
 /**
  * @author SuccessZhang
  * 不获取监视器锁就wait()、notify()，
- * 会抛出IllegalMonitorStateException异常
+ * 会抛出IllegalMonitorStateException异常。
  */
 public class WaitDemo {
 

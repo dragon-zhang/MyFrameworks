@@ -6,7 +6,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /**
  * @author SuccessZhang
  * 不获取监视器锁就await()、signal()，
- * 会抛出{@link java.lang.IllegalMonitorStateException}异常
+ * 会抛出{@link java.lang.IllegalMonitorStateException}异常。
  */
 public class AdvancedWaitDemo {
 

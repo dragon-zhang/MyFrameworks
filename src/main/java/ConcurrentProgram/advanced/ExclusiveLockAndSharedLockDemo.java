@@ -25,8 +25,8 @@ public class ExclusiveLockAndSharedLockDemo {
     private Lock writeLock = lock.writeLock();
 
     public Object getData(String key) {
-        readLock.lock();
         try {
+            readLock.lock();
             return map.get(key);
         } finally {
             readLock.unlock();
@@ -34,8 +34,8 @@ public class ExclusiveLockAndSharedLockDemo {
     }
 
     public void putData(String key, Object data) {
-        writeLock.lock();
         try {
+            writeLock.lock();
             map.put(key, data);
         } finally {
             writeLock.unlock();

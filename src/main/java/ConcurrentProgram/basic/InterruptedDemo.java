@@ -4,7 +4,7 @@ package ConcurrentProgram.basic;
  * @author SuccessZhang
  * Thread.interrupted()：检查当前线程是否被中断，
  * 如果是，清除中断标记并返回true(isInterrupted()不会清除中断标记)；
- * 否则，直接返回false
+ * 否则，直接返回false。
  */
 public class InterruptedDemo {
 
