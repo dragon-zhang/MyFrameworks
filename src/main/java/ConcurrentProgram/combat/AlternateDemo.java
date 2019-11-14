@@ -1,4 +1,4 @@
-package ConcurrentProgram;
+package ConcurrentProgram.combat;
 
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -6,6 +6,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author SuccessZhang
+ * 多线程交替打印ABC的例子。
  */
 public class AlternateDemo {
 
