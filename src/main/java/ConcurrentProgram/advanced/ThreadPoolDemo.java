@@ -1,4 +1,4 @@
-package ConcurrentProgram.master;
+package ConcurrentProgram.advanced;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +88,7 @@ public class ThreadPoolDemo {
         }
         for (Future<String> future : result) {
             try {
-                System.out.println(Thread.currentThread().getName() + future.get());
+                System.out.println(Thread.currentThread().getName() + " " + future.get());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
