@@ -38,6 +38,10 @@ import java.util.concurrent.*;
  * <p>
  * 但是上述4种线程池，底层调用的都是同一个构造方法
  * {@link java.util.concurrent.ThreadPoolExecutor 1197行}。
+ * ThreadPoolExecutor本质上是一个生产者-消费者模型，
+ * 用户添加任务到线程池相当于生产者生产元素，
+ * workers线程工作集中的线程直接执行任务或者从任务队列里获取任务，
+ * 相当于消费者消费元素。
  */
 public class ThreadPoolDemo {
 
