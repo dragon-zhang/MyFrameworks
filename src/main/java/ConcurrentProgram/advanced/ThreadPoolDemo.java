@@ -31,6 +31,10 @@ import java.util.concurrent.*;
  * 核心线程数为n，最大线程数为Integer.MAX_VALUE，
  * 阻塞队列为可延时执行阻塞任务的队列，最大长度为Integer.MAX_VALUE，
  * 只要线程个数超过核心线程数并且当前空闲就回收。
+ * 以下方法适用于不同的业务场景：
+ * schedule()延迟一定时间后执行一次任务；
+ * scheduleAtFixedRate()按照固定的频率多次执行同一任务；
+ * scheduleWithFixedDelay()同一任务在多次执行之间的间隔时间固定。
  * <p>
  * 但是上述4种线程池，底层调用的都是同一个构造方法
  * {@link java.util.concurrent.ThreadPoolExecutor 1197行}。
