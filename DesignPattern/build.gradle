@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+}
+
+group 'com'
+version '1.0.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //Guava API使用观察者模式
+    implementation("com.google.guava:guava:27.0.1-jre")
+}

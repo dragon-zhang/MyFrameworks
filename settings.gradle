@@ -1,4 +1,5 @@
 rootProject.name = 'MyFrameworks'
 include 'ConcurrentProgram'
 include 'DataStructureAndAlgorithm'
+include 'DesignPattern'
 
