@@ -12,6 +12,8 @@
             <option value="$PROJECT_DIR$/ConcurrentProgram" />
             <option value="$PROJECT_DIR$/DataStructureAndAlgorithm" />
             <option value="$PROJECT_DIR$/DesignPattern" />
+            <option value="$PROJECT_DIR$/Frameworks" />
+            <option value="$PROJECT_DIR$/GreatWork" />
           </set>
         </option>
       </GradleProjectSettings>
