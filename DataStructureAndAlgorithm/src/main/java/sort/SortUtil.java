@@ -1,4 +1,4 @@
-package DataStructureAndAlgorithm.sort;
+package sort;
 
 /**
  * @author SuccessZhang

@@ -1,4 +1,4 @@
-package DataStructureAndAlgorithm.find;
+package find;
 
 import java.util.*;
 

@@ -1,4 +1,4 @@
-package DataStructureAndAlgorithm.bit;
+package bit;
 
 /**
  * @author ojshilu

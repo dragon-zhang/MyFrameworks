@@ -10,6 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/ConcurrentProgram" />
+            <option value="$PROJECT_DIR$/DataStructureAndAlgorithm" />
           </set>
         </option>
       </GradleProjectSettings>

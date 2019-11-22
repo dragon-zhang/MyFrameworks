@@ -1,6 +1,6 @@
-package DataStructureAndAlgorithm.sort.test;
+package sort.test;
 
-import DataStructureAndAlgorithm.sort.SortUtil;
+import sort.SortUtil;
 
 import java.util.Arrays;
 

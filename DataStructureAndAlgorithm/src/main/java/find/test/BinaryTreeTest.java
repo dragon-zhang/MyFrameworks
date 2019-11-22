@@ -1,6 +1,6 @@
-package DataStructureAndAlgorithm.find.test;
+package find.test;
 
-import DataStructureAndAlgorithm.find.BinaryTree;
+import find.BinaryTree;
 
 /**
  * @author SuccessZhang
