@@ -15,31 +15,4 @@ repositories {
 
 dependencies {
 
-    //servlet-api
-    compileOnly(group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0')
-    //cglib动态代理
-    implementation(group: 'cglib', name: 'cglib', version: '3.2.10')
-    //xml解析框架
-    implementation(group: 'dom4j', name: 'dom4j', version: '1.6.1')
-    //lombok依赖
-    compileOnly(group: 'org.projectlombok', name: 'lombok', version: '1.18.6')
-    //java连接mysql依赖
-    implementation(group: 'mysql', name: 'mysql-connector-java', version: '5.1.47')
-    //springboot使用的yml解析框架
-    implementation(group: 'org.yaml', name: 'snakeyaml', version: '1.23')
-    //阿里json框架
-    implementation(group: 'com.alibaba', name: 'fastjson', version: '1.2.47')
-    //github库上的api，用于测试分布式项目
-    implementation(group: 'com.github.dragon-zhang', name: 'test', version: 'v1.0.0')
-    //tomcat依赖，用于写springboot
-    def tomcatVersion = '8.5.37'
-    implementation("org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}")
-    implementation("org.apache.tomcat.embed:tomcat-embed-el:${tomcatVersion}")
-    implementation("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}")
-    //Guava API使用观察者模式
-    implementation("com.google.guava:guava:27.0.1-jre")
-    //基于RedisTemplate自定义缓存注解需要的依赖
-    implementation('org.springframework.boot:spring-boot-starter-aop:2.1.1.RELEASE')
-    implementation('org.springframework.boot:spring-boot-starter-data-redis:2.1.3.RELEASE')
-    implementation(group: 'org.springframework.retry', name: 'spring-retry', version: '1.2.2.RELEASE')
 }
