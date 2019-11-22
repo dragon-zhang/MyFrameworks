@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+}
+
+group 'com'
+version '1.0.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    //阿里json框架
+    implementation(group: 'com.alibaba', name: 'fastjson', version: '1.2.47')
+}
