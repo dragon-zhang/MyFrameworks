@@ -11,6 +11,8 @@
       <module name="com.example.disperse.service.impl.test" target="1.8" />
       <module name="com.example.disperse.service.main" target="1.8" />
       <module name="com.example.disperse.service.test" target="1.8" />
+      <module name="demo_main" target="1.8" />
+      <module name="demo_test" target="1.8" />
       <module name="dragon_main" target="1.8" />
       <module name="dragon_test" target="1.8" />
       <module name="service.com.example.disperse.service.impl.main" target="1.8" />

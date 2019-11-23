@@ -14,8 +14,20 @@
             <option value="$PROJECT_DIR$/DesignPattern" />
             <option value="$PROJECT_DIR$/Frameworks" />
             <option value="$PROJECT_DIR$/GreatWork" />
+            <option value="$PROJECT_DIR$/SpringCloud" />
           </set>
         </option>
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/SpringCloud" />
+        <option name="gradleHome" value="C:/Program Files/gradle-5.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/SpringCloud" />
+          </set>
+        </option>
+        <option name="useAutoImport" value="true" />
       </GradleProjectSettings>
     </option>
   </component>
