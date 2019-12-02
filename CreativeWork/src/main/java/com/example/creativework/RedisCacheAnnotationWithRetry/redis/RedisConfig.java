@@ -1,4 +1,4 @@
-package RedisCacheAnnotationWithRetry.redis;
+package com.example.creativework.RedisCacheAnnotationWithRetry.redis;
 
 import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import org.springframework.cache.annotation.CachingConfigurerSupport;

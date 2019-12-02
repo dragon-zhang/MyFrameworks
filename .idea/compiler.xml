@@ -5,6 +5,20 @@
       <profile default="true" name="Default" enabled="true" />
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="com-ConcurrentProgram_main" target="1.8" />
+      <module name="com-ConcurrentProgram_test" target="1.8" />
+      <module name="com-DataStructureAndAlgorithm_main" target="1.8" />
+      <module name="com-DataStructureAndAlgorithm_test" target="1.8" />
+      <module name="com-DesignPattern_main" target="1.8" />
+      <module name="com-DesignPattern_test" target="1.8" />
+      <module name="com-Frameworks_main" target="1.8" />
+      <module name="com-Frameworks_test" target="1.8" />
+      <module name="com-GreatWork_main" target="1.8" />
+      <module name="com-GreatWork_test" target="1.8" />
+      <module name="com-MyFrameworks_main" target="1.8" />
+      <module name="com-MyFrameworks_test" target="1.8" />
+      <module name="com-SpringCloud_main" target="1.8" />
+      <module name="com-SpringCloud_test" target="1.8" />
       <module name="com.example.disperse.controller.main" target="1.8" />
       <module name="com.example.disperse.controller.test" target="1.8" />
       <module name="com.example.disperse.service.impl.main" target="1.8" />

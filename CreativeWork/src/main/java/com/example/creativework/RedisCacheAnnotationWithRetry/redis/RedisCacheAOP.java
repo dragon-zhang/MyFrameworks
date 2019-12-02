@@ -1,6 +1,6 @@
-package RedisCacheAnnotationWithRetry.redis;
+package com.example.creativework.RedisCacheAnnotationWithRetry.redis;
 
-import RedisCacheAnnotationWithRetry.reflect.ReflectUtil;
+import com.example.creativework.RedisCacheAnnotationWithRetry.reflect.ReflectUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -35,7 +35,7 @@ public class RedisCacheAOP implements MethodInterceptor {
 
     private final RedisUtil redisUtil;
 
-    @Pointcut("@annotation(RedisCacheAnnotationWithRetry.redis.RedisCache)")
+    @Pointcut("@annotation(RedisCache)")
     public void annotationPointCut() {
         //do nothing, for aop purpose
     }

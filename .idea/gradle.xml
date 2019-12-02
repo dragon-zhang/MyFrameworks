@@ -20,6 +20,18 @@
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/CreativeWork" />
+        <option name="gradleHome" value="C:/Program Files/gradle-5.1" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/CreativeWork" />
+          </set>
+        </option>
+        <option name="resolveModulePerSourceSet" value="false" />
+        <option name="useQualifiedModuleNames" value="true" />
+      </GradleProjectSettings>
+      <GradleProjectSettings>
+        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/SpringCloud" />
         <option name="gradleHome" value="C:/Program Files/gradle-5.1" />
         <option name="modules">
