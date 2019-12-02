@@ -2,9 +2,32 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/GreatWork/GreatWork.iml" filepath="$PROJECT_DIR$/.idea/modules/GreatWork/GreatWork.iml" group="MyFrameworks/GreatWork" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/GreatWork/GreatWork_main.iml" filepath="$PROJECT_DIR$/.idea/modules/GreatWork/GreatWork_main.iml" group="MyFrameworks/GreatWork" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/GreatWork/GreatWork_test.iml" filepath="$PROJECT_DIR$/.idea/modules/GreatWork/GreatWork_test.iml" group="MyFrameworks/GreatWork" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ConcurrentProgram/ConcurrentProgram.iml" filepath="$PROJECT_DIR$/.idea/modules/ConcurrentProgram/ConcurrentProgram.iml" group="MyFrameworks/ConcurrentProgram" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ConcurrentProgram/ConcurrentProgram_main.iml" filepath="$PROJECT_DIR$/.idea/modules/ConcurrentProgram/ConcurrentProgram_main.iml" group="MyFrameworks/ConcurrentProgram" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ConcurrentProgram/ConcurrentProgram_test.iml" filepath="$PROJECT_DIR$/.idea/modules/ConcurrentProgram/ConcurrentProgram_test.iml" group="MyFrameworks/ConcurrentProgram" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CreativeWork/CreativeWork.iml" filepath="$PROJECT_DIR$/.idea/modules/CreativeWork/CreativeWork.iml" group="MyFrameworks/CreativeWork" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CreativeWork/CreativeWork_main.iml" filepath="$PROJECT_DIR$/.idea/modules/CreativeWork/CreativeWork_main.iml" group="MyFrameworks/CreativeWork" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/CreativeWork/CreativeWork_test.iml" filepath="$PROJECT_DIR$/.idea/modules/CreativeWork/CreativeWork_test.iml" group="MyFrameworks/CreativeWork" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DataStructureAndAlgorithm/DataStructureAndAlgorithm.iml" filepath="$PROJECT_DIR$/.idea/modules/DataStructureAndAlgorithm/DataStructureAndAlgorithm.iml" group="MyFrameworks/DataStructureAndAlgorithm" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DataStructureAndAlgorithm/DataStructureAndAlgorithm_main.iml" filepath="$PROJECT_DIR$/.idea/modules/DataStructureAndAlgorithm/DataStructureAndAlgorithm_main.iml" group="MyFrameworks/DataStructureAndAlgorithm" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DataStructureAndAlgorithm/DataStructureAndAlgorithm_test.iml" filepath="$PROJECT_DIR$/.idea/modules/DataStructureAndAlgorithm/DataStructureAndAlgorithm_test.iml" group="MyFrameworks/DataStructureAndAlgorithm" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DesignPattern/DesignPattern.iml" filepath="$PROJECT_DIR$/.idea/modules/DesignPattern/DesignPattern.iml" group="MyFrameworks/DesignPattern" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DesignPattern/DesignPattern_main.iml" filepath="$PROJECT_DIR$/.idea/modules/DesignPattern/DesignPattern_main.iml" group="MyFrameworks/DesignPattern" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DesignPattern/DesignPattern_test.iml" filepath="$PROJECT_DIR$/.idea/modules/DesignPattern/DesignPattern_test.iml" group="MyFrameworks/DesignPattern" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Frameworks/Frameworks.iml" filepath="$PROJECT_DIR$/.idea/modules/Frameworks/Frameworks.iml" group="MyFrameworks/Frameworks" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Frameworks/Frameworks_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Frameworks/Frameworks_main.iml" group="MyFrameworks/Frameworks" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Frameworks/Frameworks_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Frameworks/Frameworks_test.iml" group="MyFrameworks/Frameworks" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/MyFrameworks.iml" filepath="$PROJECT_DIR$/.idea/MyFrameworks.iml" group="MyFrameworks" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MyFrameworks_main.iml" filepath="$PROJECT_DIR$/.idea/modules/MyFrameworks_main.iml" group="MyFrameworks" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/MyFrameworks_test.iml" filepath="$PROJECT_DIR$/.idea/modules/MyFrameworks_test.iml" group="MyFrameworks" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/ConcurrentProgram/com-ConcurrentProgram.iml" filepath="$PROJECT_DIR$/.idea/modules/ConcurrentProgram/com-ConcurrentProgram.iml" group="MyFrameworks/ConcurrentProgram" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DataStructureAndAlgorithm/com-DataStructureAndAlgorithm.iml" filepath="$PROJECT_DIR$/.idea/modules/DataStructureAndAlgorithm/com-DataStructureAndAlgorithm.iml" group="MyFrameworks/DataStructureAndAlgorithm" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DesignPattern/com-DesignPattern.iml" filepath="$PROJECT_DIR$/.idea/modules/DesignPattern/com-DesignPattern.iml" group="MyFrameworks/DesignPattern" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Frameworks/com-Frameworks.iml" filepath="$PROJECT_DIR$/.idea/modules/Frameworks/com-Frameworks.iml" group="MyFrameworks/Frameworks" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/creativework.iml" filepath="$PROJECT_DIR$/.idea/modules/creativework.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/springcloud.iml" filepath="$PROJECT_DIR$/.idea/modules/springcloud.iml" group="springcloud" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/springcloud_main.iml" filepath="$PROJECT_DIR$/.idea/modules/springcloud_main.iml" group="springcloud" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/springcloud_test.iml" filepath="$PROJECT_DIR$/.idea/modules/springcloud_test.iml" group="springcloud" />
     </modules>
   </component>
 </project>

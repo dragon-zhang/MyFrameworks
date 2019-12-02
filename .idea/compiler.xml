@@ -25,16 +25,30 @@
       <module name="com.example.disperse.service.impl.test" target="1.8" />
       <module name="com.example.disperse.service.main" target="1.8" />
       <module name="com.example.disperse.service.test" target="1.8" />
+      <module name="ConcurrentProgram_main" target="1.8" />
+      <module name="ConcurrentProgram_test" target="1.8" />
+      <module name="CreativeWork_main" target="1.8" />
+      <module name="CreativeWork_test" target="1.8" />
+      <module name="DataStructureAndAlgorithm_main" target="1.8" />
+      <module name="DataStructureAndAlgorithm_test" target="1.8" />
       <module name="demo_main" target="1.8" />
       <module name="demo_test" target="1.8" />
+      <module name="DesignPattern_main" target="1.8" />
+      <module name="DesignPattern_test" target="1.8" />
       <module name="dragon_main" target="1.8" />
       <module name="dragon_test" target="1.8" />
+      <module name="Frameworks_main" target="1.8" />
+      <module name="Frameworks_test" target="1.8" />
+      <module name="MyFrameworks_main" target="1.8" />
+      <module name="MyFrameworks_test" target="1.8" />
       <module name="service.com.example.disperse.service.impl.main" target="1.8" />
       <module name="service.com.example.disperse.service.impl.test" target="1.8" />
       <module name="service.test.test.main" target="1.8" />
       <module name="service.test.test.test" target="1.8" />
       <module name="service_main" target="1.8" />
       <module name="service_test" target="1.8" />
+      <module name="springcloud_main" target="1.8" />
+      <module name="springcloud_test" target="1.8" />
       <module name="test.test.main" target="1.8" />
       <module name="test.test.test" target="1.8" />
     </bytecodeTargetLevel>
