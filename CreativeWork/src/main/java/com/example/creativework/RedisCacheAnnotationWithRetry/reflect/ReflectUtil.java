@@ -11,7 +11,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -57,21 +56,8 @@ public class ReflectUtil {
         return method;
     }
 
-    public static Object getResult(Object data, Method method) throws ClassNotFoundException {
-        Object result;
-        Class<?> returnType = method.getReturnType();
-        if (Collection.class.isAssignableFrom(returnType)) {
-            //返回值是集合类型
-            result = JSONObject.parseArray(JSON.toJSONString(data),
-                    Class.forName(getTypeName(method)));
-        } else if (Map.class.isAssignableFrom(returnType)) {
-            //返回值是Map类型
-            result = JSONObject.parseObject(JSON.toJSONString(data), Map.class);
-        } else {
-            //返回值是普通JavaBean类型
-            result = JSONObject.parseObject(JSON.toJSONString(data), returnType);
-        }
-        return result;
+    public static Object getResult(Object data, Method method) {
+        return JSONObject.parseObject(JSON.toJSONString(data), method.getGenericReturnType());
     }
 
     private static String getTypeName(Method method) {

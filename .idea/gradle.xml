@@ -10,12 +10,13 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/ConcurrentProgram" />
+            <option value="$PROJECT_DIR$/CreativeWork" />
             <option value="$PROJECT_DIR$/DataStructureAndAlgorithm" />
             <option value="$PROJECT_DIR$/DesignPattern" />
             <option value="$PROJECT_DIR$/Frameworks" />
-            <option value="$PROJECT_DIR$/CreativeWork" />
           </set>
         </option>
+        <option name="useAutoImport" value="true" />
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
@@ -27,6 +28,7 @@
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
+        <option name="useAutoImport" value="true" />
         <option name="useQualifiedModuleNames" value="true" />
       </GradleProjectSettings>
       <GradleProjectSettings>
