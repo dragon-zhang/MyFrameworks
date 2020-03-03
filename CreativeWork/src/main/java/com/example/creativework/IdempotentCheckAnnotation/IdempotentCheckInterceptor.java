@@ -17,15 +17,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * <p>文件名称：com.vdian.vclub.vtoolkit.commons.interceptor.IdempotentCheckInterceptor</p>
- * <p>文件描述：拦截需要进行幂等性校验的方法</p>
- * <p>版权所有： (C)2011-2099 微店</p>
- * <p>内容摘要： </p>
- * <p>其他说明： </p>
- * <p>完成日期：2020/2/6 16:14 PM</p>
- *
  * @author SuccessZhang
  * @version 1.0
+ * @date 2020/2/6 16:14 PM
  */
 @Slf4j
 @Aspect

@@ -7,15 +7,9 @@ import java.lang.annotation.Target;
 import java.util.concurrent.TimeUnit;
 
 /**
- * <p>文件名称：com.vdian.vclub.vtoolkit.commons.annotation.IdeCheck</p>
- * <p>文件描述：幂等性(idempotent)校验注解</p>
- * <p>版权所有： (C)2011-2099 微店</p>
- * <p>内容摘要： </p>
- * <p>其他说明： </p>
- * <p>完成日期：2020/2/6 2:37 PM</p>
- *
  * @author SuccessZhang
  * @version 1.0
+ * @date 2020/2/6 2:37 PM
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
