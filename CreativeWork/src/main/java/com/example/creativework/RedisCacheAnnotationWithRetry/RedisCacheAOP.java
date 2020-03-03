@@ -1,6 +1,7 @@
-package com.example.creativework.RedisCacheAnnotationWithRetry.redis;
+package com.example.creativework.RedisCacheAnnotationWithRetry;
 
-import com.example.creativework.RedisCacheAnnotationWithRetry.reflect.ReflectUtil;
+import com.example.creativework.common.redis.RedisUtil;
+import com.example.creativework.common.reflect.ReflectUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.intercept.MethodInterceptor;
@@ -35,7 +36,7 @@ public class RedisCacheAOP implements MethodInterceptor {
 
     private final RedisUtil redisUtil;
 
-    @Pointcut("@annotation(RedisCache)")
+    @Pointcut("@annotation(com.example.creativework.RedisCacheAnnotationWithRetry.RedisCache)")
     public void annotationPointCut() {
         //do nothing, for aop purpose
     }
@@ -61,7 +62,7 @@ public class RedisCacheAOP implements MethodInterceptor {
             final String mutexKey = redisCache.key() + "_lock";
             if (redisUtil.unlock(mutexKey)) {
                 //设置成1秒过期
-                redisUtil.expireInOneSecend(mutexKey);
+                redisUtil.expireInOneSecond(mutexKey);
                 mappedResult = ReflectUtil.getResult(proceedingJoinPoint.proceed(args), method);
                 redisUtil.putAndExpire(redisCache.key(), hashKey, mappedResult, redisCache.expire(), redisCache.timeUnit());
                 redisUtil.delete(mutexKey);

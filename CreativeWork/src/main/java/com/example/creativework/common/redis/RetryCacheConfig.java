@@ -1,4 +1,4 @@
-package com.example.creativework.RedisCacheAnnotationWithRetry.redis;
+package com.example.creativework.common.redis;
 
 import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import org.springframework.cache.annotation.CachingConfigurerSupport;
@@ -8,17 +8,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.retry.annotation.EnableRetry;
 
 /**
  * @author SuccessZhang
  */
-@Configuration
+@EnableRetry
 @EnableCaching
-public class RedisConfig extends CachingConfigurerSupport {
+@Configuration
+public class RetryCacheConfig extends CachingConfigurerSupport {
 
     private final RedisConnectionFactory redisConnectionFactory;
 
-    RedisConfig(RedisConnectionFactory redisConnectionFactory) {
+    RetryCacheConfig(RedisConnectionFactory redisConnectionFactory) {
         this.redisConnectionFactory = redisConnectionFactory;
     }
 

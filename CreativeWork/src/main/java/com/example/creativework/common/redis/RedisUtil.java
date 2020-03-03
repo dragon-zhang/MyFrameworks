@@ -1,4 +1,4 @@
-package com.example.creativework.RedisCacheAnnotationWithRetry.redis;
+package com.example.creativework.common.redis;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +50,7 @@ public class RedisUtil {
         return unlocked;
     }
 
-    public Boolean expireInOneSecend(String mutexKey) {
+    public Boolean expireInOneSecond(String mutexKey) {
         return redisTemplate.expire(mutexKey, 1000, TimeUnit.MILLISECONDS);
     }
 
