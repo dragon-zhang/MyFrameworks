@@ -335,7 +335,7 @@ public class MVCDispatchServlet extends HttpServlet {
     private void doLoadConfig(String contextConfigLocation) {
         contextConfigLocation = contextConfigLocation.replace("classpath:", "")
                 .replace("classpath*:", "");
-        String prefix = Objects.requireNonNull(this.getClass().getClassLoader().getResource("")).getPath().replace("classes", "resources");
+        String prefix = Objects.requireNonNull(this.getClass().getClassLoader().getResource("")).getPath();
         try (InputStream inputStream = new FileInputStream(prefix + contextConfigLocation)) {
             contextConfig.load(inputStream);
             contextConfig.setProperty("prefix", prefix);
