@@ -4,7 +4,13 @@ import MyJedis.MyJedis;
 import MyMybatis.factory.SqlSessionFactory;
 import MyMybatis.proxy.InterfaceProxy;
 import MyMybatis.session.SqlSession;
-import MySpringMVC.V1.annotation.*;
+import MySpringMVC.V1.annotation.Autowired;
+import MySpringMVC.V1.annotation.Component;
+import MySpringMVC.V1.annotation.Controller;
+import MySpringMVC.V1.annotation.Repository;
+import MySpringMVC.V1.annotation.RequestMapping;
+import MySpringMVC.V1.annotation.RequestParam;
+import MySpringMVC.V1.annotation.Service;
 import MySpringMVC.V1.pojo.MyMethod;
 import com.mysql.jdbc.StringUtils;
 
@@ -23,7 +29,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Properties;
 
 /**
  * @author SuccessZhang
@@ -322,6 +333,8 @@ public class MVCDispatchServlet extends HttpServlet {
     }
 
     private void doLoadConfig(String contextConfigLocation) {
+        contextConfigLocation = contextConfigLocation.replace("classpath:", "")
+                .replace("classpath*:", "");
         String prefix = Objects.requireNonNull(this.getClass().getClassLoader().getResource("")).getPath().replace("classes", "resources");
         try (InputStream inputStream = new FileInputStream(prefix + contextConfigLocation)) {
             contextConfig.load(inputStream);
