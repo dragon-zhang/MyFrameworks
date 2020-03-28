@@ -2,7 +2,7 @@ package MyDynamicProxy.test;
 
 import MyDynamicProxy.MyInvocationHandler;
 import MyDynamicProxy.MyProxy;
-import MySpringMVC.V2.aop.AOPMethods;
+import MySpringMVC.V1.aop.AOPMethods;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;

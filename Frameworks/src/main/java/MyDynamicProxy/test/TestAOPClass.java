@@ -1,6 +1,6 @@
 package MyDynamicProxy.test;
 
-import MySpringMVC.V2.aop.AOPMethods;
+import MySpringMVC.V1.aop.AOPMethods;
 
 /**
  * @author SuccessZhang

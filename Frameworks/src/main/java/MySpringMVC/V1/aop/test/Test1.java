@@ -1,6 +1,11 @@
-package MySpringMVC.V2.aop.test;
+package MySpringMVC.V1.aop.test;
 
-import MySpringMVC.V2.aop.annotation.*;
+import MySpringMVC.V1.aop.annotation.After;
+import MySpringMVC.V1.aop.annotation.AfterReturning;
+import MySpringMVC.V1.aop.annotation.AfterThrowing;
+import MySpringMVC.V1.aop.annotation.AroundAfter;
+import MySpringMVC.V1.aop.annotation.AroundBefore;
+import MySpringMVC.V1.aop.annotation.Before;
 
 /**
  * @author SuccessZhang
