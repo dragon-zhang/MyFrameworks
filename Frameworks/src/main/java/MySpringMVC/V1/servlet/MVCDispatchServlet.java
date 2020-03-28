@@ -134,7 +134,7 @@ public class MVCDispatchServlet extends HttpServlet {
         SqlSessionFactory factory = new SqlSessionFactory(contextConfig);
         session = factory.openSession();
         //2.解析配置，扫描配置包下的所有类
-        doScan(contextConfig.getProperty("scanPackage"));
+        doScan(contextConfig.getProperty("base-package"));
         //3.初始化扫描到的所有类并且放入IOC容器中
         doInitInstance();
         //4.完成自动化注入的DI操作
