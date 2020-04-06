@@ -2,8 +2,8 @@ package Ybatis;
 
 import Ybatis.factory.SqlSessionFactory;
 import Ybatis.session.SqlSession;
-import core.dao.UserMapper;
-import core.pojo.User;
+import core.v1.dao.UserMapper;
+import core.v1.pojo.User;
 
 /**
  * @author SuccessZhang

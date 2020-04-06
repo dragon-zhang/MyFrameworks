@@ -2,8 +2,8 @@ package MyMybatis;
 
 import MyMybatis.factory.SqlSessionFactory;
 import MyMybatis.session.SqlSession;
-import core.dao.UserMapper;
-import core.pojo.User;
+import core.v1.dao.UserMapper;
+import core.v1.pojo.User;
 
 /**
  * @author SuccessZhang

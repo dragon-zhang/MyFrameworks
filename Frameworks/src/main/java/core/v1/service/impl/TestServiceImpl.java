@@ -1,10 +1,10 @@
-package core.service.impl;
+package core.v1.service.impl;
 
 import MySpringMVC.V1.annotation.Autowired;
 import MySpringMVC.V1.annotation.Service;
-import core.dao.UserMapper;
-import core.pojo.User;
-import core.service.TestService;
+import core.v1.dao.UserMapper;
+import core.v1.pojo.User;
+import core.v1.service.TestService;
 
 /**
  * @author SuccessZhang

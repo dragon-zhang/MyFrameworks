@@ -1,8 +1,8 @@
-package core.dao;
+package core.v1.dao;
 
 import MyMybatis.annotation.Param;
 import MySpringMVC.V1.annotation.Repository;
-import core.pojo.User;
+import core.v1.pojo.User;
 
 /**
  * @author SuccessZhang
