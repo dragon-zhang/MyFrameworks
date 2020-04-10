@@ -46,12 +46,9 @@ public enum AOPProxy implements MethodInterceptor, InvocationHandler {
 
     @SuppressWarnings("unchecked")
     private static <T> T cglib(Class<T> type) {
-        Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(type);
         //回调方法的参数为代理类对象CglibProxy，最后增强目标类调用的是代理类对象CglibProxy中的intercept方法
-        enhancer.setCallback(INSTANCE);
-        // 此刻，base不是单纯的目标类，而是增强过的目标类
-        return (T) enhancer.create();
+        //此刻，base不是单纯的目标类，而是增强过的目标类
+        return (T) Enhancer.create(type, INSTANCE);
     }
 
     @SuppressWarnings("unchecked")
