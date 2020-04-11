@@ -1,0 +1,28 @@
+package MySpringMVC.V2.aop.proxy.jdk;
+
+import MySpringMVC.V2.aop.proxy.ProxyHelper;
+import MySpringMVC.V2.aop.proxy.source.CodeFile;
+
+/**
+ * @author SuccessZhang
+ * @date 2020/04/10
+ */
+@SuppressWarnings("unused")
+public class Proxy {
+
+    /**
+     * 手写版jdk动态代理实现
+     */
+    public static Object newProxyInstance(ClassLoader loader, Class<?>[] interfaces, InvocationHandler h) {
+        try {
+            //3.生成java源代码
+            CodeFile codeSource = new CodeFile(interfaces);
+            return ProxyHelper.newProxyInstanceByJdk(codeSource, h);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+}
