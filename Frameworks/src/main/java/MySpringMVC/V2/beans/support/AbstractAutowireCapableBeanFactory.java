@@ -111,30 +111,63 @@ public abstract class AbstractAutowireCapableBeanFactory extends DefaultSingleto
     }
 
     private BeanWrapper createBeanInstance(String beanName, BeanDefinition beanDefinition, Object... args) throws Exception {
-        Object instance;
         Class<?> beanClass = beanDefinition.getBeanClass();
-        Class<?>[] argTypes = null;
-        if (args != null) {
-            argTypes = new Class[args.length];
-            for (int i = 0; i < args.length; i++) {
-                argTypes[i] = args[i].getClass();
-            }
+        if (args == null) {
+            return instantiateBean(beanName, beanDefinition);
+        }
+        Class<?>[] argTypes = new Class[args.length];
+        for (int i = 0; i < args.length; i++) {
+            argTypes[i] = args[i].getClass();
         }
         Constructor<?> constructor = beanClass.getConstructor(argTypes);
-        if (beanDefinition.isSingleton()) {
-            if (super.containsSingleton(beanName)) {
-                instance = super.getSingleton(beanName);
+        return autowireConstructor(beanName, beanDefinition, new Constructor<?>[]{constructor}, args);
+    }
+
+    private BeanWrapper instantiateBean(final String beanName, final BeanDefinition mbd) {
+        try {
+            Object instance;
+            Class<?> beanClass = mbd.getBeanClass();
+            Constructor<?> constructor = beanClass.getConstructor();
+            if (mbd.isSingleton()) {
+                if (super.containsSingleton(beanName)) {
+                    instance = super.getSingleton(beanName);
+                } else {
+                    instance = constructor.newInstance();
+                    super.registerSingleton(beanName, instance);
+                }
             } else {
-                instance = constructor.newInstance(args);
-                super.registerSingleton(beanName, instance);
+                instance = constructor.newInstance();
             }
-        } else {
-            instance = constructor.newInstance(args);
+            BeanWrapper beanWrapper = new BeanWrapper(new FactoryBean<>(instance, beanClass, mbd.isSingleton()));
+            beanWrapper.setWrappedObject(instance);
+            beanWrapper.setWrappedClass(beanClass);
+            return beanWrapper;
+        } catch (Exception e) {
+            return null;
         }
-        BeanWrapper beanWrapper = new BeanWrapper(new FactoryBean<>(instance, beanClass, beanDefinition.isSingleton()));
-        beanWrapper.setWrappedObject(instance);
-        beanWrapper.setWrappedClass(beanClass);
-        return beanWrapper;
+    }
+
+    private BeanWrapper autowireConstructor(String beanName, BeanDefinition mbd, Constructor<?>[] ctors, Object[] explicitArgs) {
+        try {
+            Object instance;
+            if (mbd.isSingleton()) {
+                if (super.containsSingleton(beanName)) {
+                    instance = super.getSingleton(beanName);
+                } else {
+                    instance = ctors[0].newInstance(explicitArgs);
+                    super.registerSingleton(beanName, instance);
+                }
+            } else {
+                instance = ctors[0].newInstance(explicitArgs);
+            }
+            Class<?> beanClass = mbd.getBeanClass();
+            BeanWrapper beanWrapper = new BeanWrapper(new FactoryBean<>(instance, beanClass, mbd.isSingleton()));
+            beanWrapper.setWrappedObject(instance);
+            beanWrapper.setWrappedClass(beanClass);
+            return beanWrapper;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     private void populateBean(String beanName, BeanDefinition beanDefinition, BeanWrapper beanWrapper) throws Exception {

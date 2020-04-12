@@ -1,7 +1,6 @@
 package MySpringMVC.V2.beans.config;
 
 import MySpringMVC.V2.beans.ListableBeanFactory;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import java.util.Iterator;
 
@@ -18,7 +17,7 @@ public interface ConfigurableListableBeanFactory extends ListableBeanFactory, Co
      *
      * @param beanName the name of the bean
      * @return the registered BeanDefinition
-     * @throws NoSuchBeanDefinitionException if there is no bean with the given name
+     * @throws Exception if there is no bean with the given name
      *                                       defined in this factory
      */
     BeanDefinition getBeanDefinition(String beanName) throws Exception;

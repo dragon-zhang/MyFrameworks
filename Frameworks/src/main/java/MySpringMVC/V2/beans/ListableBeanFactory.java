@@ -1,7 +1,5 @@
 package MySpringMVC.V2.beans;
 
-import org.springframework.beans.BeansException;
-
 import java.lang.annotation.Annotation;
 import java.util.Map;
 
@@ -30,7 +28,7 @@ public interface ListableBeanFactory extends BeanFactory {
      * @param type the class or interface to match, or {@code null} for all concrete beans
      * @return a Map with the matching beans, containing the bean names as
      * keys and the corresponding bean instances as values
-     * @throws BeansException if a bean could not be created
+     * @throws Exception if a bean could not be created
      * @see FactoryBean#getObjectType
      * @see BeanFactoryUtils#beansOfTypeIncludingAncestors(ListableBeanFactory, Class)
      * @since 1.1.2
@@ -54,7 +52,7 @@ public interface ListableBeanFactory extends BeanFactory {
      * @param annotationType the type of annotation to look for
      * @return a Map with the matching beans, containing the bean names as
      * keys and the corresponding bean instances as values
-     * @throws BeansException if a bean could not be created
+     * @throws Exception if a bean could not be created
      * @since 3.0
      */
     Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationType) throws Exception;
