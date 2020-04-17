@@ -1,5 +1,6 @@
 package MySpringMVC.V2.context.support;
 
+import MySpringMVC.V2.aop.aspectj.AspectJAwareAdvisorAutoProxyCreator;
 import MySpringMVC.V2.beans.config.BeanDefinition;
 import MySpringMVC.V2.beans.support.BeanDefinitionReader;
 import MySpringMVC.V2.beans.support.DefaultListableBeanFactory;
@@ -21,7 +22,6 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
     public AbstractApplicationContext(String... configLocations) {
         this.configLocations = configLocations;
         this.beanFactory = new DefaultListableBeanFactory();
-        prepareBeanFactory(this.beanFactory);
         try {
             refresh();
         } catch (Exception e) {
@@ -31,6 +31,7 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
 
     private void prepareBeanFactory(DefaultListableBeanFactory beanFactory) {
         beanFactory.addBeanPostProcessor(new ApplicationContextAwareProcessor(this));
+        beanFactory.addBeanPostProcessor(new AspectJAwareAdvisorAutoProxyCreator(this));
     }
 
     @Override
@@ -42,6 +43,7 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
         //3.将bean的配置信息注册到伪IOC容器
         // (就是上方的DefaultListableBeanFactory中的beanDefinitionMap)
         doRegisterBeanDefinitions(beanDefinitions);
+        prepareBeanFactory(this.beanFactory);
         //4.把非延迟加载的类提前初始化
         finishBeanFactoryInitialization(beanDefinitions);
     }

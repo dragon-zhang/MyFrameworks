@@ -1,5 +1,8 @@
 package MySpringMVC.V2.beans.config;
 
+/**
+ * @author SuccessZhang
+ */
 public interface BeanPostProcessor {
 
     /**

@@ -1,7 +1,5 @@
 package MySpringMVC.V2.beans;
 
-import lombok.AllArgsConstructor;
-
 /**
  * Interface to be implemented by objects used within a {@link BeanFactory} which
  * are themselves factories for individual objects. If a bean implements this
@@ -40,27 +38,7 @@ import lombok.AllArgsConstructor;
  * @since 08.03.2003
  */
 //工厂Bean，用于产生其他对象
-@AllArgsConstructor
-public class FactoryBean<T> {
-
-    private T object;
-
-    private Class<?> objectClass;
-
-    private boolean singleton;
-
-    public FactoryBean(T object) {
-        this.object = object;
-        this.objectClass = object.getClass();
-        this.singleton = true;
-    }
-
-    public FactoryBean(T object, boolean singleton) {
-        this.object = object;
-        this.objectClass = object.getClass();
-        this.singleton = singleton;
-    }
-
+public interface FactoryBean<T> {
 
     /**
      * Return an instance (possibly shared or independent) of the object
@@ -81,9 +59,7 @@ public class FactoryBean<T> {
      * @see FactoryBeanNotInitializedException
      */
     //获取容器管理的对象实例
-    public T getObject() throws Exception {
-        return this.object;
-    }
+    T getObject() throws Exception;
 
     /**
      * Return the type of object that this FactoryBean creates,
@@ -106,9 +82,7 @@ public class FactoryBean<T> {
      * @see ListableBeanFactory#getBeansOfType
      */
     //获取Bean工厂创建的对象的类型
-    public Class<?> getObjectType() {
-        return this.objectClass;
-    }
+    Class<?> getObjectType();
 
     /**
      * Is the object managed by this factory a singleton? That is,
@@ -138,8 +112,8 @@ public class FactoryBean<T> {
      */
     //Bean工厂创建的对象是否是单态模式，如果是单态模式，则整个容器中只有一个实例
     //对象，每次请求都返回同一个实例对象
-    public boolean isSingleton() {
-        return this.singleton;
+    default boolean isSingleton() {
+        return true;
     }
 
 }

@@ -2,10 +2,13 @@
 <beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans.xsd
            http://www.springframework.org/schema/context
-           http://www.springframework.org/schema/context/spring-context.xsd">
+           http://www.springframework.org/schema/context/spring-context.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!-- 扫描指定包下面通过注解配置的组件 -->
     <context:component-scan base-package="core"/>
@@ -14,4 +17,17 @@
         <property name="templateLoaderPath" value="template"/>
         <property name="defaultEncoding" value="UTF-8"/>
     </bean>
+
+    <bean id="logAspect" class="core.v2.aspect.LogAspect"/>
+    <aop:config>
+        <aop:aspect ref="logAspect" order="1">
+            <aop:pointcut id="logPointcut"
+                          expression="execution(* core.v2.service.TestService.setType(java.lang.String,java.lang.String))"/>
+            <aop:before method="doBefore" pointcut-ref="logPointcut"/>
+            <aop:after method="doAfter" pointcut-ref="logPointcut"/>
+            <aop:around method="doAround" pointcut-ref="logPointcut"/>
+            <aop:after-returning method="doReturn" returning="joinPoint" pointcut-ref="logPointcut"/>
+            <aop:after-throwing method="doThrowing" throwing="ex" pointcut-ref="logPointcut"/>
+        </aop:aspect>
+    </aop:config>
 </beans>

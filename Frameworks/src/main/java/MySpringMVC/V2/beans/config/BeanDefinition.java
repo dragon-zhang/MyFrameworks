@@ -4,6 +4,9 @@ import lombok.Data;
 
 /**
  * see{@link org.springframework.beans.factory.support.AbstractBeanDefinition}
+ *
+ * @author SuccessZhang
+ * @date 2020/04/06
  */
 @Data
 public class BeanDefinition {

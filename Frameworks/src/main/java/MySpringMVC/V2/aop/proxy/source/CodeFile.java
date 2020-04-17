@@ -14,6 +14,7 @@ import java.lang.reflect.Parameter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,6 +28,8 @@ public class CodeFile extends SimpleJavaFileObject {
     private static final JavaFileObject.Kind JAVA_SOURCE_FILE = JavaFileObject.Kind.SOURCE;
 
     private String src;
+
+    private List<String> basicTypes = Arrays.asList("int", "long", "byte", "float", "double", "short", "boolean", "char");
 
     public CodeFile(Class<?>[] interfaces) throws URISyntaxException {
         this(new URI(ProxyHelper.PROXY_CLASS_PREFIX + ProxyHelper.getProxyClassCount() + JAVA_SOURCE_FILE.extension), JAVA_SOURCE_FILE, interfaces);
@@ -42,8 +45,10 @@ public class CodeFile extends SimpleJavaFileObject {
      */
     private String generateSrc(Class<?>[] interfaces) {
         //利用反射生成java源代码
+        int insertIndex;
         StringBuilder sb = new StringBuilder();
         sb.append("package ").append(ProxyClassLoader.class.getPackage().getName()).append(";\n");
+        insertIndex = sb.length();
         sb.append("import ").append(InvocationHandler.class.getName()).append(";\n");
         for (Class<?> i : interfaces) {
             sb.append("import ").append(i.getName()).append(";\n");
@@ -60,7 +65,12 @@ public class CodeFile extends SimpleJavaFileObject {
         sb.append("public $Proxy").append(ProxyHelper.getProxyClassCount()).append("(InvocationHandler h){\nthis.h=h;\n}\n");
         for (Class<?> i : interfaces) {
             for (Method method : i.getMethods()) {
-                String returnTypeSimpleName = method.getReturnType().getSimpleName();
+                Class<?> returnType = method.getReturnType();
+                String returnTypeName = returnType.getName();
+                if (!basicTypes.contains(returnTypeName)) {
+                    sb.insert(insertIndex, "import " + returnTypeName + ";\n");
+                }
+                String returnTypeSimpleName = returnType.getSimpleName();
                 sb.append("@Override\n");
                 sb.append(Modifier.toString(method.getModifiers()).replace(" abstract", "")).append(" ");
                 sb.append(returnTypeSimpleName).append(" ");
@@ -92,7 +102,7 @@ public class CodeFile extends SimpleJavaFileObject {
                 sb.append("});\n");
                 sb.append("}catch (Throwable t) {\nt.printStackTrace();\n}\n");
                 if (!"void".equals(returnTypeSimpleName)) {
-                    sb.append("return $result;\n");
+                    sb.append("return (").append(returnTypeSimpleName).append(")$result;\n");
                 }
                 sb.append("}\n");
             }
@@ -120,8 +130,10 @@ public class CodeFile extends SimpleJavaFileObject {
         names.add("equals");
         names.add("toString");
         //利用反射生成java源代码
+        int insertIndex;
         StringBuilder sb = new StringBuilder();
         sb.append("package ").append(ProxyClassLoader.class.getPackage().getName()).append(";\n");
+        insertIndex = sb.length();
         sb.append("import ").append(MethodInterceptor.class.getName()).append(";\n");
         sb.append("import ").append(type.getName()).append(";\n");
         sb.append("import ").append(MethodProxy.class.getName()).append(";\n");
@@ -131,8 +143,13 @@ public class CodeFile extends SimpleJavaFileObject {
         sb.append("public $Proxy").append(ProxyHelper.getProxyClassCount()).append("(MethodInterceptor h){\nthis.h=h;\n}\n");
         for (Method method : type.getMethods()) {
             String modifiers = Modifier.toString(method.getModifiers());
-            String returnTypeSimpleName = method.getReturnType().getSimpleName();
+            Class<?> returnType = method.getReturnType();
+            String returnTypeName = returnType.getName();
+            String returnTypeSimpleName = returnType.getSimpleName();
             if (!names.contains(method.getName()) && !modifiers.contains("final") && !modifiers.contains("native")) {
+                if (!basicTypes.contains(returnTypeName)) {
+                    sb.insert(insertIndex, "import " + returnTypeName + ";\n");
+                }
                 sb.append("@Override\n");
                 sb.append(modifiers.replace(" abstract", "")).append(" ");
                 sb.append(returnTypeSimpleName).append(" ");
@@ -164,7 +181,7 @@ public class CodeFile extends SimpleJavaFileObject {
 
                 sb.append("}catch (Throwable t) {\nt.printStackTrace();\n}\n");
                 if (!"void".equals(returnTypeSimpleName)) {
-                    sb.append("return $result;\n");
+                    sb.append("return (").append(returnTypeSimpleName).append(")$result;\n");
                 }
                 sb.append("}\n");
             }

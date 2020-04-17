@@ -3,6 +3,9 @@ package MySpringMVC.V2.context;
 import MySpringMVC.V2.beans.ListableBeanFactory;
 import MySpringMVC.V2.beans.support.DefaultListableBeanFactory;
 
+/**
+ * @author SuccessZhang
+ */
 public interface ConfigurableApplicationContext extends ListableBeanFactory {
 
     /**

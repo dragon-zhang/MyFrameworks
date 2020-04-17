@@ -10,11 +10,12 @@ public class BeanWrapper {
     /**
      * 原生对象
      */
-    private FactoryBean rootObject;
+    private Object rootObject;
 
-    public <T> BeanWrapper(FactoryBean<T> rootObject) {
-        this.rootObject = rootObject;
-    }
+    /**
+     * 原生对象Class
+     */
+    private Class<?> rootClass;
 
     /**
      * 代理包装之后的对象
@@ -26,4 +27,13 @@ public class BeanWrapper {
      */
     private Class<?> wrappedClass;
 
+    public BeanWrapper(Object rootObject) {
+        this.rootObject = rootObject;
+        this.rootClass = rootObject.getClass();
+    }
+
+    public BeanWrapper(Object rootObject, Class<?> rootClass) {
+        this.rootObject = rootObject;
+        this.rootClass = rootClass;
+    }
 }

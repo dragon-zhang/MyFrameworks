@@ -4,6 +4,9 @@ import MySpringMVC.V2.beans.Aware;
 import MySpringMVC.V2.beans.config.BeanPostProcessor;
 import MySpringMVC.V2.context.ApplicationContextAware;
 
+/**
+ * @author SuccessZhang
+ */
 public class ApplicationContextAwareProcessor implements BeanPostProcessor {
 
     private final AbstractApplicationContext applicationContext;

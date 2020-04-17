@@ -2,7 +2,6 @@ package MySpringMVC.V2.beans.support;
 
 import MySpringMVC.V2.annotation.Autowired;
 import MySpringMVC.V2.beans.BeanWrapper;
-import MySpringMVC.V2.beans.FactoryBean;
 import MySpringMVC.V2.beans.InitializingBean;
 import MySpringMVC.V2.beans.config.BeanDefinition;
 import MySpringMVC.V2.beans.config.BeanPostProcessor;
@@ -73,19 +72,22 @@ public abstract class AbstractAutowireCapableBeanFactory extends DefaultSingleto
             return null;
         }
         beanWrapper = createBeanInstance(beanName, beanDefinition, args);
-        factoryBeanInstanceCache.put(beanName, beanWrapper);
         if (beanDefinition.isAutowire()) {
             populateBean(beanName, beanDefinition, beanWrapper);
         }
-        bean = beanWrapper.getWrappedObject();
+        bean = beanWrapper.getRootObject();
         for (BeanPostProcessor processor : beanPostProcessors) {
-            processor.postProcessBeforeInitialization(bean, beanName);
+            bean = processor.postProcessBeforeInitialization(bean, beanName);
         }
         bean = invokeInitMethods(beanName, bean, beanDefinition);
+        beanWrapper.setRootObject(bean);
         for (BeanPostProcessor processor : beanPostProcessors) {
-            processor.postProcessAfterInitialization(bean, beanName);
+            bean = processor.postProcessAfterInitialization(bean, beanName);
         }
-        if (requiredType == null || bean.getClass() == requiredType) {
+        beanWrapper.setWrappedObject(bean);
+        beanWrapper.setWrappedClass(bean.getClass());
+        factoryBeanInstanceCache.put(beanName, beanWrapper);
+        if (requiredType == null || beanWrapper.getRootClass() == requiredType) {
             return (T) bean;
         }
         return null;
@@ -138,10 +140,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends DefaultSingleto
             } else {
                 instance = constructor.newInstance();
             }
-            BeanWrapper beanWrapper = new BeanWrapper(new FactoryBean<>(instance, beanClass, mbd.isSingleton()));
-            beanWrapper.setWrappedObject(instance);
-            beanWrapper.setWrappedClass(beanClass);
-            return beanWrapper;
+            return new BeanWrapper(instance, beanClass);
         } catch (Exception e) {
             return null;
         }
@@ -161,17 +160,14 @@ public abstract class AbstractAutowireCapableBeanFactory extends DefaultSingleto
                 instance = ctors[0].newInstance(explicitArgs);
             }
             Class<?> beanClass = mbd.getBeanClass();
-            BeanWrapper beanWrapper = new BeanWrapper(new FactoryBean<>(instance, beanClass, mbd.isSingleton()));
-            beanWrapper.setWrappedObject(instance);
-            beanWrapper.setWrappedClass(beanClass);
-            return beanWrapper;
+            return new BeanWrapper(instance, beanClass);
         } catch (Exception e) {
             return null;
         }
     }
 
     private void populateBean(String beanName, BeanDefinition beanDefinition, BeanWrapper beanWrapper) throws Exception {
-        Object instance = beanWrapper.getWrappedObject();
+        Object instance = beanWrapper.getRootObject();
         Class<?> beanClass = beanDefinition.getBeanClass();
         Field[] fields = beanClass.getDeclaredFields();
         for (Field field : fields) {

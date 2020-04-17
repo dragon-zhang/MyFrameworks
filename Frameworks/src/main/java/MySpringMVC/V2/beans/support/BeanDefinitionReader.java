@@ -4,10 +4,20 @@ import MySpringMVC.V2.annotation.Bean;
 import MySpringMVC.V2.annotation.Component;
 import MySpringMVC.V2.annotation.Lazy;
 import MySpringMVC.V2.annotation.Scope;
+import MySpringMVC.V2.aop.aspectj.AbstractAspectJAdvice;
+import MySpringMVC.V2.aop.aspectj.AspectJAfterAdvice;
+import MySpringMVC.V2.aop.aspectj.AspectJAfterReturningAdvice;
+import MySpringMVC.V2.aop.aspectj.AspectJAfterThrowingAdvice;
+import MySpringMVC.V2.aop.aspectj.AspectJAroundAdvice;
+import MySpringMVC.V2.aop.aspectj.AspectJExpressionPointcut;
+import MySpringMVC.V2.aop.aspectj.AspectJMethodBeforeAdvice;
+import MySpringMVC.V2.aop.aspectj.AspectJPointcutAdvisor;
 import MySpringMVC.V2.beans.config.BeanDefinition;
 import MySpringMVC.V2.beans.config.ConfigurableBeanFactory;
 import MySpringMVC.V2.core.AnnotationUtils;
+import MySpringMVC.V2.core.CloneUtils;
 import MySpringMVC.V2.core.StringUtils;
+import com.alibaba.fastjson.JSON;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -28,6 +38,8 @@ public class BeanDefinitionReader {
 
     public static final String DEFAULT_ENCODING = "defaultEncoding";
 
+    public static final String BASE_PACKAGE = "base-package";
+
     private static final String NAME = "name";
 
     private static final String VALUE = "value";
@@ -35,8 +47,6 @@ public class BeanDefinitionReader {
     private static final String CLASSPATH_URL_PREFIX = "classpath:";
 
     private static final String CLASSPATH_ALL_URL_PREFIX = "classpath*:";
-
-    private static final String BASE_PACKAGE = "base-package";
 
     private static final String PROPERTIES = ".properties";
 
@@ -73,14 +83,98 @@ public class BeanDefinitionReader {
             String basePackage = elements.get(0).attribute(BASE_PACKAGE).getData().toString();
             config.setProperty(BASE_PACKAGE, basePackage);
             //继续获取模板相关配置
-            elements = elements.get(1).elements();
-            for (Element property : elements) {
+            List<Element> template = elements.get(1).elements();
+            for (Element property : template) {
                 setProperty(property, TEMPLATE_LOADER_PATH);
                 setProperty(property, DEFAULT_ENCODING);
             }
+            List<AspectJPointcutAdvisor> advisors = new ArrayList<>(5);
+            AspectJPointcutAdvisor advisor;
+            AbstractAspectJAdvice advice;
+            Class<?> beanClass = null;
+            Element aspectClass = elements.get(2);
+            String id = aspectClass.attribute("id").getData().toString();
+            String className = aspectClass.attribute("class").getData().toString();
+            List<Element> aspects = elements.get(3).elements();
+            Element aspect = aspects.get(0);
+            String ref = aspect.attribute("ref").getData().toString();
+            int order = Integer.parseInt(aspect.attribute("order").getData().toString());
+            if (id.equals(ref)) {
+                beanClass = Class.forName(className);
+            }
+
+            List<Element> pointcutAndAdvices = aspect.elements();
+            Element pointcut = pointcutAndAdvices.get(0);
+            String pointcutId = pointcut.attribute("id").getData().toString();
+            String expression = pointcut.attribute("expression").getData().toString();
+            AspectJExpressionPointcut expressionPointcut = new AspectJExpressionPointcut(pointcutId, expression);
+
+            Element before = pointcutAndAdvices.get(1);
+            String methodName = before.attribute("method").getData().toString();
+            String pointcutRef = before.attribute("pointcut-ref").getData().toString();
+            if (pointcutRef.equals(pointcutId)) {
+                advisor = new AspectJPointcutAdvisor();
+                advice = new AspectJMethodBeforeAdvice(beanClass, methodName, CloneUtils.clone(expressionPointcut), order);
+                advice.setAspectName(ref);
+                advisor.setAdvice(advice);
+                advisors.add(advisor);
+            }
+
+            Element after = pointcutAndAdvices.get(2);
+            methodName = after.attribute("method").getData().toString();
+            pointcutRef = after.attribute("pointcut-ref").getData().toString();
+            if (pointcutRef.equals(pointcutId)) {
+                advisor = new AspectJPointcutAdvisor();
+                advice = new AspectJAfterAdvice(beanClass, methodName, CloneUtils.clone(expressionPointcut), order);
+                advice.setAspectName(ref);
+                advisor.setAdvice(advice);
+                advisors.add(advisor);
+            }
+
+            Element around = pointcutAndAdvices.get(3);
+            methodName = around.attribute("method").getData().toString();
+            pointcutRef = around.attribute("pointcut-ref").getData().toString();
+            if (pointcutRef.equals(pointcutId)) {
+                advisor = new AspectJPointcutAdvisor();
+                advice = new AspectJAroundAdvice(beanClass, methodName, CloneUtils.clone(expressionPointcut), order);
+                advice.setAspectName(ref);
+                advisor.setAdvice(advice);
+                advisors.add(advisor);
+            }
+
+            Element afterReturning = pointcutAndAdvices.get(4);
+            methodName = afterReturning.attribute("method").getData().toString();
+            pointcutRef = afterReturning.attribute("pointcut-ref").getData().toString();
+            if (pointcutRef.equals(pointcutId)) {
+                advisor = new AspectJPointcutAdvisor();
+                advice = new AspectJAfterReturningAdvice(beanClass, methodName, CloneUtils.clone(expressionPointcut), order);
+                advice.setAspectName(ref);
+                String returning = afterReturning.attribute("returning").getData().toString();
+                advice.setReturningName(returning);
+                advisor.setAdvice(advice);
+                advisors.add(advisor);
+            }
+
+            Element afterThrowing = pointcutAndAdvices.get(5);
+            methodName = afterThrowing.attribute("method").getData().toString();
+            pointcutRef = afterThrowing.attribute("pointcut-ref").getData().toString();
+            if (pointcutRef.equals(pointcutId)) {
+                advisor = new AspectJPointcutAdvisor();
+                advice = new AspectJAfterThrowingAdvice(beanClass, methodName, CloneUtils.clone(expressionPointcut), order);
+                advice.setAspectName(ref);
+                String throwing = afterThrowing.attribute("throwing").getData().toString();
+                advice.setThrowingName(throwing);
+                advisor.setAdvice(advice);
+                advisors.add(advisor);
+            }
+
+            //fastjson序列化的坑，可以序列化进去，但是反序列化出来如果用基类，无法获取子类
+            config.setProperty("advisors", JSON.toJSONString(advisors));
         } catch (IOException e) {
             e.printStackTrace();
         } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
