@@ -4,6 +4,7 @@ import MySpringMVC.V2.annotation.Autowired;
 import MySpringMVC.V2.annotation.Controller;
 import MySpringMVC.V2.annotation.RequestMapping;
 import MySpringMVC.V2.annotation.RequestParam;
+import core.v2.pojo.Type;
 import core.v2.pojo.User;
 import core.v2.service.TestService;
 
@@ -37,7 +38,7 @@ public class TestController {
     public int type(HttpServletRequest request,
                     HttpServletResponse response,
                     @RequestParam String id,
-                    @RequestParam String type) {
+                    @RequestParam Type type) {
         System.out.println(id + "," + type);
         return testService.setType(id, type);
     }

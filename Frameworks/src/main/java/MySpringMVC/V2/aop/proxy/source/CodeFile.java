@@ -14,7 +14,6 @@ import java.lang.reflect.Parameter;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -28,8 +27,6 @@ public class CodeFile extends SimpleJavaFileObject {
     private static final JavaFileObject.Kind JAVA_SOURCE_FILE = JavaFileObject.Kind.SOURCE;
 
     private String src;
-
-    private List<String> basicTypes = Arrays.asList("int", "long", "byte", "float", "double", "short", "boolean", "char");
 
     public CodeFile(Class<?>[] interfaces) throws URISyntaxException {
         this(new URI(ProxyHelper.PROXY_CLASS_PREFIX + ProxyHelper.getProxyClassCount() + JAVA_SOURCE_FILE.extension), JAVA_SOURCE_FILE, interfaces);
@@ -45,10 +42,8 @@ public class CodeFile extends SimpleJavaFileObject {
      */
     private String generateSrc(Class<?>[] interfaces) {
         //利用反射生成java源代码
-        int insertIndex;
         StringBuilder sb = new StringBuilder();
         sb.append("package ").append(ProxyClassLoader.class.getPackage().getName()).append(";\n");
-        insertIndex = sb.length();
         sb.append("import ").append(InvocationHandler.class.getName()).append(";\n");
         for (Class<?> i : interfaces) {
             sb.append("import ").append(i.getName()).append(";\n");
@@ -67,16 +62,14 @@ public class CodeFile extends SimpleJavaFileObject {
             for (Method method : i.getMethods()) {
                 Class<?> returnType = method.getReturnType();
                 String returnTypeName = returnType.getName();
-                if (!basicTypes.contains(returnTypeName)) {
-                    sb.insert(insertIndex, "import " + returnTypeName + ";\n");
-                }
-                String returnTypeSimpleName = returnType.getSimpleName();
                 sb.append("@Override\n");
                 sb.append(Modifier.toString(method.getModifiers()).replace(" abstract", "")).append(" ");
-                sb.append(returnTypeSimpleName).append(" ");
+                sb.append(returnTypeName).append(" ");
                 sb.append(method.getName()).append("(");
                 for (Parameter parameter : method.getParameters()) {
-                    sb.append(parameter.getType().getSimpleName()).append(" ").append(parameter.getName());
+                    Class<?> paramType = parameter.getType();
+                    String paramTypeName = paramType.getName();
+                    sb.append(paramTypeName).append(" ").append(parameter.getName());
                     sb.append(",");
                 }
                 deleteRedundantChar(sb, "(");
@@ -84,9 +77,9 @@ public class CodeFile extends SimpleJavaFileObject {
 
                 sb.append("Object $result = null;\n");
                 sb.append("try{\n");
-                sb.append("Method m = ").append(method.getDeclaringClass().getSimpleName()).append(".class.getMethod(\"").append(method.getName()).append("\",");
+                sb.append("Method m = ").append(method.getDeclaringClass().getName()).append(".class.getMethod(\"").append(method.getName()).append("\",");
                 for (Parameter parameter : method.getParameters()) {
-                    sb.append(parameter.getType().getSimpleName()).append(".class");
+                    sb.append(parameter.getType().getName()).append(".class");
                     sb.append(",");
                 }
                 deleteRedundantChar(sb, "(");
@@ -101,8 +94,8 @@ public class CodeFile extends SimpleJavaFileObject {
 
                 sb.append("});\n");
                 sb.append("}catch (Throwable t) {\nt.printStackTrace();\n}\n");
-                if (!"void".equals(returnTypeSimpleName)) {
-                    sb.append("return (").append(returnTypeSimpleName).append(")$result;\n");
+                if (!"java.lang.Void".equals(returnTypeName) && !"void".equals(returnTypeName)) {
+                    sb.append("return (").append(returnTypeName).append(")$result;\n");
                 }
                 sb.append("}\n");
             }
@@ -130,10 +123,8 @@ public class CodeFile extends SimpleJavaFileObject {
         names.add("equals");
         names.add("toString");
         //利用反射生成java源代码
-        int insertIndex;
         StringBuilder sb = new StringBuilder();
         sb.append("package ").append(ProxyClassLoader.class.getPackage().getName()).append(";\n");
-        insertIndex = sb.length();
         sb.append("import ").append(MethodInterceptor.class.getName()).append(";\n");
         sb.append("import ").append(type.getName()).append(";\n");
         sb.append("import ").append(MethodProxy.class.getName()).append(";\n");
@@ -145,17 +136,15 @@ public class CodeFile extends SimpleJavaFileObject {
             String modifiers = Modifier.toString(method.getModifiers());
             Class<?> returnType = method.getReturnType();
             String returnTypeName = returnType.getName();
-            String returnTypeSimpleName = returnType.getSimpleName();
             if (!names.contains(method.getName()) && !modifiers.contains("final") && !modifiers.contains("native")) {
-                if (!basicTypes.contains(returnTypeName)) {
-                    sb.insert(insertIndex, "import " + returnTypeName + ";\n");
-                }
                 sb.append("@Override\n");
                 sb.append(modifiers.replace(" abstract", "")).append(" ");
-                sb.append(returnTypeSimpleName).append(" ");
+                sb.append(returnTypeName).append(" ");
                 sb.append(method.getName()).append("(");
                 for (Parameter parameter : method.getParameters()) {
-                    sb.append(parameter.getType().getSimpleName()).append(" ").append(parameter.getName());
+                    Class<?> paramType = parameter.getType();
+                    String paramTypeName = paramType.getName();
+                    sb.append(paramTypeName).append(" ").append(parameter.getName());
                     sb.append(",");
                 }
                 deleteRedundantChar(sb, "(");
@@ -165,7 +154,7 @@ public class CodeFile extends SimpleJavaFileObject {
                 sb.append("try{\n");
                 sb.append("Method m = ").append(method.getDeclaringClass().getSimpleName()).append(".class.getMethod(\"").append(method.getName()).append("\",");
                 for (Parameter parameter : method.getParameters()) {
-                    sb.append(parameter.getType().getSimpleName()).append(".class");
+                    sb.append(parameter.getType().getName()).append(".class");
                     sb.append(",");
                 }
                 deleteRedundantChar(sb, "(");
@@ -180,8 +169,8 @@ public class CodeFile extends SimpleJavaFileObject {
                 sb.append("},new MethodProxy(m));\n");
 
                 sb.append("}catch (Throwable t) {\nt.printStackTrace();\n}\n");
-                if (!"void".equals(returnTypeSimpleName)) {
-                    sb.append("return (").append(returnTypeSimpleName).append(")$result;\n");
+                if (!"java.lang.Void".equals(returnTypeName) && !"void".equals(returnTypeName)) {
+                    sb.append("return (").append(returnTypeName).append(")$result;\n");
                 }
                 sb.append("}\n");
             }

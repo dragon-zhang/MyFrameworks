@@ -2,6 +2,7 @@ package core.v2.service.impl;
 
 import MySpringMVC.V2.annotation.Lazy;
 import MySpringMVC.V2.annotation.Service;
+import core.v2.pojo.Type;
 import core.v2.pojo.User;
 import core.v2.service.TestService;
 
@@ -22,7 +23,7 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
-    public int setType(String id, String type) {
+    public int setType(String id, Type type) {
         System.out.println("将id为" + id + "的用户设置为" + type + "类型成功");
         return 1;
     }

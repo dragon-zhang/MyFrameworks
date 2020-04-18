@@ -2,6 +2,7 @@ package core.v2;
 
 import MySpringMVC.V2.context.ClassPathXmlApplicationContext;
 import core.v2.controller.TestController;
+import core.v2.pojo.Type;
 import core.v2.service.TestService;
 
 /**
@@ -15,6 +16,6 @@ public class SimpleTest {
         System.out.println(controller);
         TestService testService = (TestService) context.getBean("testService");
         System.out.println(testService);
-        System.out.println(testService.setType("1", "vip"));
+        System.out.println(testService.setType("1", new Type("vip")));
     }
 }

@@ -1,5 +1,6 @@
 package core.v2.service;
 
+import core.v2.pojo.Type;
 import core.v2.pojo.User;
 
 /**
@@ -21,5 +22,5 @@ public interface TestService {
      * @param type 用户类型
      * @return 成功更新的数量
      */
-    int setType(String id, String type);
+    int setType(String id, Type type);
 }
