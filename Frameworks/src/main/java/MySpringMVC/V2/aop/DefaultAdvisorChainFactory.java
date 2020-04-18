@@ -20,7 +20,6 @@ public class DefaultAdvisorChainFactory {
             List<AbstractAspectJAdvice> adviceList = pointcut.getAdvices(method);
             if (!adviceList.isEmpty()) {
                 advices.addAll(adviceList);
-                return advices;
             }
         }
         return advices;

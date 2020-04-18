@@ -16,8 +16,10 @@ public class AnnotationUtils {
         Annotation[] annotations = beanClass.getDeclaredAnnotations();
         for (Annotation annotation : annotations) {
             Class<?> annotationType = annotation.annotationType();
+            if (annotation instanceof Component) {
+                return annotation;
+            }
             if (!(annotation instanceof WebServlet ||
-                    annotation instanceof Component ||
                     annotation instanceof Bean ||
                     annotation instanceof Controller ||
                     annotation instanceof Service)) {

@@ -63,10 +63,11 @@ public class LogAspect {
      * 核心业务逻辑调用正常退出后，不管是否有返回值，正常退出后，均执行此Advice
      *
      * @param joinPoint
+     * @param returnValue
      */
-    private void doReturn(JoinPoint joinPoint) {
+    private void doReturn(JoinPoint joinPoint, Object returnValue) {
         System.out.println("-----doReturn().invoke-----");
-        System.out.println(" 此处可以对返回值做进一步处理");
+        System.out.println(" 此处可以对返回值做进一步处理：" + returnValue);
         System.out.println(" 可通过joinPoint来获取所需要的内容");
         System.out.println("-----End of doReturn()------");
     }
@@ -75,11 +76,11 @@ public class LogAspect {
      * 核心业务逻辑调用异常退出后，执行此Advice，处理错误信息
      *
      * @param joinPoint
-     * @param ex
+     * @param throwable
      */
-    private void doThrowing(JoinPoint joinPoint, Throwable ex) {
+    private void doThrowing(JoinPoint joinPoint, Throwable throwable) {
         System.out.println("-----doThrowing().invoke-----");
-        System.out.println(" 错误信息：" + ex.getMessage());
+        System.out.println(" 错误信息：" + throwable.getMessage());
         System.out.println(" 此处意在执行核心业务逻辑出错时，捕获异常，并可做一些日志记录操作等等");
         System.out.println(" 可通过joinPoint来获取所需要的内容");
         System.out.println("-----End of doThrowing()------");

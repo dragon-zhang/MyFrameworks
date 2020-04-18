@@ -81,15 +81,16 @@ public abstract class AbstractAspectJAdvice implements Advice {
      * @throws Throwable in case of invocation failure
      */
     protected Object invokeAdviceMethod(JoinPoint joinPoint, Object returnValue, Throwable ex) throws Throwable {
+        this.aspectJAdviceMethod.setAccessible(true);
         Class<?>[] parameterTypes = this.aspectJAdviceMethod.getParameterTypes();
         if (parameterTypes.length == 0) {
             return this.aspectJAdviceMethod.invoke(this.aspect);
         }
         Object[] params = new Object[parameterTypes.length];
         for (int i = 0; i < params.length; i++) {
-            if (parameterTypes[i] == JoinPoint.class) {
+            if (JoinPoint.class.isAssignableFrom(parameterTypes[i])) {
                 params[i] = joinPoint;
-            } else if (parameterTypes[i] == Throwable.class) {
+            } else if (Throwable.class.isAssignableFrom(parameterTypes[i])) {
                 params[i] = ex;
             } else {
                 params[i] = returnValue;
