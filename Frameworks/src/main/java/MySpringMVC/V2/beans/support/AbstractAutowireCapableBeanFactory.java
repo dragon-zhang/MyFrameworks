@@ -63,7 +63,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends DefaultSingleto
             return null;
         }
         Object bean;
-        BeanWrapper beanWrapper = factoryBeanInstanceCache.get(beanName);
+        BeanWrapper beanWrapper = this.factoryBeanInstanceCache.get(beanName);
         if (beanWrapper != null) {
             bean = beanWrapper.getWrappedObject();
             if (requiredType == null || bean.getClass() == requiredType) {
@@ -72,25 +72,50 @@ public abstract class AbstractAutowireCapableBeanFactory extends DefaultSingleto
             return null;
         }
         beanWrapper = createBeanInstance(beanName, beanDefinition, args);
+        this.factoryBeanInstanceCache.put(beanName, beanWrapper);
         if (beanDefinition.isAutowire()) {
             populateBean(beanName, beanDefinition, beanWrapper);
         }
         bean = beanWrapper.getRootObject();
-        for (BeanPostProcessor processor : beanPostProcessors) {
-            bean = processor.postProcessBeforeInitialization(bean, beanName);
-        }
-        bean = invokeInitMethods(beanName, bean, beanDefinition);
-        beanWrapper.setRootObject(bean);
-        for (BeanPostProcessor processor : beanPostProcessors) {
-            bean = processor.postProcessAfterInitialization(bean, beanName);
-        }
-        beanWrapper.setWrappedObject(bean);
-        beanWrapper.setWrappedClass(bean.getClass());
-        factoryBeanInstanceCache.put(beanName, beanWrapper);
+        initializeBean(beanName, bean, beanDefinition);
         if (requiredType == null || beanWrapper.getRootClass() == requiredType) {
             return (T) bean;
         }
         return null;
+    }
+
+    private void initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+        BeanWrapper beanWrapper = this.factoryBeanInstanceCache.get(beanName);
+        applyBeanPostProcessorsBeforeInitialization(bean, beanName);
+        try {
+            bean = invokeInitMethods(beanName, bean, beanDefinition);
+            beanWrapper.setRootObject(bean);
+        } catch (Throwable t) {
+            t.printStackTrace();
+        }
+        applyBeanPostProcessorsAfterInitialization(bean, beanName);
+        beanWrapper.setWrappedObject(bean);
+        beanWrapper.setWrappedClass(bean.getClass());
+    }
+
+    private void applyBeanPostProcessorsAfterInitialization(Object bean, String beanName) {
+        for (BeanPostProcessor processor : this.beanPostProcessors) {
+            try {
+                bean = processor.postProcessAfterInitialization(bean, beanName);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void applyBeanPostProcessorsBeforeInitialization(Object bean, String beanName) {
+        for (BeanPostProcessor processor : this.beanPostProcessors) {
+            try {
+                bean = processor.postProcessBeforeInitialization(bean, beanName);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -98,7 +123,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends DefaultSingleto
         this.beanPostProcessors.add(beanPostProcessor);
     }
 
-    private Object invokeInitMethods(String beanName, Object bean, BeanDefinition beanDefinition) throws Exception {
+    private Object invokeInitMethods(String beanName, Object bean, BeanDefinition beanDefinition) throws Throwable {
         if (bean instanceof InitializingBean) {
             ((InitializingBean) bean).afterPropertiesSet();
         }
@@ -146,20 +171,20 @@ public abstract class AbstractAutowireCapableBeanFactory extends DefaultSingleto
         }
     }
 
-    private BeanWrapper autowireConstructor(String beanName, BeanDefinition mbd, Constructor<?>[] ctors, Object[] explicitArgs) {
+    private BeanWrapper autowireConstructor(String beanName, BeanDefinition beanDefinition, Constructor<?>[] constructors, Object[] explicitArgs) {
         try {
             Object instance;
-            if (mbd.isSingleton()) {
+            if (beanDefinition.isSingleton()) {
                 if (super.containsSingleton(beanName)) {
                     instance = super.getSingleton(beanName);
                 } else {
-                    instance = ctors[0].newInstance(explicitArgs);
+                    instance = constructors[0].newInstance(explicitArgs);
                     super.registerSingleton(beanName, instance);
                 }
             } else {
-                instance = ctors[0].newInstance(explicitArgs);
+                instance = constructors[0].newInstance(explicitArgs);
             }
-            Class<?> beanClass = mbd.getBeanClass();
+            Class<?> beanClass = beanDefinition.getBeanClass();
             return new BeanWrapper(instance, beanClass);
         } catch (Exception e) {
             return null;
