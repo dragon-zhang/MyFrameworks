@@ -58,6 +58,22 @@ public interface JoinPoint {
     Object getThis();
 
     /**
+     * <p> Returns the target object.  This will always be
+     * the same object as that matched by the <code>target</code> pointcut
+     * designator.  Unless you specifically need this reflective access,
+     * you should use the <code>target</code> pointcut designator to
+     * get at this object for better static typing and performance.</p>
+     *
+     * <p> Returns null when there is no target object.</p>
+     */
+    Object getTarget();
+
+    /**
+     * <p>Returns the arguments at this join point.</p>
+     */
+    Object[] getArgs();
+
+    /**
      * Return the static part of this joinpoint.
      * <p>The static part is an accessible object on which a chain of
      * interceptors are installed.
