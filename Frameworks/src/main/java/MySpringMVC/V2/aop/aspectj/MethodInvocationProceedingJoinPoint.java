@@ -15,6 +15,8 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint 
 
     private final ProxyMethodInvocation methodInvocation;
 
+    private Object[] defensiveCopyOfArgs;
+
     public MethodInvocationProceedingJoinPoint(ProxyMethodInvocation methodInvocation) {
         this.methodInvocation = methodInvocation;
     }
@@ -27,6 +29,21 @@ public class MethodInvocationProceedingJoinPoint implements ProceedingJoinPoint 
     @Override
     public Object getThis() {
         return this.methodInvocation.getProxy();
+    }
+
+    @Override
+    public Object getTarget() {
+        return this.methodInvocation.getThis();
+    }
+
+    @Override
+    public Object[] getArgs() {
+        if (this.defensiveCopyOfArgs == null) {
+            Object[] argsSource = this.methodInvocation.getArguments();
+            this.defensiveCopyOfArgs = new Object[argsSource.length];
+            System.arraycopy(argsSource, 0, this.defensiveCopyOfArgs, 0, argsSource.length);
+        }
+        return this.defensiveCopyOfArgs;
     }
 
     @Override

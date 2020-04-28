@@ -4,6 +4,8 @@ import MySpringMVC.V2.annotation.Component;
 import MySpringMVC.V2.aop.intercept.JoinPoint;
 import MySpringMVC.V2.aop.intercept.ProceedingJoinPoint;
 
+import java.util.Arrays;
+
 /**
  * Advice通知类
  * 测试after,before,around,throwing,returning Advice.
@@ -31,18 +33,17 @@ public class LogAspect {
      * 注意：当核心业务抛异常后，立即退出，转向After Advice
      * 执行完毕After Advice，再转到Throwing Advice
      *
-     * @param pjp
      * @return
      * @throws Throwable
      */
-    private Object doAround(ProceedingJoinPoint pjp) throws Throwable {
+    private Object doAround(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         System.out.println("-----doAround().invoke-----");
-        System.out.println(" 此处可以做类似于Before Advice的事情");
 
+        Object[] args = proceedingJoinPoint.getArgs();
+        System.out.println("args->" + Arrays.toString(args));
         //调用核心逻辑
-        Object retVal = pjp.proceed();
+        Object retVal = proceedingJoinPoint.proceed(args);
 
-        System.out.println(" 此处可以做类似于After Advice的事情");
         System.out.println("-----End of doAround()------");
         return retVal;
     }

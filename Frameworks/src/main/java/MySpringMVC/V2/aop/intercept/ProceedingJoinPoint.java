@@ -4,14 +4,6 @@ package MySpringMVC.V2.aop.intercept;
  * @author SuccessZhang
  */
 public interface ProceedingJoinPoint extends JoinPoint {
-    /**
-     * Proceed with the next advice or target method invocation
-     *
-     * @return
-     * @throws Throwable
-     */
-    @Override
-    Object proceed() throws Throwable;
 
     /**
      * Proceed with the next advice or target method invocation

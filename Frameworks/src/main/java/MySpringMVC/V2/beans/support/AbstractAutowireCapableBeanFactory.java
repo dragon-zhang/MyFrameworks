@@ -86,19 +86,19 @@ public abstract class AbstractAutowireCapableBeanFactory extends DefaultSingleto
 
     private void initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
         BeanWrapper beanWrapper = this.factoryBeanInstanceCache.get(beanName);
-        applyBeanPostProcessorsBeforeInitialization(bean, beanName);
+        bean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
         try {
             bean = invokeInitMethods(beanName, bean, beanDefinition);
             beanWrapper.setRootObject(bean);
         } catch (Throwable t) {
             t.printStackTrace();
         }
-        applyBeanPostProcessorsAfterInitialization(bean, beanName);
+        bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
         beanWrapper.setWrappedObject(bean);
         beanWrapper.setWrappedClass(bean.getClass());
     }
 
-    private void applyBeanPostProcessorsAfterInitialization(Object bean, String beanName) {
+    private Object applyBeanPostProcessorsAfterInitialization(Object bean, String beanName) {
         for (BeanPostProcessor processor : this.beanPostProcessors) {
             try {
                 bean = processor.postProcessAfterInitialization(bean, beanName);
@@ -106,9 +106,10 @@ public abstract class AbstractAutowireCapableBeanFactory extends DefaultSingleto
                 e.printStackTrace();
             }
         }
+        return bean;
     }
 
-    private void applyBeanPostProcessorsBeforeInitialization(Object bean, String beanName) {
+    private Object applyBeanPostProcessorsBeforeInitialization(Object bean, String beanName) {
         for (BeanPostProcessor processor : this.beanPostProcessors) {
             try {
                 bean = processor.postProcessBeforeInitialization(bean, beanName);
@@ -116,6 +117,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends DefaultSingleto
                 e.printStackTrace();
             }
         }
+        return bean;
     }
 
     @Override

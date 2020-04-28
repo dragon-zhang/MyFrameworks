@@ -153,6 +153,16 @@ public class ReflectiveMethodInvocation implements ProxyMethodInvocation, Clonea
     }
 
     @Override
+    public Object getTarget() {
+        return this.target;
+    }
+
+    @Override
+    public Object[] getArgs() {
+        return this.getArguments();
+    }
+
+    @Override
     public AccessibleObject getStaticPart() {
         return this.method;
     }
