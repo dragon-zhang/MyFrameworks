@@ -19,6 +19,7 @@ public class TestServiceImpl implements TestService {
 
     @Override
     public Object test(int i, String j) {
+        System.out.println("the i is [" + i + "] and the j is [" + j + "]");
         return null;
     }
 

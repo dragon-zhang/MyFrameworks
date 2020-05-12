@@ -10,13 +10,13 @@ public class MyProxyTestDemo {
         System.out.println("cglib-----------------------------------------------------------------------------------------------------\n");
         TestServiceImpl test = TestProxy.getInstance(TestServiceImpl.class);
         System.out.println(test.test());
-        System.out.println(test.test(1, ""));
+        System.out.println(test.test(1, "cglib"));
 
         System.out.println("\njdk-------------------------------------------------------------------------------------------------------\n");
 
         TestService testAop = TestProxy.getInstance(TestService.class);
         System.out.println(testAop.test());
-        System.out.println(testAop.test(1, ""));
+        System.out.println(testAop.test(2, "jdk"));
     }
 
 }

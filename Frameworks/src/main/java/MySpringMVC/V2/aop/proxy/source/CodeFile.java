@@ -1,6 +1,7 @@
 package MySpringMVC.V2.aop.proxy.source;
 
 import MySpringMVC.V2.aop.proxy.ProxyHelper;
+import MySpringMVC.V2.aop.proxy.cglib.FastClass;
 import MySpringMVC.V2.aop.proxy.cglib.MethodInterceptor;
 import MySpringMVC.V2.aop.proxy.cglib.MethodProxy;
 import MySpringMVC.V2.aop.proxy.jdk.InvocationHandler;
@@ -122,20 +123,21 @@ public class CodeFile extends SimpleJavaFileObject {
         List<String> names = new ArrayList<>();
         names.add("equals");
         names.add("toString");
+        Method[] methods = type.getMethods();
         //利用反射生成java源代码
         StringBuilder sb = new StringBuilder();
         sb.append("package ").append(ProxyClassLoader.class.getPackage().getName()).append(";\n");
+        sb.append("import ").append(FastClass.class.getName()).append(";\n");
         sb.append("import ").append(MethodInterceptor.class.getName()).append(";\n");
         sb.append("import ").append(type.getName()).append(";\n");
         sb.append("import ").append(MethodProxy.class.getName()).append(";\n");
         sb.append("import java.lang.reflect.*;\n");
-        sb.append("public class $Proxy").append(ProxyHelper.getProxyClassCount()).append(" extends ").append(type.getSimpleName()).append(" {\n");
+        sb.append("public class $Proxy").append(ProxyHelper.getProxyClassCount()).append(" extends ").append(type.getSimpleName()).append(" implements ").append(FastClass.class.getSimpleName()).append(" {\n");
         sb.append("private MethodInterceptor h;\n");
         sb.append("public $Proxy").append(ProxyHelper.getProxyClassCount()).append("(MethodInterceptor h){\nthis.h=h;\n}\n");
-        for (Method method : type.getMethods()) {
+        for (Method method : methods) {
             String modifiers = Modifier.toString(method.getModifiers());
-            Class<?> returnType = method.getReturnType();
-            String returnTypeName = returnType.getName();
+            String returnTypeName = method.getReturnType().getName();
             if (!names.contains(method.getName()) && !modifiers.contains("final") && !modifiers.contains("native")) {
                 sb.append("@Override\n");
                 sb.append(modifiers.replace(" abstract", "")).append(" ");
@@ -152,7 +154,7 @@ public class CodeFile extends SimpleJavaFileObject {
 
                 sb.append("Object $result = null;\n");
                 sb.append("try{\n");
-                sb.append("Method m = ").append(method.getDeclaringClass().getSimpleName()).append(".class.getMethod(\"").append(method.getName()).append("\",");
+                sb.append("Method m = ").append(type.getSimpleName()).append(".class.getMethod(\"").append(method.getName()).append("\",");
                 for (Parameter parameter : method.getParameters()) {
                     sb.append(parameter.getType().getName()).append(".class");
                     sb.append(",");
@@ -166,7 +168,7 @@ public class CodeFile extends SimpleJavaFileObject {
                     sb.append(",");
                 }
                 deleteRedundantChar(sb, "{");
-                sb.append("},new MethodProxy(m));\n");
+                sb.append("},new MethodProxy(this,m));\n");
 
                 sb.append("}catch (Throwable t) {\nt.printStackTrace();\n}\n");
                 if (!"java.lang.Void".equals(returnTypeName) && !"void".equals(returnTypeName)) {
@@ -176,9 +178,76 @@ public class CodeFile extends SimpleJavaFileObject {
             }
         }
 
+        //实现getIndex
+        sb.append("@Override\n");
+        sb.append("public int getIndex(String name, Class[] parameterTypes) {\n");
+        sb.append("StringBuilder sb = new StringBuilder(name);\n");
+        sb.append("sb.append(\"(\");\n");
+        sb.append("for (Class parameterType : parameterTypes) {\n");
+        sb.append("sb.append(parameterType.getName()).append(\",\");\n");
+        sb.append("}\n");
+        sb.append("if (sb.length() - 1 != sb.lastIndexOf(\"(\")) {\n");
+        sb.append("sb.deleteCharAt(sb.length() - 1);\n");
+        sb.append("}\n");
+        sb.append("sb.append(\")\");\n");
+        sb.append("switch (sb.toString().hashCode()) {\n");
+        for (int i = 0; i < methods.length; i++) {
+            Method method = methods[i];
+            String modifiers = Modifier.toString(method.getModifiers());
+            if (!names.contains(method.getName()) && !modifiers.contains("final") && !modifiers.contains("native")) {
+                sb.append("case ").append(getHashCode(method.getName(), method.getParameterTypes())).append(":return ").append(i).append(";\n");
+            }
+        }
+        sb.append("default:break;\n");
+        sb.append("}\n");
+        sb.append("return -1;\n");
+        sb.append("}\n");
+
+        //实现invoke
+        sb.append("@Override\n");
+        sb.append("public Object invoke(int index, Object obj, Object[] args) throws InvocationTargetException {\n");
+        sb.append(type.getSimpleName()).append(" object = (").append(type.getSimpleName()).append(") obj;\n");
+        sb.append("switch (index) {\n");
+        for (int i = 0; i < methods.length; i++) {
+            Method method = methods[i];
+            String modifiers = Modifier.toString(method.getModifiers());
+            if (!names.contains(method.getName()) && !modifiers.contains("final") && !modifiers.contains("native")) {
+                sb.append("case ").append(i).append(":");
+                String returnTypeName = method.getReturnType().getName();
+                if (!"java.lang.Void".equals(returnTypeName) && !"void".equals(returnTypeName)) {
+                    sb.append("return ");
+                }
+                sb.append("object.").append(method.getName()).append("(");
+                Class<?>[] parameterTypes = method.getParameterTypes();
+                for (int j = 0; j < parameterTypes.length; j++) {
+                    sb.append("(").append(parameterTypes[j].getName()).append(")args[").append(j).append("]").append(",");
+                }
+                deleteRedundantChar(sb, "(");
+                sb.append(");\n");
+                if ("java.lang.Void".equals(returnTypeName) || "void".equals(returnTypeName)) {
+                    sb.append("break;\n");
+                }
+            }
+        }
+        sb.append("default:break;\n");
+        sb.append("}\n");
+        sb.append("return null;\n");
+        sb.append("}\n");
+
         sb.append("}\n");
         System.out.println(sb.toString());
         return sb.toString();
+    }
+
+    private int getHashCode(String name, Class[] parameterTypes) {
+        StringBuilder sb = new StringBuilder(name);
+        sb.append("(");
+        for (Class parameterType : parameterTypes) {
+            sb.append(parameterType.getName()).append(",");
+        }
+        deleteRedundantChar(sb, "(");
+        sb.append(")");
+        return sb.toString().hashCode();
     }
 
     private void deleteRedundantChar(StringBuilder sb, String str) {

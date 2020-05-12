@@ -1,7 +1,5 @@
 package MySpringMVC.V2.aop.proxy.cglib;
 
-import MySpringMVC.V2.aop.proxy.ProxyHelper;
-
 import java.lang.reflect.Method;
 
 /**
@@ -11,12 +9,15 @@ import java.lang.reflect.Method;
 @SuppressWarnings("unused")
 public class MethodProxy {
 
+    private final FastClass fastClass;
+
     /**
      * 子类重写的同名方法
      */
     private final Method superMethod;
 
-    public MethodProxy(Method superMethod) {
+    public MethodProxy(FastClass fastClass, Method superMethod) {
+        this.fastClass = fastClass;
         this.superMethod = superMethod;
     }
 
@@ -32,12 +33,6 @@ public class MethodProxy {
      * @see MethodInterceptor#intercept
      */
     public Object invokeSuper(Object obj, Object... args) throws Throwable {
-        Class<?> superClass = superMethod.getDeclaringClass();
-        Object superInstance = ProxyHelper.getClassInstance(superClass);
-        if (superInstance == null) {
-            superInstance = superClass.newInstance();
-            ProxyHelper.putClassInstance(superClass, superInstance);
-        }
-        return this.superMethod.invoke(superInstance, args);
+        return this.fastClass.invoke(superMethod, args);
     }
 }
