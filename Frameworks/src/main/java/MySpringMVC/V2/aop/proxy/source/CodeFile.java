@@ -178,6 +178,17 @@ public class CodeFile extends SimpleJavaFileObject {
             }
         }
 
+        implementsFastClass(type, names, methods, sb);
+
+        sb.append("}\n");
+        System.out.println(sb.toString());
+        return sb.toString();
+    }
+
+    /**
+     * 实现{@link MySpringMVC.V2.aop.proxy.cglib.FastClass}接口。
+     */
+    private void implementsFastClass(Class<?> type, List<String> names, Method[] methods, StringBuilder sb) {
         //实现getIndex
         sb.append("@Override\n");
         sb.append("public int getIndex(String name, Class[] parameterTypes) {\n");
@@ -233,10 +244,6 @@ public class CodeFile extends SimpleJavaFileObject {
         sb.append("}\n");
         sb.append("return null;\n");
         sb.append("}\n");
-
-        sb.append("}\n");
-        System.out.println(sb.toString());
-        return sb.toString();
     }
 
     private int getHashCode(String name, Class[] parameterTypes) {
