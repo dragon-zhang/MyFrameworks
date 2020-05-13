@@ -10,6 +10,12 @@ import MySpringMVC.V2.aop.proxy.source.CodeFile;
 @SuppressWarnings("unused")
 public class Proxy {
 
+    protected final InvocationHandler h;
+
+    protected Proxy(InvocationHandler h) {
+        this.h = h;
+    }
+
     /**
      * 手写版jdk动态代理实现
      */

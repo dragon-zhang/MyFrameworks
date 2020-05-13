@@ -5,6 +5,7 @@ import MySpringMVC.V2.aop.proxy.cglib.FastClass;
 import MySpringMVC.V2.aop.proxy.cglib.MethodInterceptor;
 import MySpringMVC.V2.aop.proxy.cglib.MethodProxy;
 import MySpringMVC.V2.aop.proxy.jdk.InvocationHandler;
+import MySpringMVC.V2.aop.proxy.jdk.Proxy;
 import MySpringMVC.V2.aop.proxy.loader.ProxyClassLoader;
 
 import javax.tools.JavaFileObject;
@@ -46,19 +47,43 @@ public class CodeFile extends SimpleJavaFileObject {
         StringBuilder sb = new StringBuilder();
         sb.append("package ").append(ProxyClassLoader.class.getPackage().getName()).append(";\n");
         sb.append("import ").append(InvocationHandler.class.getName()).append(";\n");
-        for (Class<?> i : interfaces) {
-            sb.append("import ").append(i.getName()).append(";\n");
-        }
         sb.append("import java.lang.reflect.*;\n");
-        sb.append("public class $Proxy").append(ProxyHelper.getProxyClassCount()).append(" implements ");
+        sb.append("public class $Proxy").append(ProxyHelper.getProxyClassCount()).append(" extends ").append(Proxy.class.getName()).append(" implements ");
         for (Class<?> i : interfaces) {
-            sb.append(i.getSimpleName());
+            sb.append(i.getName());
             sb.append(",");
         }
         deleteRedundantChar(sb, "");
         sb.append(" {\n");
-        sb.append("private InvocationHandler h;\n");
-        sb.append("public $Proxy").append(ProxyHelper.getProxyClassCount()).append("(InvocationHandler h){\nthis.h=h;\n}\n");
+        sb.append("public $Proxy").append(ProxyHelper.getProxyClassCount()).append("(InvocationHandler h){\nsuper(h);\n}\n");
+
+        //静态地获取方法
+        int methodIndex = 0;
+        for (Class<?> i : interfaces) {
+            for (Method ignored : i.getMethods()) {
+                sb.append("private static Method m").append(methodIndex++).append(";\n");
+            }
+        }
+        methodIndex = 0;
+        sb.append("static {\n");
+        sb.append("try {\n");
+        for (Class<?> i : interfaces) {
+            for (Method method : i.getMethods()) {
+                sb.append("m").append(methodIndex++).append(" = ").append(method.getDeclaringClass().getName()).append(".class.getMethod(\"").append(method.getName()).append("\",");
+                for (Parameter parameter : method.getParameters()) {
+                    sb.append(parameter.getType().getName()).append(".class");
+                    sb.append(",");
+                }
+                deleteRedundantChar(sb, "(");
+                sb.append(");\n");
+            }
+        }
+        sb.append("} catch (NoSuchMethodException e) {\n");
+        sb.append("e.printStackTrace();\n");
+        sb.append("}\n");
+        sb.append("}\n");
+
+        methodIndex = 0;
         for (Class<?> i : interfaces) {
             for (Method method : i.getMethods()) {
                 Class<?> returnType = method.getReturnType();
@@ -74,30 +99,22 @@ public class CodeFile extends SimpleJavaFileObject {
                     sb.append(",");
                 }
                 deleteRedundantChar(sb, "(");
-                sb.append(")").append(" {\n");
+                sb.append(") {\n");
 
                 sb.append("Object $result = null;\n");
                 sb.append("try{\n");
-                sb.append("Method m = ").append(method.getDeclaringClass().getName()).append(".class.getMethod(\"").append(method.getName()).append("\",");
-                for (Parameter parameter : method.getParameters()) {
-                    sb.append(parameter.getType().getName()).append(".class");
-                    sb.append(",");
-                }
-                deleteRedundantChar(sb, "(");
-                sb.append(");\n");
-
-                sb.append("$result = this.h.invoke(this,m,new Object[]{");
+                sb.append("$result = super.h.invoke(this,m").append(methodIndex++).append(",new Object[]{");
                 for (Parameter parameter : method.getParameters()) {
                     sb.append(parameter.getName());
                     sb.append(",");
                 }
                 deleteRedundantChar(sb, "{");
-
                 sb.append("});\n");
                 sb.append("}catch (Throwable t) {\nt.printStackTrace();\n}\n");
                 if (!"java.lang.Void".equals(returnTypeName) && !"void".equals(returnTypeName)) {
                     sb.append("return (").append(returnTypeName).append(")$result;\n");
                 }
+
                 sb.append("}\n");
             }
         }
