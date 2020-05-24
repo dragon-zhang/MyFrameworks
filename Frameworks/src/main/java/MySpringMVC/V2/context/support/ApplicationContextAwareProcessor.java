@@ -3,6 +3,7 @@ package MySpringMVC.V2.context.support;
 import MySpringMVC.V2.beans.Aware;
 import MySpringMVC.V2.beans.config.BeanPostProcessor;
 import MySpringMVC.V2.context.ApplicationContextAware;
+import MySpringMVC.V2.context.ApplicationEventPublisherAware;
 
 /**
  * @author SuccessZhang
@@ -23,6 +24,9 @@ public class ApplicationContextAwareProcessor implements BeanPostProcessor {
 
     private void invokeAwareInterfaces(Object bean) throws Exception {
         if (bean instanceof Aware) {
+            if (bean instanceof ApplicationEventPublisherAware) {
+                ((ApplicationEventPublisherAware) bean).setApplicationEventPublisher(this.applicationContext);
+            }
             if (bean instanceof ApplicationContextAware) {
                 ((ApplicationContextAware) bean).setApplicationContext(this.applicationContext);
             }

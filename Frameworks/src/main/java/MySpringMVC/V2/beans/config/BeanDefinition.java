@@ -3,10 +3,11 @@ package MySpringMVC.V2.beans.config;
 import lombok.Data;
 
 /**
- * see{@link org.springframework.beans.factory.support.AbstractBeanDefinition}
- *
  * @author SuccessZhang
  * @date 2020/04/06
+ * @see org.springframework.beans.factory.support.AbstractBeanDefinition
+ * @see org.springframework.beans.factory.support.BeanDefinitionBuilder
+ * @see org.springframework.beans.factory.config.BeanDefinitionVisitor
  */
 @Data
 public class BeanDefinition {

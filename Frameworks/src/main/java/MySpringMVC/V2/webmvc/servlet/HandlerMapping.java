@@ -11,6 +11,13 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.regex.Pattern;
 
+/**
+ * @see AbstractHandlerMapping
+ * @see AbstractHandlerMethodMapping<T>
+ * @see MappingRegistry
+ * @see RequestMappingInfoHandlerMapping->InitializingBean->initHandlerMethods->detectHandlerMethods
+ * @see RequestMappingHandlerMapping
+ */
 @Data
 @RequiredArgsConstructor
 public class HandlerMapping implements Comparator<HandlerMapping> {

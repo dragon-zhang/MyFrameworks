@@ -1,6 +1,10 @@
 package MySpringMVC.V2.beans.support;
 
 import MySpringMVC.V2.annotation.Autowired;
+import MySpringMVC.V2.beans.Aware;
+import MySpringMVC.V2.beans.BeanClassLoaderAware;
+import MySpringMVC.V2.beans.BeanFactoryAware;
+import MySpringMVC.V2.beans.BeanNameAware;
 import MySpringMVC.V2.beans.BeanWrapper;
 import MySpringMVC.V2.beans.InitializingBean;
 import MySpringMVC.V2.beans.config.BeanDefinition;
@@ -85,6 +89,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends DefaultSingleto
     }
 
     private void initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+        invokeAwareMethods(beanName, bean);
         BeanWrapper beanWrapper = this.factoryBeanInstanceCache.get(beanName);
         bean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
         try {
@@ -96,6 +101,26 @@ public abstract class AbstractAutowireCapableBeanFactory extends DefaultSingleto
         bean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
         beanWrapper.setWrappedObject(bean);
         beanWrapper.setWrappedClass(bean.getClass());
+    }
+
+    private void invokeAwareMethods(final String beanName, final Object bean) {
+        if (bean instanceof Aware) {
+            if (bean instanceof BeanNameAware) {
+                ((BeanNameAware) bean).setBeanName(beanName);
+            }
+            if (bean instanceof BeanClassLoaderAware) {
+                ClassLoader bcl = ClassLoader.getSystemClassLoader();
+                if (bcl != null) {
+                    ((BeanClassLoaderAware) bean).setBeanClassLoader(bcl);
+                }
+            }
+            if (bean instanceof BeanFactoryAware) {
+                try {
+                    ((BeanFactoryAware) bean).setBeanFactory(AbstractAutowireCapableBeanFactory.this);
+                } catch (Exception ignored) {
+                }
+            }
+        }
     }
 
     private Object applyBeanPostProcessorsAfterInitialization(Object bean, String beanName) {

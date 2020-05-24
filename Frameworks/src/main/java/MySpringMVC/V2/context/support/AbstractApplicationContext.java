@@ -4,20 +4,31 @@ import MySpringMVC.V2.aop.aspectj.AspectJAwareAdvisorAutoProxyCreator;
 import MySpringMVC.V2.beans.config.BeanDefinition;
 import MySpringMVC.V2.beans.support.BeanDefinitionReader;
 import MySpringMVC.V2.beans.support.DefaultListableBeanFactory;
+import MySpringMVC.V2.context.ApplicationEvent;
+import MySpringMVC.V2.context.ApplicationEventMulticaster;
+import MySpringMVC.V2.context.ApplicationEventPublisher;
+import MySpringMVC.V2.context.ApplicationListener;
 import MySpringMVC.V2.context.ConfigurableApplicationContext;
+import MySpringMVC.V2.context.SimpleApplicationEventMulticaster;
 
 import java.lang.annotation.Annotation;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-public abstract class AbstractApplicationContext implements ConfigurableApplicationContext {
+/**
+ * @author SuccessZhang
+ */
+public abstract class AbstractApplicationContext implements ConfigurableApplicationContext, ApplicationEventPublisher {
 
     private BeanDefinitionReader reader;
 
     private String[] configLocations;
 
     private DefaultListableBeanFactory beanFactory;
+
+    private ApplicationEventMulticaster applicationEventMulticaster;
 
     public AbstractApplicationContext(String... configLocations) {
         this.configLocations = configLocations;
@@ -44,8 +55,27 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
         // (就是上方的DefaultListableBeanFactory中的beanDefinitionMap)
         doRegisterBeanDefinitions(beanDefinitions);
         prepareBeanFactory(this.beanFactory);
+        //初始化容器事件传播器.
+        initApplicationEventMulticaster();
+        //为事件传播器注册事件监听器.
+        registerListeners();
         //4.把非延迟加载的类提前初始化
         finishBeanFactoryInitialization(beanDefinitions);
+    }
+
+    @SuppressWarnings("unchecked")
+    private void registerListeners() throws Exception {
+        Collection<ApplicationListener> collection = this.beanFactory.getBeansOfType(ApplicationListener.class).values();
+        for (ApplicationListener listener : collection) {
+            try {
+                this.applicationEventMulticaster.addApplicationListener(listener);
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    private void initApplicationEventMulticaster() {
+        this.applicationEventMulticaster = new SimpleApplicationEventMulticaster(this.beanFactory);
     }
 
     @Override
@@ -121,4 +151,18 @@ public abstract class AbstractApplicationContext implements ConfigurableApplicat
         return this.beanFactory.getBeansWithAnnotation(annotationType);
     }
 
+    @Override
+    public void publishEvent(ApplicationEvent event) {
+        if (event != null) {
+            this.applicationEventMulticaster.multicastEvent(event);
+        }
+    }
+
+    public void addApplicationListener(ApplicationListener<? extends ApplicationEvent> listener) {
+        this.applicationEventMulticaster.addApplicationListener(listener);
+    }
+
+    public void shutdownMulticaster() {
+        ((SimpleApplicationEventMulticaster) this.applicationEventMulticaster).shutdown();
+    }
 }

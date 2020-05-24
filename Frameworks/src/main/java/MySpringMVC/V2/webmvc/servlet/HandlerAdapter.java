@@ -3,6 +3,12 @@ package MySpringMVC.V2.webmvc.servlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @see RequestMappingHandlerAdapter
+ * @see HandlerMethod
+ * @see InvocableHandlerMethod
+ * @see ServletInvocableHandlerMethod
+ */
 public interface HandlerAdapter {
 
     /**
