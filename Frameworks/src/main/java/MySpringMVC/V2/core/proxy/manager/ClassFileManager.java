@@ -1,7 +1,7 @@
-package MySpringMVC.V2.aop.proxy.manager;
+package MySpringMVC.V2.core.proxy.manager;
 
-import MySpringMVC.V2.aop.proxy.source.ClassFile;
-import MySpringMVC.V2.aop.proxy.source.CodeFile;
+import MySpringMVC.V2.core.proxy.source.ClassFile;
+import MySpringMVC.V2.core.proxy.source.CodeFile;
 import lombok.Getter;
 
 import javax.tools.FileObject;

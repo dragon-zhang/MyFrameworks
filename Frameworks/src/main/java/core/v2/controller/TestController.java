@@ -16,7 +16,7 @@ import java.io.IOException;
  * @author SuccessZhang
  */
 @SuppressWarnings("unused")
-@Controller
+@Controller("testController")
 @RequestMapping("/test")
 public class TestController {
 

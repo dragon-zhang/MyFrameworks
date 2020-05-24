@@ -1,5 +1,7 @@
 package MySpringMVC.V2.annotation;
 
+import MySpringMVC.V2.core.annotation.AliasFor;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -17,6 +19,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Service {
 
+    @AliasFor(annotation = Component.class, attribute = "value")
     String value() default "";
 
 }

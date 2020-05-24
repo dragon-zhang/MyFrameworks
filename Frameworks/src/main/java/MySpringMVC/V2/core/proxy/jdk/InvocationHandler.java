@@ -1,4 +1,4 @@
-package MySpringMVC.V2.aop.proxy.jdk;
+package MySpringMVC.V2.core.proxy.jdk;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.UndeclaredThrowableException;

@@ -1,8 +1,8 @@
 package MySpringMVC.V2.aop;
 
 import MySpringMVC.V2.aop.framework.ReflectiveMethodInvocation;
-import MySpringMVC.V2.aop.proxy.jdk.InvocationHandler;
-import MySpringMVC.V2.aop.proxy.jdk.Proxy;
+import MySpringMVC.V2.core.proxy.jdk.InvocationHandler;
+import MySpringMVC.V2.core.proxy.jdk.Proxy;
 import lombok.RequiredArgsConstructor;
 
 import java.lang.reflect.Method;

@@ -1,4 +1,4 @@
-package MySpringMVC.V2.aop.proxy.source;
+package MySpringMVC.V2.core.proxy.source;
 
 import javax.tools.SimpleJavaFileObject;
 import java.io.ByteArrayOutputStream;

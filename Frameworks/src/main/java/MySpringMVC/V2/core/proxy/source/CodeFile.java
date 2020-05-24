@@ -1,12 +1,12 @@
-package MySpringMVC.V2.aop.proxy.source;
+package MySpringMVC.V2.core.proxy.source;
 
-import MySpringMVC.V2.aop.proxy.ProxyHelper;
-import MySpringMVC.V2.aop.proxy.cglib.FastClass;
-import MySpringMVC.V2.aop.proxy.cglib.MethodInterceptor;
-import MySpringMVC.V2.aop.proxy.cglib.MethodProxy;
-import MySpringMVC.V2.aop.proxy.jdk.InvocationHandler;
-import MySpringMVC.V2.aop.proxy.jdk.Proxy;
-import MySpringMVC.V2.aop.proxy.loader.ProxyClassLoader;
+import MySpringMVC.V2.core.proxy.ProxyHelper;
+import MySpringMVC.V2.core.proxy.cglib.FastClass;
+import MySpringMVC.V2.core.proxy.cglib.MethodInterceptor;
+import MySpringMVC.V2.core.proxy.cglib.MethodProxy;
+import MySpringMVC.V2.core.proxy.jdk.InvocationHandler;
+import MySpringMVC.V2.core.proxy.jdk.Proxy;
+import MySpringMVC.V2.core.proxy.loader.ProxyClassLoader;
 
 import javax.tools.JavaFileObject;
 import javax.tools.SimpleJavaFileObject;
@@ -203,7 +203,7 @@ public class CodeFile extends SimpleJavaFileObject {
     }
 
     /**
-     * 实现{@link MySpringMVC.V2.aop.proxy.cglib.FastClass}接口。
+     * 实现{@link FastClass}接口。
      */
     private void implementsFastClass(Class<?> type, List<String> names, Method[] methods, StringBuilder sb) {
         //实现getIndex

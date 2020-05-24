@@ -1,11 +1,11 @@
-package MySpringMVC.V2.aop.proxy;
+package MySpringMVC.V2.core.proxy;
 
-import MySpringMVC.V2.aop.proxy.cglib.MethodInterceptor;
-import MySpringMVC.V2.aop.proxy.jdk.InvocationHandler;
-import MySpringMVC.V2.aop.proxy.loader.ProxyClassLoader;
-import MySpringMVC.V2.aop.proxy.manager.ClassFileManager;
-import MySpringMVC.V2.aop.proxy.source.ClassFile;
-import MySpringMVC.V2.aop.proxy.source.CodeFile;
+import MySpringMVC.V2.core.proxy.cglib.MethodInterceptor;
+import MySpringMVC.V2.core.proxy.jdk.InvocationHandler;
+import MySpringMVC.V2.core.proxy.loader.ProxyClassLoader;
+import MySpringMVC.V2.core.proxy.manager.ClassFileManager;
+import MySpringMVC.V2.core.proxy.source.ClassFile;
+import MySpringMVC.V2.core.proxy.source.CodeFile;
 
 import javax.tools.JavaCompiler;
 import java.lang.reflect.Constructor;

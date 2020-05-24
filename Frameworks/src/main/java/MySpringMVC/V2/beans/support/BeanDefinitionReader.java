@@ -14,9 +14,9 @@ import MySpringMVC.V2.aop.aspectj.AspectJMethodBeforeAdvice;
 import MySpringMVC.V2.aop.aspectj.AspectJPointcutAdvisor;
 import MySpringMVC.V2.beans.config.BeanDefinition;
 import MySpringMVC.V2.beans.config.ConfigurableBeanFactory;
-import MySpringMVC.V2.core.AnnotationUtils;
 import MySpringMVC.V2.core.CloneUtils;
 import MySpringMVC.V2.core.StringUtils;
+import MySpringMVC.V2.core.annotation.AnnotationUtils;
 import com.alibaba.fastjson.JSON;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
@@ -26,7 +26,6 @@ import org.dom4j.io.SAXReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.annotation.Annotation;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -222,23 +221,22 @@ public class BeanDefinitionReader {
         List<BeanDefinition> beanDefinitions = new ArrayList<>();
         for (String beanClassName : beanClassNames) {
             Class<?> beanClass = Class.forName(beanClassName);
-            Annotation annotation = AnnotationUtils.getCoveredAnnotation(beanClass);
-            if (annotation == null) {
-                continue;
-            }
             String factoryBeanName = "";
             boolean autowire = true;
             String initMethod = null;
             String destroyMethod = null;
-            if (annotation instanceof Component) {
-                factoryBeanName = ((Component) annotation).value();
-            }
-            if (annotation instanceof Bean) {
-                Bean bean = (Bean) annotation;
-                factoryBeanName = bean.value();
+            try {
+                Bean bean = AnnotationUtils.getMergedAnnotation(beanClass, Bean.class);
                 autowire = bean.autowire();
                 initMethod = bean.initMethod();
                 destroyMethod = bean.destroyMethod();
+            } catch (IllegalArgumentException ignored) {
+            }
+            try {
+                Component component = AnnotationUtils.getMergedAnnotation(beanClass, Component.class);
+                factoryBeanName = component.value();
+            } catch (IllegalArgumentException e) {
+                continue;
             }
             if ("".equals(factoryBeanName)) {
                 factoryBeanName = StringUtils.lowerFirstCase(beanClass.getSimpleName());

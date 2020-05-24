@@ -1,4 +1,4 @@
-package MySpringMVC.V2.aop.proxy.cglib;
+package MySpringMVC.V2.core.proxy.cglib;
 
 import java.lang.reflect.Method;
 

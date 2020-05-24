@@ -1,4 +1,4 @@
-package MySpringMVC.V2.aop.proxy.test;
+package MySpringMVC.V2.core.proxy.test;
 
 /**
  * @author SuccessZhang

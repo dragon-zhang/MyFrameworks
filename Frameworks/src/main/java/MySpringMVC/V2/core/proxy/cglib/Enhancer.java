@@ -1,7 +1,7 @@
-package MySpringMVC.V2.aop.proxy.cglib;
+package MySpringMVC.V2.core.proxy.cglib;
 
-import MySpringMVC.V2.aop.proxy.ProxyHelper;
-import MySpringMVC.V2.aop.proxy.source.CodeFile;
+import MySpringMVC.V2.core.proxy.ProxyHelper;
+import MySpringMVC.V2.core.proxy.source.CodeFile;
 
 /**
  * @author SuccessZhang

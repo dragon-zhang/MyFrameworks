@@ -1,4 +1,4 @@
-package MySpringMVC.V2.aop.proxy.test;
+package MySpringMVC.V2.core.proxy.test;
 
 import net.sf.cglib.reflect.FastClass;
 import net.sf.cglib.reflect.FastMethod;

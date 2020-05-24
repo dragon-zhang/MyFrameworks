@@ -1,5 +1,7 @@
 package MySpringMVC.V2.annotation;
 
+import MySpringMVC.V2.core.annotation.AliasFor;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -23,6 +25,7 @@ public @interface Bean {
      * <p>The bean name and aliases may also be configured via the attribute
      * if no other attributes are declared.
      */
+    @AliasFor(annotation = Component.class, attribute = "value")
     String value() default "";
 
     /**
