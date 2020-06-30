@@ -23,7 +23,6 @@ public class LogAspect {
     private void doBefore(JoinPoint joinPoint) {
         System.out.println("-----doBefore().invoke-----");
         System.out.println(" 此处意在执行核心业务逻辑前，做一些安全性的判断等等");
-        System.out.println(" 可通过joinPoint来获取所需要的内容");
         System.out.println("-----End of doBefore()------");
     }
 
@@ -56,7 +55,6 @@ public class LogAspect {
     private void doAfter(JoinPoint joinPoint) {
         System.out.println("-----doAfter().invoke-----");
         System.out.println(" 此处意在执行核心业务逻辑之后，做一些日志记录操作等等");
-        System.out.println(" 可通过joinPoint来获取所需要的内容");
         System.out.println("-----End of doAfter()------");
     }
 
@@ -69,7 +67,6 @@ public class LogAspect {
     private void doReturn(JoinPoint joinPoint, Object returnValue) {
         System.out.println("-----doReturn().invoke-----");
         System.out.println(" 此处可以对返回值做进一步处理：" + returnValue);
-        System.out.println(" 可通过joinPoint来获取所需要的内容");
         System.out.println("-----End of doReturn()------");
     }
 
@@ -82,8 +79,6 @@ public class LogAspect {
     private void doThrowing(JoinPoint joinPoint, Throwable throwable) {
         System.out.println("-----doThrowing().invoke-----");
         System.out.println(" 错误信息：" + throwable.getMessage());
-        System.out.println(" 此处意在执行核心业务逻辑出错时，捕获异常，并可做一些日志记录操作等等");
-        System.out.println(" 可通过joinPoint来获取所需要的内容");
         System.out.println("-----End of doThrowing()------");
     }
 }

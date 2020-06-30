@@ -6,6 +6,7 @@ import MySpringMVC.V2.aop.aspectj.AspectJExpressionPointcut;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author SuccessZhang
@@ -17,7 +18,7 @@ public class DefaultAdvisorChainFactory {
         List<Object> advices = new LinkedList<>();
         for (Object advisor : advisedSupport.getAdvisors()) {
             AspectJExpressionPointcut pointcut = (AspectJExpressionPointcut) advisor;
-            List<AbstractAspectJAdvice> adviceList = pointcut.getAdvices(method);
+            Set<AbstractAspectJAdvice> adviceList = pointcut.getAdvices(method);
             if (!adviceList.isEmpty()) {
                 advices.addAll(adviceList);
             }

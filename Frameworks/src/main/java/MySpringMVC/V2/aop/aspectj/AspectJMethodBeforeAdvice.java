@@ -27,7 +27,6 @@ public class AspectJMethodBeforeAdvice extends AbstractAspectJAdvice implements 
     }
 
     private void before(Method method, Object[] arguments, Object target) throws Throwable {
-        Object returnValue = method.invoke(target, arguments);
-        super.invokeAdviceMethod(joinPoint, returnValue, null);
+        super.invokeAdviceMethod(joinPoint, null, null);
     }
 }

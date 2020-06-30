@@ -5,11 +5,11 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -34,7 +34,7 @@ public class AspectJExpressionPointcut {
     /**
      * 原生方法对应的拦截器链缓存
      */
-    private Map<Method, List<AbstractAspectJAdvice>> shadowMatchCache = new ConcurrentHashMap<>(32);
+    private Map<Method, Set<AbstractAspectJAdvice>> shadowMatchCache = new ConcurrentHashMap<>(32);
 
     public AspectJExpressionPointcut(String id, String expression) {
         this.id = id;
@@ -46,8 +46,8 @@ public class AspectJExpressionPointcut {
         this.expression = expression;
     }
 
-    public List<AbstractAspectJAdvice> getAdvices(Method method) {
-        for (Map.Entry<Method, List<AbstractAspectJAdvice>> entry : shadowMatchCache.entrySet()) {
+    public Set<AbstractAspectJAdvice> getAdvices(Method method) {
+        for (Map.Entry<Method, Set<AbstractAspectJAdvice>> entry : shadowMatchCache.entrySet()) {
             Method cached = entry.getKey();
             Class<?> impl = cached.getDeclaringClass();
             List<Class<?>> interfaces = Arrays.asList(impl.getInterfaces());
@@ -60,7 +60,7 @@ public class AspectJExpressionPointcut {
                 }
             }
         }
-        return new ArrayList<>();
+        return new LinkedHashSet<>();
     }
 
     private boolean equalParamTypes(Class<?>[] params1, Class<?>[] params2) {
@@ -76,8 +76,8 @@ public class AspectJExpressionPointcut {
         return false;
     }
 
-    public List<AbstractAspectJAdvice> addAdvice(Method method, AbstractAspectJAdvice advice) {
-        List<AbstractAspectJAdvice> result = shadowMatchCache.computeIfAbsent(method, k -> new LinkedList<>());
+    public Set<AbstractAspectJAdvice> addAdvice(Method method, AbstractAspectJAdvice advice) {
+        Set<AbstractAspectJAdvice> result = shadowMatchCache.computeIfAbsent(method, k -> new LinkedHashSet<>());
         result.add(advice);
         return result;
     }

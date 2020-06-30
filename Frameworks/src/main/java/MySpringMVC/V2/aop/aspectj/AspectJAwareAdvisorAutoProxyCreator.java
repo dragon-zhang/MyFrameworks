@@ -31,8 +31,6 @@ public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor {
 
     private final AbstractApplicationContext applicationContext;
 
-    private final ProxyFactory proxyFactory = new ProxyFactory();
-
     private List<AbstractAspectJAdvice> configAdvices;
 
     public AspectJAwareAdvisorAutoProxyCreator(AbstractApplicationContext applicationContext) {
@@ -91,6 +89,7 @@ public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor {
         if (advices.isEmpty()) {
             return bean;
         }
+        ProxyFactory proxyFactory = new ProxyFactory();
         proxyFactory.addAdvisors(advices);
         proxyFactory.setTarget(bean);
         proxyFactory.setTargetClass(targetClass);
