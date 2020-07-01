@@ -72,7 +72,13 @@ public class AspectJAwareAdvisorAutoProxyCreator implements BeanPostProcessor {
         });
         this.configAdvices = JSON.parseArray(applicationContext.getConfig().getProperty("advisors"), AspectJPointcutAdvisor.class)
                 .stream().map(AspectJPointcutAdvisor::getAdvice)
-                //将表达式从长到短排序
+                //将表达式按照优先级、表达式长度排序
+                .sorted(new Comparator<AbstractAspectJAdvice>() {
+                    @Override
+                    public int compare(AbstractAspectJAdvice o1, AbstractAspectJAdvice o2) {
+                        return Integer.compare(o2.getDeclarationOrder(), o1.getDeclarationOrder());
+                    }
+                })
                 .sorted(new Comparator<AbstractAspectJAdvice>() {
                     @Override
                     public int compare(AbstractAspectJAdvice o1, AbstractAspectJAdvice o2) {
